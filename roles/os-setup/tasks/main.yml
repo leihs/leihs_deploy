@@ -1,0 +1,21 @@
+- include: prepare.yml
+
+- include: journald.yml
+
+- include: time.yml
+
+- include: ntp.yml
+  when: ntp_setup
+  tags: [ntp]
+
+- include: vim.yml
+  when: ci_vim_mode
+
+- include: etckeeper.yml
+
+# not sure if we want monit in leihs yet
+# - include: monit.yml
+
+- include: vmware.yml
+
+- include: ssh_keys.yml

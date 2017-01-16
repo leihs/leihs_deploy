@@ -1,0 +1,2 @@
+ansible_host: leihs.local
+ansible_user: root

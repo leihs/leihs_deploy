@@ -1,0 +1,11 @@
+- authorized_key:
+    user: root
+    key: "{{item}}"
+  with_items: '{{ssh_keys_present}}'
+
+- authorized_key:
+    user: root
+    key: "{{item}}"
+    state: absent
+  with_items: '{{ssh_keys_absent}}'
+
