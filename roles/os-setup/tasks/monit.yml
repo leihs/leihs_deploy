@@ -23,23 +23,23 @@
     regexp: 'address localhost'
     line: '   address localhost'
 
-- name: configure monit http address
-  lineinfile:
-    dest: /etc/monit/monitrc
-    regexp: 'address localhost'
-    line: '   address localhost'
-
+#- name: configure monit http address
+#  lineinfile:
+#    dest: /etc/monit/monitrc
+#    regexp: 'address localhost'
+#    line: '   address localhost'
+#
 - name: configure monit http allow localhost
   lineinfile:
     dest: /etc/monit/monitrc
     regexp: 'allow localhost'
     line: '   allow localhost'
-
-- name: configure monit http allow localhost
-  lineinfile:
-    dest: /etc/monit/monitrc
-    regexp: 'allow (admin|cider-ci):.*'
-    state: absent
+#
+#- name: configure monit http allow localhost
+#  lineinfile:
+#    dest: /etc/monit/monitrc
+#    regexp: 'allow (admin|cider-ci):.*'
+#    state: absent
 
 - name: reload monit
   service:

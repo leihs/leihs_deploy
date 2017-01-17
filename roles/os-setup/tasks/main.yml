@@ -13,8 +13,7 @@
 
 - include: etckeeper.yml
 
-# not sure if we want monit in leihs yet
-# - include: monit.yml
+- include: monit.yml
 
 - include: vmware.yml
 
