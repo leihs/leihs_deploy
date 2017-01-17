@@ -1,0 +1,16 @@
+- name: install ansible dependencies
+  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+  - python-pip
+  - python-dev
+  tags: [internet]
+
+- name: upgrade pip
+  shell: |
+    set -eux
+    pip install -I --upgrade pip
+
+- name: install ansible via pip
+  shell: |
+    set -eux
+    pip install -I --upgrade paramiko==1.17.0 ansible=={{madek_ansible_version}}

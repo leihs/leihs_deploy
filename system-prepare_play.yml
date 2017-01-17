@@ -11,3 +11,5 @@
   - role: postgresql
     tags: [postgresql]
 
+  - role: ansible
+    tags: [ansible]
