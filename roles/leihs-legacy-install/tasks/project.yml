@@ -1,0 +1,39 @@
+- file:
+    path: '{{playbook_dir}}/tmp/legacy.tar.gz'
+    state: absent
+  delegate_to: localhost
+  name: remove possibly exisiting archive
+
+- shell: |
+    #/bin/bash
+    set -eux
+    DEPLOY_DIR='{{playbook_dir}}'
+    cd $DEPLOY_DIR/../legacy
+    $DEPLOY_DIR/bin/git-archive-all -v $DEPLOY_DIR/tmp/legacy.tar.gz
+  delegate_to: localhost
+  name: create archive
+
+- file:
+    path: /leihs/legacy
+    state: absent
+  name: remove existing /leihs/legacy
+
+- file:
+    path: /leihs/legacy
+    state: directory
+    owner: leihs-legacy
+    recurse: yes
+  name: create empty /leihs/legacy
+
+- file:
+    path: /tmp/legacy.tar.gz
+    state: absent
+  name: remove existing archive
+
+- unarchive:
+    src: '{{playbook_dir}}/tmp/legacy.tar.gz'
+    dest: /leihs/legacy
+    owner: leihs-legacy
+  name: extract archive
+
+

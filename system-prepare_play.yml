@@ -11,5 +11,13 @@
   - role: postgresql
     tags: [postgresql]
 
+  - role: install
+    tags: [install]
+
+  - role: ruby-install
+    tags: [ruby-install]
+
   - role: ansible
     tags: [ansible]
+
+

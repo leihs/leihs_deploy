@@ -1,0 +1,9 @@
+# - include: leihs-legacy-archive_play.yml
+
+- hosts: leihs_server
+
+  roles:
+
+  - role: leihs-legacy-install
+    tags: [leihs-legacy-install]
+
