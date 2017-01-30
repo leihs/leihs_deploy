@@ -4,6 +4,9 @@
 
   roles:
 
+  - role: leihs-deploy-install
+    tags: [leihs-deploy-install]
+
   - role: leihs-database-install
     tags: [leihs-database-install]
 
