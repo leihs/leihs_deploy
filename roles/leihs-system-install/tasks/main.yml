@@ -1,0 +1,16 @@
+- file:
+    path: '{{leihs_system_dir}}'
+    state: absent
+  name: remove existing /leihs/system
+
+- include: user.yml
+- include: jar.yml
+- include: log-dir.yml
+
+- file:
+    path: /leihs/system
+    state: directory
+    owner: leihs-system
+    recurse: yes
+  name: set permissions for /leihs/system
+
