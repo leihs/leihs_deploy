@@ -6,7 +6,6 @@
     $DEPLOY_DIR/bin/lein uberjar
   delegate_to: localhost
   name: create jar
-  when: false
 
 - file:
     path: '{{leihs_system_dir}}'

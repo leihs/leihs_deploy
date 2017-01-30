@@ -1,0 +1,21 @@
+- shell: |
+    #/bin/bash
+    set eux
+    ruby-install --no-install-deps --no-reinstall ruby {{leihs_database_ruby_version}}
+  become: yes
+  become_user: '{{leihs_database_user}}'
+  become_method: sudo
+  name: install ruby
+
+- shell: |
+    #/bin/bash
+    set eux
+    export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
+    which gem
+    gem install bundler
+    cd /leihs/database
+     bundle install
+  become: yes
+  become_user: '{{leihs_database_user}}'
+  become_method: sudo
+  name: install bundler and bundle

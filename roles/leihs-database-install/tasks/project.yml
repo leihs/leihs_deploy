@@ -1,0 +1,39 @@
+- file:
+    path: '{{playbook_dir}}/tmp/database.tar.gz'
+    state: absent
+  delegate_to: localhost
+  name: remove possibly exisiting archive
+
+- shell: |
+    #/bin/bash
+    set -eux
+    DEPLOY_DIR='{{playbook_dir}}'
+    cd $DEPLOY_DIR/../database
+    $DEPLOY_DIR/bin/git-archive-all -v $DEPLOY_DIR/tmp/database.tar.gz
+  delegate_to: localhost
+  name: create archive
+
+- file:
+    path: '{{leihs_database_path}}'
+    state: absent
+  name: remove existing {{leihs_database_path}}
+
+- file:
+    path: '{{leihs_database_path}}'
+    state: directory
+    owner: '{{leihs_database_user}}'
+    recurse: yes
+  name: create empty {{leihs_database_path}}
+
+- file:
+    path: /tmp/database.tar.gz
+    state: absent
+  name: remove existing archive
+
+- unarchive:
+    src: '{{playbook_dir}}/tmp/database.tar.gz'
+    dest: '{{leihs_database_path}}'
+    owner: '{{leihs_database_user}}'
+  name: extract archive
+
+
