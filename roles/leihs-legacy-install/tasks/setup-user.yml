@@ -1,4 +1,4 @@
 - user:
-    name: leihs-legacy
+    name: '{{leihs_legacy_user}}'
     system: yes
   name: create leihs-legacy user

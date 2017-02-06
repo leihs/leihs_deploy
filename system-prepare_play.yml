@@ -19,5 +19,3 @@
 
   - role: ansible
     tags: [ansible]
-
-

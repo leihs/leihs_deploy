@@ -1,0 +1,16 @@
+- template:
+    src: database.yml
+    dest: /leihs/config/database.yml
+    mode: 0600
+    owner: root
+  name: set master database config
+
+- template:
+    src: rails_database.yml
+    dest: /leihs/legacy/config/database.yml
+  name: configuer legacy database
+
+- template:
+    src: rails_database.yml
+    dest: /leihs/database/config/database.yml
+  name: configuer database for migrations

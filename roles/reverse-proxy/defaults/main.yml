@@ -1,0 +1,21 @@
+apache2_modules:
+  - expires
+  - headers
+  - proxy
+  - proxy_http
+  - rewrite
+  - ssl
+  - xsendfile
+
+leihs_virtual_hosts:
+- hostname: "localhost"
+  ip: "localhost"
+  logfile_infix: "localhost"
+  force_redirect_to_https: no
+- hostname: NULL
+  ip: '*'
+  ssl_certificate_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
+  ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
+  force_redirect_to_https: no
+
+shibboleth_sign_in: false

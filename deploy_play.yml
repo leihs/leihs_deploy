@@ -15,3 +15,9 @@
 
   - role: leihs-system-install
     tags: [leihs-system-install]
+
+  - role: configure
+    tags: [configure]
+
+  - role: reverse-proxy
+    tags: [reverse-proxy]

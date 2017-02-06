@@ -1,0 +1,9 @@
+- template:
+    src: leihs-legacy.service
+    dest: /etc/systemd/system/leihs-legacy.service
+    mode: 0644
+  name: copy  leihs-legacy.service
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl

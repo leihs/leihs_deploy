@@ -21,7 +21,7 @@
 - file:
     path: /leihs/legacy
     state: directory
-    owner: leihs-legacy
+    owner: '{{leihs_legacy_user}}'
     recurse: yes
   name: create empty /leihs/legacy
 
@@ -33,7 +33,7 @@
 - unarchive:
     src: '{{playbook_dir}}/tmp/legacy.tar.gz'
     dest: /leihs/legacy
-    owner: leihs-legacy
+    owner: '{{leihs_legacy_user}}'
   name: extract archive
 
 

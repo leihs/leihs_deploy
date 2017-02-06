@@ -1,3 +1,5 @@
-- include: user.yml
-- include: project.yml
-- include: ruby.yml
+- include: setup-user.yml
+- include: install-project.yml
+- include: install-ruby.yml
+- include: service.yml
+  tags: [leihs-legacy-service]

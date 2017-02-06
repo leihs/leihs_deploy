@@ -3,7 +3,7 @@
     set eux
     ruby-install --no-install-deps --no-reinstall ruby {{leihs_legacy_ruby_version}}
   become: yes
-  become_user: leihs-legacy
+  become_user: '{{leihs_legacy_user}}'
   become_method: sudo
   name: install ruby
 
@@ -16,6 +16,6 @@
     cd /leihs/legacy
      bundle install
   become: yes
-  become_user: leihs-legacy
+  become_user: '{{leihs_legacy_user}}'
   become_method: sudo
   name: install bundler and bundle

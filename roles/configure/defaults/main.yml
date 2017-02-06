@@ -1,0 +1,8 @@
+leihs_master_secret_clean: no
+leihs_master_secret: NULL
+database:
+  host: localhost
+  port: 5432
+  username: root
+  password: root
+  database: leihs

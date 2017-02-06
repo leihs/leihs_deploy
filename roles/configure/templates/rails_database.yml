@@ -1,0 +1,12 @@
+production: &DEFAULT
+  adapter: postgresql
+  host: {{database.host}}
+  port: {{database.port}}
+  pool: 25
+  encoding: unicode
+  username: {{database.username}}
+  password: {{database.password}}
+  database: {{database.database}}
+
+development:
+  <<: *DEFAULT

@@ -1,0 +1,9 @@
+- template:
+    src: leihs-migration.service
+    dest: /etc/systemd/system/leihs-migration.service
+    mode: 0644
+  name: copy  leihs-migration.service
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl

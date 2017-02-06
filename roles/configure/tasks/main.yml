@@ -1,0 +1,12 @@
+- file:
+    path: /leihs/config
+    state: directory
+    recurse: true
+    owner: root
+
+- include: master-secret.yml
+- include: database.yml
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl

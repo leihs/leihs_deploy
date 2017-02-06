@@ -1,0 +1,18 @@
+[Unit]
+Description=Leihs Migration Service
+After=syslog.target
+BindsTo=postgresql@9.6-main.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/leihs/database
+User={{leihs_database_user}}
+Group={{leihs_database_user}}
+Environment=PATH=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
+Environment=RAILS_LOG_LEVEL=WARN
+Environment=RAILS_ENV=production
+ExecStart=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin/ruby -S rake db:create db:migrate
+
+[Install]
+WantedBy=multi-user.target

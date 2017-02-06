@@ -1,2 +1,4 @@
 ansible_host: leihs.local
 ansible_user: root
+
+leihs_master_secret: secret

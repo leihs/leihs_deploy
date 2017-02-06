@@ -8,11 +8,11 @@
   postgresql_user:
     name: root
     role_attr_flags: CREATEDB,SUPERUSER
+    password: root
+  tags: debug
 
-- name: Create the a database for root
-  postgresql_db:
+- postgresql_db:
     name: root
     login_user: root
     owner: root
-
-
+  name: Create the a database for root
