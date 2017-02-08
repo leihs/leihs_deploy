@@ -2,7 +2,7 @@
   file:
     path: /var/www/leihs-maintenance
     state: directory
-    mode: 0644
+    mode: 0755
 
 - template:
     src: 503.html
