@@ -1,0 +1,3 @@
+ansible_host: test.leihs.zhdk.ch
+ansible_user: leihs
+leihs_v3_root_dir: /home/leihs/test/current

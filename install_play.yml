@@ -1,0 +1,15 @@
+- hosts: leihs_server
+
+  roles:
+
+  - role: leihs-deploy-install
+    tags: [leihs-deploy-install]
+
+  - role: leihs-database-install
+    tags: [leihs-database-install]
+
+  - role: leihs-legacy-install
+    tags: [leihs-legacy-install]
+
+  - role: leihs-system-install
+    tags: [leihs-system-install]
