@@ -1,0 +1,11 @@
+- hosts: leihs_server
+
+  roles:
+
+  - role: start-services
+    tags: [start-services]
+
+  - role: start-reverse-proxy
+    tags: [start-reverse-proxy]
+
+

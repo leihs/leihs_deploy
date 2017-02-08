@@ -1,0 +1,4 @@
+- service:
+    name: leihs-legacy.service
+    state: started
+    enabled: yes

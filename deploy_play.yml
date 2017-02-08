@@ -1,3 +1,4 @@
 - include: system-prepare_play.yml
 - include: install_play.yml
 - include: configure_play.yml
+- include: start_play.yml

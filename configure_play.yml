@@ -5,5 +5,4 @@
   - role: configure
     tags: [configure]
 
-  - role: reverse-proxy
-    tags: [reverse-proxy]
+
