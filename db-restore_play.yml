@@ -1,0 +1,31 @@
+- hosts: leihs_server
+
+  tasks:
+
+    - service:
+        name: leihs-legacy.service
+        state: stopped
+
+    - service:
+        name: leihs-migration.service
+        state: stopped
+
+    - copy:
+        src: '{{database_dump_restore_file_path}}'
+        dest: /tmp/restore-dump.pgbin
+
+    - shell: |
+        #/bin/bash
+        set eux
+        cd /leihs/database
+        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
+        export FILE=/tmp/restore-dump.pgbin
+        ruby -S bundle exec rake db:drop db:create db:pg:structure_and_data:restore
+      become: yes
+      become_user: '{{leihs_database_user}}'
+
+    - service:
+        name: leihs-legacy.service
+        state: started
+
+

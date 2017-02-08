@@ -1,0 +1,4 @@
+leihs_database_ruby_version: 2.3.3
+leihs_database_user: leihs-database
+leihs_database_path: /leihs/database
+leihs_database_clean_slate: false
