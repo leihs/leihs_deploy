@@ -1,0 +1,38 @@
+- name: maintenance site
+  file:
+    path: /var/www/leihs-maintenance
+    state: directory
+    mode: 0644
+
+- template:
+    src: 503.html
+    dest: /var/www/leihs-maintenance/503.html
+
+- name: disable all leihs sites
+  shell: rm /etc/apache2/sites-enabled/leihs_*
+  failed_when: false
+  register: cmd
+  changed_when: cmd.rc != 0
+
+- name: remove leihs configurations
+  file:
+    path: /etc/apache2/leihs
+    state: absent
+
+- file:
+    path: /etc/apache2/leihs/
+    state: directory
+    mode: 0755
+
+- template:
+    src: shared.conf
+    dest: /etc/apache2/leihs/shared.conf
+    mode: 0644
+
+- include: virtual-host.yml
+  with_indexed_items: '{{leihs_virtual_hosts}}'
+
+- name: reload reverse-proxy
+  service:
+    name: apache2
+    state: reloaded

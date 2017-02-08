@@ -1,0 +1,11 @@
+- service:
+    name: leihs-legacy.service
+    state: stopped
+
+- service:
+    name: leihs-migration.service
+    state: stopped
+
+- service:
+    name: leihs-system.service
+    state: stopped

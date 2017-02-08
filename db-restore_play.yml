@@ -1,14 +1,9 @@
+- include: stop-reverse-proxy
+- include: stop-services
+
 - hosts: leihs_server
 
   tasks:
-
-    - service:
-        name: leihs-legacy.service
-        state: stopped
-
-    - service:
-        name: leihs-migration.service
-        state: stopped
 
     - copy:
         src: '{{database_dump_restore_file_path}}'
@@ -28,4 +23,6 @@
         name: leihs-legacy.service
         state: started
 
+- include: start-services
+- include: start-reverse-proxy
 
