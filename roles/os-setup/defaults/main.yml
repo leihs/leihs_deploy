@@ -9,7 +9,16 @@ journald_forward_to_syslog: 'no'
 ntp_setup: no
 ntp_server: pool.ntp.org
 
+apache2_modules:
+  - expires
+  - headers
+  - proxy
+  - proxy_http
+  - rewrite
+  - ssl
+  - xsendfile
 
 ssh_keys_present: []
 ssh_keys_absent: []
+
 

@@ -1,5 +1,3 @@
-- include: setup-apache2.yml
-
 - name: disable all leihs sites
   shell: rm /etc/apache2/sites-enabled/leihs_*
   failed_when: false

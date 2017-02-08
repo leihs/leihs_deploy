@@ -13,9 +13,13 @@
 
 - include: etckeeper.yml
 
+- include: apache2.yml
+
 - include: monit.yml
 
 - include: vmware.yml
 
 - include: ssh-keys.yml
   tags: [ssh-keys]
+
+
