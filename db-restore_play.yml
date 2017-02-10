@@ -1,5 +1,4 @@
-- include: stop-reverse-proxy
-- include: stop-services
+- include: stop_play.yml
 
 - hosts: leihs_server
 
@@ -23,6 +22,5 @@
         name: leihs-legacy.service
         state: started
 
-- include: start-services
-- include: start-reverse-proxy
+- include: start_play.yml
 
