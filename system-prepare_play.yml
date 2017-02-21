@@ -1,4 +1,11 @@
-- hosts: leihs_server
+- hosts: leihs_gateway
+
+  roles:
+
+  - role: os-setup
+    tags: [os-setup]
+
+- hosts: [leihs_server]
 
   roles:
 
