@@ -10,6 +10,7 @@ Group={{leihs_legacy_user}}
 Environment=PATH=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
+Environment=LEIHS_SEND_MAILS={{leihs_send_mails}}
 ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin/ruby -S \
     bundle exec puma \
     -e production \

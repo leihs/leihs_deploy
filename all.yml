@@ -12,6 +12,7 @@ leihs_virtual_hosts:
 
 shibboleth_sign_in: false
 
+leihs_send_mails: No
 
 ### database service configuration ############################################
 
