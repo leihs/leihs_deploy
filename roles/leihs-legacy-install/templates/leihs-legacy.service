@@ -11,6 +11,7 @@ Environment=PATH=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_ve
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=LEIHS_SEND_MAILS={{leihs_send_mails}}
+Environment=RAILS_SERVE_STATIC_FILES=Yes
 ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin/ruby -S \
     bundle exec puma \
     -e production \
