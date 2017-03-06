@@ -1,3 +1,7 @@
+- name: dist upgrade
+  apt: upgrade=dist update_cache=yes cache_valid_time=3600
+  tags: [internet]
+
 - apt:
     name: '{{item}}'
     state: latest
@@ -7,3 +11,5 @@
     - ruby
     - git
     - imagemagick
+  tags: [internet]
+

@@ -4,7 +4,10 @@
 
 - name: Install general stuff
   apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
-  with_items: [ruby, python-passlib]
+  with_items:
+    - ruby
+    - python-passlib
+    - imagemagick
   tags: [internet]
 
 
