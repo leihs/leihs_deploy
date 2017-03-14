@@ -15,12 +15,9 @@
     - zlib1g-dev
 
 - name: copy install dir
-  synchronize:
+  copy:
     src: files/ruby-install-0.6.0
     dest: /tmp/
-    recursive: true
-    delete: true
-    checksum: true
 
 - name: install ruby-install
   shell:  |
