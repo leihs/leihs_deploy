@@ -22,4 +22,12 @@ leihs_database_path: /leihs/database
 leihs_database_clean_slate: false
 
 
+### legacy service configuration ############################################
+
+leihs_legacy_ruby_version: 2.3.3
+leihs_leagcy_clean_slate: false
+leihs_legacy_user: leihs-legacy
+leihs_legacy_max_threads_per_worker: 2
+leihs_leagcy_workers: '{{ansible_processor_vcpus}}'
+
 

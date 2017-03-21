@@ -1,0 +1,15 @@
+- hosts: leihs_v3_server
+  roles:
+    - role: fetch-v3-data
+
+- include: deploy_play.yml
+
+- hosts: leihs_server
+  roles:
+  - role: stop-reverse-proxy
+    tags: [stop-reverse-proxy]
+  - role: stop-services
+    tags: [stop-services]
+  - role: import-v3-into-v4
+  - role: start-services
+  - role: start-reverse-proxy

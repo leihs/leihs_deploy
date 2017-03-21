@@ -1,18 +1,60 @@
+- file:
+    path: /tmp/export
+    state: absent
+  name: clean /tmp/export
+
+- file:
+    path: /tmp/export
+    state: directory
+  name: prepare /tmp/export
+
+###############################################################################
+
 - shell: |
     set -eux
     source /etc/profile.d/rbenv-load.sh
     cd {{leihs_v3_root_dir}}
     export RAILS_ENV=production
-    export PATH="${HOME}/.rbenv/versions/2.3.1/bin:${PATH}"
-    ruby -S bundle exec rake leihs:dbio:export
+    export PATH="{{leihs_v3_ruby_dir}}/bin:${PATH}"
+    ruby -S bundle exec rake leihs:dbio:export FILE=/tmp/export/db_data.yml
   args:
     executable: /bin/bash
-  when: false
-  # become_user: '{{leihs_v3_user}}'
-  # become_method: sudo
+  become_user: '{{leihs_v3_user}}'
+  become_method: sudo
+  name: export db_data.yml
 
 - fetch:
-    src: '{{leihs_v3_root_dir}}/tmp/db_data.yml'
-    dest: tmp/db_data.yml
+    src: '/tmp/export/db_data.yml'
+    dest: tmp/v3/db_data.yml
     flat: yes
     fail_on_missing: yes
+  name: fetch db_data.yml
+
+
+###############################################################################
+
+- shell: |
+    set -eux
+    cd {{leihs_v3_root_dir}}
+    mkdir -p public/attachments/ public/images/ public/system/
+    tar cfzh /tmp/export/files.tar.gz public/attachments/ public/images/ public/system/
+  args:
+    executable: /bin/bash
+  become_user: '{{leihs_v3_user}}'
+  become_method: sudo
+  name: export files
+
+- fetch:
+    src: '/tmp/export/files.tar.gz'
+    dest: tmp/v3/files.tar.gz
+    flat: yes
+    fail_on_missing: yes
+  name: fetch files.tar.gz
+
+
+###############################################################################
+
+- file:
+    path: /tmp/export
+    state: absent
+  name: clean /tmp/export
