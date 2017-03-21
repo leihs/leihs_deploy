@@ -24,3 +24,5 @@
     set -eux
     cd /tmp/ruby-install-0.6.0
     make install
+    chmod a+x /usr/local/bin/ruby-install
+
