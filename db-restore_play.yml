@@ -7,6 +7,7 @@
     - copy:
         src: '{{database_dump_restore_file_path}}'
         dest: /tmp/restore-dump.pgbin
+      copy: dump to remote
 
     - shell: |
         #/bin/bash
@@ -18,9 +19,10 @@
       become: yes
       become_user: '{{leihs_database_user}}'
 
-    - service:
-        name: leihs-legacy.service
-        state: started
+    - file:
+        path: /tmp/restore-dump.pgbin
+        state: absent
+      name: delete remote dump file
 
 - include: start_play.yml
 

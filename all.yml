@@ -14,6 +14,14 @@ shibboleth_sign_in: false
 
 leihs_send_mails: No
 
+
+### database backup ############################################################
+
+db_backup_dir: /leihs/var/db-backups
+db_backup_nigthly_enabled: No
+db_backup_keep_days: 10
+db_backup_on_deploy: No
+
 ### database service configuration ############################################
 
 leihs_database_ruby_version: 2.3.3
@@ -30,4 +38,16 @@ leihs_legacy_user: leihs-legacy
 leihs_legacy_max_threads_per_worker: 2
 leihs_leagcy_workers: '{{ansible_processor_vcpus}}'
 
+################################################################################
 
+leihs_master_secret_clean: no
+leihs_master_secret: NULL
+
+################################################################################
+
+database:
+  host: localhost
+  port: 5432
+  username: root
+  password: root
+  database: leihs

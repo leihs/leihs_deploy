@@ -1,0 +1,8 @@
+[Unit]
+Description=Leihs Daily Backup
+
+[Service]
+Type=oneshot
+WorkingDirectory={{db_backup_dir}}
+ExecStart=/usr/local/bin/dump-leihs-db
+

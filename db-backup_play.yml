@@ -1,0 +1,11 @@
+- hosts: leihs_server
+  roles:
+  - role: db-backup
+    tags: [db-backup]
+  tasks:
+    - service:
+        name: leihs-db-backup.service
+        state: restarted
+      when: '{{db_backup_on_deploy}}'
+      name: perform backup now when db_backup_on_deploy is true
+      tags: [db-backup]
