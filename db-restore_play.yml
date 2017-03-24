@@ -7,7 +7,7 @@
     - copy:
         src: '{{database_dump_restore_file_path}}'
         dest: /tmp/restore-dump.pgbin
-      copy: dump to remote
+      name: copy dump file to remote
 
     - shell: |
         #/bin/bash
@@ -22,7 +22,7 @@
     - file:
         path: /tmp/restore-dump.pgbin
         state: absent
-      name: delete remote dump file
+      name: delete dump file on remote
 
 - include: start_play.yml
 
