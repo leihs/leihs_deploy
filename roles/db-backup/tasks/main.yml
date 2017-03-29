@@ -27,5 +27,14 @@
 
 - service:
     name: leihs-db-backup.timer
-    enabled: '{{db_backup_nigthly_enabled}}'
-  name: enable backup timer if db_backup_nigthly_enabled
+    enabled: yes
+    state: started
+  when: db_backup_nigthly_enabled
+  name: enable backup timer
+
+- service:
+    name: leihs-db-backup.timer
+    enabled: no
+    state: stopped
+  when: not db_backup_nigthly_enabled
+  name: disable backup timer

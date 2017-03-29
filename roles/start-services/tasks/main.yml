@@ -2,3 +2,8 @@
     name: leihs-legacy.service
     state: started
     enabled: yes
+
+- service:
+    name: leihs-legacy-cron.timer
+    state: started
+    enabled: yes
