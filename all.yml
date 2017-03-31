@@ -1,4 +1,7 @@
+leihs_send_mails: No
+
 ### reverse proxy configuration ###############################################
+
 leihs_virtual_hosts:
 - hostname: "localhost"
   ip: "localhost"
@@ -10,10 +13,7 @@ leihs_virtual_hosts:
   ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
   force_redirect_to_https: no
 
-shibboleth_sign_in: false
-
-leihs_send_mails: No
-
+shibboleth_sign_in_enabled: No
 
 ### database backup ############################################################
 
