@@ -7,11 +7,13 @@ BindsTo=leihs-migration.service
 WorkingDirectory=/leihs/legacy
 User={{leihs_legacy_user}}
 Group={{leihs_legacy_user}}
+ConditionPathExists=/leihs/config/master-secret.txt
 Environment=PATH=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=LEIHS_SEND_MAILS={{leihs_send_mails}}
 Environment=RAILS_SERVE_STATIC_FILES=Yes
+ExecStartPre=/leihs/deploy/bin/set-leihs-legacy-secrets
 ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin/ruby -S \
     bundle exec puma \
     -e production \

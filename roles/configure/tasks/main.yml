@@ -4,7 +4,8 @@
     recurse: true
     owner: root
 
-- include: master-secret.yml
+- include: master_secret.yml
+
 - include: database.yml
 
 - command: systemctl daemon-reload
