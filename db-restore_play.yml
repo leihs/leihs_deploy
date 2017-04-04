@@ -24,5 +24,7 @@
         state: absent
       name: delete dump file on remote
 
+- include: configure-settings_play.yml
+
 - include: start_play.yml
 

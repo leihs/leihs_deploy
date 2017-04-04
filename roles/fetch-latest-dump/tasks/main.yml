@@ -1,0 +1,6 @@
+- fetch:
+    src: /leihs/var/db-backups/latest.pgbin
+    dest: "{{database_dump_restore_file_path}}"
+    flat: yes
+    fail_on_missing: yes
+    name: fetch latest.pgbin
