@@ -1,0 +1,30 @@
+- include: system-prepare_play.yml
+- include: stop_play.yml
+- include: install_play.yml
+- include: configure_play.yml
+
+- hosts: leihs_server
+  tasks:
+    - shell: |
+        #/bin/bash
+        set eux
+        cd /leihs/database
+        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
+        export RAILS_ENV=production
+        ruby -S bundle exec rake db:drop db:create db:migrate
+      become: yes
+      become_user: '{{leihs_database_user}}'
+      name: create and migrate database
+
+    - shell: |
+        #/bin/bash
+        set eux
+        cd /leihs/legacy
+        export PATH=$HOME/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:$PATH
+        export RAILS_ENV=production
+        ruby -S bundle exec rake app:seed:demo
+      become: yes
+      become_user: '{{leihs_legacy_user}}'
+      name: seed the database
+
+- include: start_play.yml
