@@ -1,0 +1,2 @@
+[leihs_server]
+localmachine ansible_connection=local
