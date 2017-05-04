@@ -1,0 +1,37 @@
+- hosts: leihs_server
+  vars_files:
+    - inventories/prototype/script_vars.yml
+  tasks:
+    - copy:
+        src: '{{import_file_path}}'
+        dest: /tmp/leihs-import
+      name: copy import file
+
+    - copy:
+        src: ../zhdk-inventory/scripts/shared/
+        dest: /tmp/leihs-scripts/shared/
+      name: copy shared script files
+
+    - copy:
+        src: '{{script_file_path}}'
+        dest: /tmp/leihs-scripts/script.rb
+      name: copy script file
+
+    - file:
+        path: /tmp/leihs-script.log
+        state: file
+        owner: '{{leihs_database_user}}'
+      name: create log file
+
+    - shell: |
+        #/bin/bash
+        set eux
+        cd /leihs/database
+        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
+        export RAILS_ENV=production
+        export IMPORT_FILE=/tmp/leihs-import
+        cd /leihs/legacy
+        ruby -S bundle exec rails runner /tmp/leihs-scripts/script.rb
+      become: yes
+      become_user: '{{leihs_database_user}}'
+      name: run rails script
