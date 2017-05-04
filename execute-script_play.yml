@@ -19,8 +19,8 @@
 
     - file:
         path: /tmp/leihs-script.log
-        state: file
-        owner: '{{leihs_database_user}}'
+        state: touch
+        owner: '{{leihs_legacy_user}}'
       name: create log file
 
     - shell: |
@@ -33,5 +33,5 @@
         cd /leihs/legacy
         ruby -S bundle exec rails runner /tmp/leihs-scripts/script.rb
       become: yes
-      become_user: '{{leihs_database_user}}'
+      become_user: '{{leihs_legacy_user}}'
       name: run rails script
