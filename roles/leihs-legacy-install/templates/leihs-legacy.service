@@ -14,6 +14,7 @@ Environment=RAILS_ENV=production
 Environment=LEIHS_SEND_MAILS={{leihs_send_mails}}
 Environment=RAILS_SERVE_STATIC_FILES=Yes
 ExecStartPre=/leihs/deploy/bin/set-leihs-legacy-secrets
+ExecStartPre=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin/ruby -S bundle exec rake app:db:create_fields
 ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin/ruby -S \
     bundle exec puma \
     -e production \
