@@ -4,14 +4,21 @@
   delegate_to: localhost
   name: remove possibly exisiting archive
 
-- shell: |
+- file:
+    path: /tmp/deploy.tar.gz
+    state: absent
+  name: remove existing archive
+
+- name: create archive
+  shell: |
     #/bin/bash
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
     cd $DEPLOY_DIR/../deploy
     $DEPLOY_DIR/bin/git-archive-all -v $DEPLOY_DIR/tmp/deploy.tar.gz
   delegate_to: localhost
-  name: create archive
+  args:
+    creates: '{{playbook_dir}}/tmp/deploy.tar.gz'
 
 - file:
     path: '{{leihs_deploy_path}}'
@@ -24,11 +31,6 @@
     owner: root
     recurse: yes
   name: create empty {{leihs_deploy_path}}
-
-- file:
-    path: /tmp/deploy.tar.gz
-    state: absent
-  name: remove existing archive
 
 - unarchive:
     src: '{{playbook_dir}}/tmp/deploy.tar.gz'
