@@ -6,6 +6,9 @@
 
 - include: master_secret.yml
 
+- include: deploy_info.yml
+  tags: [deploy_info]
+
 - include: database.yml
 
 - command: systemctl daemon-reload
