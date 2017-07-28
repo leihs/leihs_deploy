@@ -1,0 +1,2 @@
+[leihs_server]
+leihs-vm ansible_host=172.16.163.129 ansible_user=root

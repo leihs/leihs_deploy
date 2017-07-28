@@ -1,0 +1,4 @@
+---
+leihs_send_mails: No
+db_backup_on_deploy: No
+db_backup_nigthly_enabled: No
