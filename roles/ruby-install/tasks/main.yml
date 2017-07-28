@@ -15,14 +15,15 @@
     - zlib1g-dev
 
 - name: copy install dir
-  copy:
-    src: files/ruby-install-0.6.0
-    dest: /tmp/
+  synchronize:
+    archive: yes
+    use_ssh_args: yes
+    src: files/ruby-install-0.6.0/
+    dest: /tmp/ruby-install-0.6.0/
 
 - name: install ruby-install
-  shell:  |
+  shell: |
     set -eux
     cd /tmp/ruby-install-0.6.0
     make install
     chmod a+x /usr/local/bin/ruby-install
-
