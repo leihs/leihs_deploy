@@ -3,6 +3,7 @@
 
 require 'json'
 require 'yaml'
+require 'time'
 
 TAG_PREFIX = ''.freeze # could also be 'v' in some projects ,like `v.1.0.0`
 
@@ -43,7 +44,7 @@ begin
       tree_id: git_tree_id,
       commit_id: git_commit_id,
       commit_messages: git_commit_messages,
-      time: Time.now.utc
+      time: Time.now.utc.iso8601
     }
   )
 rescue Exception => e
