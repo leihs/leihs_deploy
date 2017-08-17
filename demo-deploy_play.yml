@@ -11,6 +11,8 @@
         cd /leihs/database
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
         export RAILS_ENV=production
+        export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+        ruby -S bundle exec rake db:environment:set
         ruby -S bundle exec rake db:drop db:create db:migrate
       become: yes
       become_user: '{{leihs_database_user}}'
