@@ -15,6 +15,7 @@
         cd /leihs/database
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
         export FILE=/tmp/restore-dump.pgbin
+        export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
         ruby -S bundle exec rake db:drop db:create db:pg:structure_and_data:restore
       become: yes
       become_user: '{{leihs_database_user}}'
