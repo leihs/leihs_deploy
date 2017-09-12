@@ -1,0 +1,8 @@
+- hosts: leihs_server
+
+  tasks:
+    - name: Get syslog
+      command: journalctl -n 100 -u leihs-*
+      register: leihs_server_log
+
+    - local_action: copy content="{{ leihs_server_log.stdout }}" dest="tmp/server_log.txt"
