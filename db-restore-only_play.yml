@@ -1,0 +1,26 @@
+- include: stop_play.yml
+
+- hosts: leihs_server
+
+  tasks:
+
+    - copy:
+        src: '{{database_dump_restore_file_path}}'
+        dest: /tmp/restore-dump.pgbin
+      name: copy dump file to remote
+
+    - shell: |
+        #/bin/bash
+        set eux
+        cd /leihs/database
+        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
+        export FILE=/tmp/restore-dump.pgbin
+        export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+        ruby -S bundle exec rake db:pg:terminate_connections db:drop db:create db:pg:structure_and_data:restore
+      become: yes
+      become_user: '{{leihs_database_user}}'
+
+    - file:
+        path: /tmp/restore-dump.pgbin
+        state: absent
+      name: delete dump file on remote
