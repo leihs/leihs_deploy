@@ -1,5 +1,3 @@
 - include: db-restore-only_play.yml
 
-- include: configure-settings_play.yml
-
 - include: start_play.yml
