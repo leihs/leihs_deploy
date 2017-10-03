@@ -2,6 +2,7 @@
 set -eux
 
 apt-get update
-apt-get install curl build-essential libssl-dev ruby libyaml-dev python2.7 python2.7-dev python-pip git libffi-dev -y -f
+apt-get install -y -f \
+  curl build-essential libssl-dev default-jdk ruby libyaml-dev python2.7 python2.7-dev python-pip git libffi-dev 
 pip install -I --upgrade ansible==2.2.1.0
 ansible --version
