@@ -4,13 +4,21 @@
 
   tasks:
 
-    - copy:
+    - name: make sure current ruby is installed
+      include_role:
+        name: leihs-database-install
+        tasks_from: ruby
+
+
+    - name: copy dump file to remote
+      copy:
         src: '{{database_dump_restore_file_path}}'
         dest: /tmp/restore-dump.pgbin
-      name: copy dump file to remote
 
-    - shell: |
-        #/bin/bash
+
+    - name: restore DB
+      shell: |
+        #!/bin/bash
         set eux
         cd /leihs/database
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
