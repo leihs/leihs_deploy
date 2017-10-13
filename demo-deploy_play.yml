@@ -13,7 +13,7 @@
         export RAILS_ENV=production
         export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
         ruby -S bundle exec rake db:environment:set
-        ruby -S bundle exec rake db:drop db:create db:migrate
+        ruby -S bundle exec rake db:drop db:create
       become: yes
       become_user: '{{leihs_database_user}}'
       name: create and migrate database
@@ -24,7 +24,8 @@
         cd /leihs/legacy
         export PATH=$HOME/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:$PATH
         export RAILS_ENV=production
-        ruby -S bundle exec rake app:seed:demo
+        export FILE=features/personas/demo.pgbin
+        ruby -S bundle exec rake db:pg:structure_and_data:restore
       become: yes
       become_user: '{{leihs_legacy_user}}'
       name: seed the database
