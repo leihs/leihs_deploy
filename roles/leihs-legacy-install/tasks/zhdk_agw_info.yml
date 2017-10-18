@@ -1,0 +1,5 @@
+- copy:
+    src: '{{zhdk_agw_info_file_path}}'
+    dest: '{{leihs_legacy_path}}/app/controllers/authenticator/agw_info.rb'
+    owner: '{{leihs_legacy_user}}'
+  name: copy zhdk agw info file from secrets to app/controllers/authenticator

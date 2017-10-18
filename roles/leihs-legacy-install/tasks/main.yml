@@ -2,5 +2,9 @@
 - include: install-project.yml
 - include: install-ruby.yml
 - include: database.yml
+
+- when: zhdk_agw_info_file_path is defined
+  include: zhdk_agw_info.yml
+
 - include: service.yml
   tags: [leihs-legacy-service]
