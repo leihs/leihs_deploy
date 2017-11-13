@@ -7,12 +7,6 @@
 
 - hosts: [leihs_server]
 
-  # # TMP: fix ansible openssl fuckup on *target* nodes(!!!)
-  # pre_tasks:
-  # - name: upgrade pyopenssl package
-  #   raw: pip install -UI pyopenssl
-  #   when: install_ansible # …but DONT do it in the container test
-
   roles:
 
   - role: os-setup
@@ -29,6 +23,3 @@
 
   - role: ruby-install
     tags: [ruby-install]
-
-  - role: ansible
-    tags: [ansible]

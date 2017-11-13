@@ -1,2 +1,0 @@
-- include: install_ansible.yml
-  when: install_ansible

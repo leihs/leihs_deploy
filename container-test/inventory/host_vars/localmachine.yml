@@ -1,2 +1,1 @@
-# ansible does now segfault if we re install it from its own
-install_ansible: false
+
