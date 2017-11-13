@@ -1,0 +1,6 @@
+- name: install nodejs
+  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - nodejs        # main package
+    - nodejs-legacy # in Debian, link the binary as `node`
+  tags: [internet]

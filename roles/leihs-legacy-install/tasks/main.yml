@@ -1,6 +1,7 @@
 - include: setup-user.yml
 - include: install-project.yml
 - include: install-ruby.yml
+- include: install-nodejs.yml
 - include: database.yml
 
 - when: zhdk_agw_info_file_path is defined
