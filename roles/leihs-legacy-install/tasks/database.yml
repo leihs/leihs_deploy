@@ -1,6 +1,6 @@
 - copy:
     content: |
-      production: &DEFAULT
+      production:
         adapter: postgresql
         host: {{database.host}}
         port: {{database.port}}
@@ -9,8 +9,5 @@
         username: {{database.username}}
         password: {{database.password}}
         database: {{database.database}}
-      development:
-        <<: *DEFAULT
     dest: /leihs/legacy/config/database.yml
   name: configure legacy database
-
