@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -eux
 
+# remove this packet if installed - its not needed and causes problems on Ubuntu
+apt-get purge -y -f open-iscsi || true
+
 apt-get update
 apt-get install -y -f \
   curl build-essential libssl-dev default-jdk ruby libyaml-dev python2.7 python2.7-dev python-pip git libffi-dev
