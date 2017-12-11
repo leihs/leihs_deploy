@@ -1,11 +1,8 @@
 environment_variables:
   CONTAINER_NAME: leihs-deploy-test-{{CIDER_CI_TRIAL_ID}}
-max_trials: 1
 git_options:
   submodules:
     include_match: ^.*$
-traits:
-  g2016: yes
 include:
   - container-test/cider-ci/task-components/bundle.yml
   - container-test/cider-ci/task-components/container.yml

@@ -14,6 +14,8 @@ scripts:
       # the next command will not work if we invoke it too quickly after
       # booting the machine
       sleep 30
+      # cleanup in case base image already has leihs code
+      lxc exec $CONTAINER_NAME -- rm -rf /tmp/leihs /leihs
       tar cf - ${CIDER_CI_WORKING_DIR} \
         | lxc exec ${CONTAINER_NAME} -- tar xvf - -C /tmp
       lxc exec ${CONTAINER_NAME} -- \
