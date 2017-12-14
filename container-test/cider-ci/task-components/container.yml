@@ -25,7 +25,7 @@ scripts:
 
 
   cache-container:
-    exclusive_executor_resource: 'lxc_image_caching_${LXC_IMAGE_CACHE_NAME}_${LXC_CACHED_BASE_IMAGE}'
+    exclusive_executor_resource: 'lxc_image_caching_{{LXC_IMAGE_CACHE_NAME}}_{{LXC_CACHED_BASE_IMAGE}}'
     start_when:
       test is ok:
         script_key: test

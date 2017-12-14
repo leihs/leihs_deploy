@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eux
 
-IMAGE_CACHE_DIR="/tmp/lxc_base_images/${LXC_IMAGE_CACHE_NAME}"
+IMAGE_CACHE_DIR="/var/local/lxc_base_images/${LXC_IMAGE_CACHE_NAME}"
 CACHE_KEY=$(bash -c "$LXC_IMAGE_CACHE_KEY_CMD")
 CACHED_IMAGE_NAME="${LXC_CACHED_BASE_IMAGE}_${CACHE_KEY}"
 IMAGE_PATH="${IMAGE_CACHE_DIR}/${CACHED_IMAGE_NAME}.tar.gz"
@@ -16,10 +16,6 @@ function cached_image_exists {
 
 function remove_cached_image_from_lxd {
   lxc image delete "$CACHED_IMAGE_NAME"
-}
-
-function hello {
-  true
 }
 
 function select_cached_or_base_image {

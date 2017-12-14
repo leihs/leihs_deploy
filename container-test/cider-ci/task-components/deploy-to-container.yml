@@ -23,7 +23,7 @@ scripts:
 
 
   deploy-to-container:
-    timeout: 40 Minutes
+    timeout: 1 hour
     start_when:
       container has been prepared:
         script_key: prepare-container
