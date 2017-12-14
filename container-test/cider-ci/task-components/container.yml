@@ -20,7 +20,7 @@ scripts:
 
       select_cached_or_base_image
       lxc image list
-      lxc launch ${SELECTED_LXC_IMAGE} ${CONTAINER_NAME}
+      lxc launch --ephemeral ${SELECTED_LXC_IMAGE} ${CONTAINER_NAME}
       lxc list
 
 

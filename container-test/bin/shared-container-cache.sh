@@ -40,8 +40,8 @@ function save_container_to_image_cache {
   else
     echo "[LXC_IMAGE_CACHE] caching now!"
     mkdir -p "${IMAGE_CACHE_DIR}"
-    lxc stop "$CONTAINER_NAME"
-    lxc publish "$CONTAINER_NAME" --alias "$CACHED_IMAGE_NAME"
+    lxc snapshot "$CONTAINER_NAME" snap0 # snapshot so we dont create image from running/changing state
+    lxc publish --force "$CONTAINER_NAME"/snap0 --alias "$CACHED_IMAGE_NAME"
     lxc image export "$CACHED_IMAGE_NAME" "${IMAGE_CACHE_DIR}/${CACHED_IMAGE_NAME}"
   fi; fi
 }
