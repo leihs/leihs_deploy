@@ -1,4 +1,4 @@
 ---
 # this is only a template. make your own copy of this file 'script_vars.yml'.
-import_file: foo
-ruby_script_path: bar
+import_file_path: foo
+script_file_path: bar
