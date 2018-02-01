@@ -38,11 +38,15 @@ scripts:
       source deploy/container-test/bin/shared-container-cache.sh
 
       lxc info "$CONTAINER_NAME"
+
       # cleanup before caching:
-      lxc exec "$CONTAINER_NAME" -- rm -rf /tmp/leihs /leihs
+      lxc exec "$CONTAINER_NAME" -- /bin/bash -c '\
+        systemctl stop leihs* && dropdb leihs && systemctl stop postgresql && rm -rf /tmp/leihs /leihs'
+
       save_container_to_image_cache
       lxc image info "$CACHED_IMAGE_NAME" || true
       remove_cached_image_from_lxd || true
+
 
   destroy-container:
     start_when:
