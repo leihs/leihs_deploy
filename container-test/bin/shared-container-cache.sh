@@ -18,13 +18,24 @@ function remove_cached_image_from_lxd {
   lxc image delete "$CACHED_IMAGE_NAME"
 }
 
+function cached_image_lxc_fingerprint {
+  # <https://github.com/lxc/lxd/issues/3750#issuecomment-326656720>
+  sha256sum "$IMAGE_PATH" | cut -d' ' -f1
+}
+
 function select_cached_or_base_image {
   if cached_image_is_imported; then
     echo "[LXC_IMAGE_CACHE] already imported, using cached image"
     export SELECTED_LXC_IMAGE="$CACHED_IMAGE_NAME"
   else if cached_image_exists; then
     echo "[LXC_IMAGE_CACHE] importing and using cached image"
-    lxc image import ${IMAGE_PATH} --alias "$CACHED_IMAGE_NAME"
+    # NOTE: sometimes image is already imported but without alias,
+    #       which causes the import to fail because it is already present!
+    #       If this happens, fix the alias, referencing the image by fingerprint.
+    lxc image import "${IMAGE_PATH}" --alias "$CACHED_IMAGE_NAME" || {
+      echo "[LXC_IMAGE_CACHE] adding alias to already imported image"
+      lxc image alias create "$CACHED_IMAGE_NAME" "$(cached_image_lxc_fingerprint)"
+    }
     export SELECTED_LXC_IMAGE="$CACHED_IMAGE_NAME"
   else
     echo "[LXC_IMAGE_CACHE] no cached image yet, creating from scratch"
