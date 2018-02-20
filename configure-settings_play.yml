@@ -5,7 +5,8 @@
     - shell: |
         #/bin/bash
         set eux
-        psql -d {{database.database}} -c "UPDATE settings SET external_base_url = '{{settings_external_base_url}}'"
-      when: settings_external_base_url is defined
-      name: configure external base url
-
+        psql -d {{database.database}} -c "UPDATE settings SET {{ item.name }} = '{{ item.value }}'"
+      name: configure settings
+      when: settings is defined
+      with_items:
+        - "{{ settings }}"
