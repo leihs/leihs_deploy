@@ -1,0 +1,6 @@
+- copy:
+    src: '{{settings_file_path}}'
+    dest: '{{leihs_legacy_path}}/config/settings.yml'
+    owner: '{{leihs_legacy_user}}'
+  name: copy settings.yml file to leihs_legacy
+  tags: [settings]

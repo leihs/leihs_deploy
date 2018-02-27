@@ -32,5 +32,3 @@
         path: /tmp/restore-dump.pgbin
         state: absent
       name: delete dump file on remote
-
-- include: configure-settings_play.yml
