@@ -5,11 +5,18 @@
     - copy:
         src: '{{import_file_path}}'
         dest: /tmp/leihs-import
+      when: import_file_path is defined
       name: copy import file
+
+    - file:
+        path: /tmp/leihs-scripts
+        state: directory
+      name: created /tmp/leihs-scripts directory
 
     - copy:
         src: ../zhdk-inventory/scripts/shared/
         dest: /tmp/leihs-scripts/shared/
+      when: shared_scripts_dir_path is defined
       name: copy shared script files
 
     - copy:
