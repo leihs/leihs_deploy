@@ -1,0 +1,12 @@
+- name: fail os check
+  fail:
+    msg: >
+      The supported operating systems are Ubuntu 18.04 bionic and
+      Debian 9 stretch.
+  when: >
+    not
+    ((ansible_distribution == "Ubuntu"
+    and ansible_distribution_release == "bionic")
+    or
+    (ansible_distribution == "Debian"
+    and ansible_distribution_release == "stretch"))

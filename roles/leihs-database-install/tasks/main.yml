@@ -1,5 +1,5 @@
-- include: user.yml
-- include: project.yml
-- include: ruby.yml
-- include: database.yml
-- include: migration-service.yml
+- include_tasks: user.yml
+- include_tasks: project.yml
+- include_tasks: ruby.yml
+- include_tasks: database.yml
+- include_tasks: migration-service.yml

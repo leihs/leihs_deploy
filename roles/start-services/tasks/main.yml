@@ -1,4 +1,9 @@
 - service:
+    name: leihs-admin.service
+    state: started
+    enabled: yes
+
+- service:
     name: leihs-legacy.service
     state: started
     enabled: yes
@@ -7,3 +12,16 @@
     name: leihs-legacy-cron.timer
     state: started
     enabled: yes
+
+- name: wait for leihs-admin.service
+  wait_for:
+    host: localhost
+    port: 3211
+    timeout: 180
+
+- name: wait for leihs-legacy.service
+  wait_for:
+    host: localhost
+    port: 3210
+    timeout: 180
+

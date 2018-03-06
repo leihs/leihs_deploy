@@ -1,0 +1,11 @@
+- apt_repository:
+    repo: deb http://http.debian.net/debian stretch-backports main contrib non-free
+    state: present
+    update_cache: yes
+  tags: [internet]
+
+- apt:
+    name: openjdk-9-jdk
+    state: latest
+    default_release: stretch-backports
+  tags: [internet]

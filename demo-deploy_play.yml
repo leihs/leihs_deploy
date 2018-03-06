@@ -1,7 +1,7 @@
-- include: system-prepare_play.yml
-- include: stop_play.yml
-- include: install_play.yml
-- include: configure_play.yml
+- include_tasks: system-prepare_play.yml
+- include_tasks: stop_play.yml
+- include_tasks: install_play.yml
+- include_tasks: configure_play.yml
 
 - hosts: leihs_server
   tasks:
@@ -30,4 +30,4 @@
       become_user: '{{leihs_legacy_user}}'
       name: seed the database
 
-- include: start_play.yml
+- include_tasks: start_play.yml

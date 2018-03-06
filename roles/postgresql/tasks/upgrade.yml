@@ -1,0 +1,24 @@
+- name: drop pg 10 cluster
+  shell: pg_dropcluster --stop 10 main
+  ignore_errors: True
+
+- name: upgrade to pg 10
+  shell: pg_upgradecluster 9.6 main
+
+- name: drop 9.6 cluster
+  shell: pg_dropcluster 9.6 main
+
+- name: start postgresql service
+  service:
+    name: postgresql
+    state: started
+
+- name: Remove earlier installations of postgresql
+  apt: pkg={{item}} state=absent purge=yes update_cache=yes cache_valid_time=3600
+  tags: [internet]
+  with_items:
+    - postgresql-9.4
+    - postgresql-9.5
+    - postgresql-9.6
+
+

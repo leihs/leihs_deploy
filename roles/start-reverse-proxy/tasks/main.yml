@@ -24,7 +24,7 @@
 - debug:
     var: leihs_virtual_hosts
 
-- include: virtual-host.yml
+- include_tasks: virtual-host.yml
   with_indexed_items: '{{leihs_virtual_hosts}}'
 
 - name: reload reverse-proxy

@@ -3,9 +3,9 @@
     state: absent
   name: remove existing /leihs/system
 
-- include: user.yml
-- include: jar.yml
-- include: log-dir.yml
+- include_tasks: user.yml
+- include_tasks: jar.yml
+- include_tasks: log-dir.yml
 
 - file:
     path: /leihs/system

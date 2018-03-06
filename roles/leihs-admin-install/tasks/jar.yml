@@ -1,0 +1,22 @@
+- shell: |
+    #/bin/bash
+    set -eux
+    DEPLOY_DIR='{{playbook_dir}}'
+    cd $DEPLOY_DIR/../admin
+    $DEPLOY_DIR/bin/lein uberjar
+  delegate_to: localhost
+  name: create jar
+
+- file:
+    path: '{{leihs_admin_dir}}'
+    state: directory
+    owner: leihs-system
+    recurse: yes
+  name: create empty {{leihs_admin_dir}}
+
+- copy:
+    src: '{{playbook_dir}}/../admin/target/leihs-admin.jar'
+    dest: '{{leihs_admin_dir}}/leihs-admin.jar'
+    owner: leihs-admin
+  name: copy jar over to server
+

@@ -1,20 +1,15 @@
 - service:
+    name: leihs-admin.service
+    state: stopped
+  failed_when: false
+
+- service:
     name: leihs-legacy.service
     state: stopped
   failed_when: false
 
 - service:
     name: leihs-migration.service
-    state: stopped
-  failed_when: false
-
-- service:
-    name: leihs-pre-migration.service
-    state: stopped
-  failed_when: false
-
-- service:
-    name: leihs-system.service
     state: stopped
   failed_when: false
 

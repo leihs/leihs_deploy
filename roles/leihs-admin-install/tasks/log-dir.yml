@@ -1,0 +1,13 @@
+- file:
+    path: /leihs/admin/logs
+    state: directory
+    owner: leihs-admin
+    recurse: yes
+  name: create empty /leihs/admin/logs
+
+- file:
+    path: /leihs/admin
+    state: directory
+    owner: leihs-admin
+    recurse: yes
+  name: set permissions for /leihs/admin

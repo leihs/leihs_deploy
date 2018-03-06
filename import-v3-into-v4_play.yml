@@ -2,7 +2,7 @@
   roles:
     - role: fetch-v3-data
 
-- include: deploy_play.yml
+- import_playbook: deploy_play.yml
 
 - hosts: leihs_server
   roles:

@@ -4,12 +4,12 @@
     recurse: true
     owner: root
 
-- include: master_secret.yml
+- include_tasks: master_secret.yml
 
-- include: deploy_info.yml
+- include_tasks: deploy_info.yml
   tags: [deploy_info]
 
-- include: database.yml
+- include_tasks: database.yml
 
 - command: systemctl daemon-reload
   changed_when: false

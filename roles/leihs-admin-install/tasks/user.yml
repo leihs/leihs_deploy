@@ -1,0 +1,4 @@
+- user:
+    name: leihs-admin
+    system: yes
+  name: create leihs-admin user

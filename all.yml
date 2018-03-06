@@ -40,8 +40,7 @@ leihs_leagcy_workers: '{{ansible_processor_vcpus}}'
 
 ################################################################################
 
-leihs_master_secret_clean: no
-leihs_master_secret: NULL
+leihs_master_secret: "{{ lookup('password', inventory_dir + '/' + 'master_secret.txt chars=ascii_letters,digits,hexdigits length=40') }}"
 
 ################################################################################
 

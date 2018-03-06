@@ -1,1 +1,1 @@
-- include: project.yml
+- include_tasks: project.yml

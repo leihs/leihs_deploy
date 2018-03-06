@@ -9,11 +9,14 @@
 
   roles:
 
+  - role: os-check
+    tags: [os-check]
+
   - role: os-setup
     tags: [os-setup]
 
-  - role: openjdk8
-    tags: [openjdk8]
+  - role: openjdk9
+    tags: [openjdk9]
 
   - role: postgresql
     tags: [postgresql]

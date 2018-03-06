@@ -1,5 +1,5 @@
-- include: database-clean-and-prepare.yml
-- include: setup-import-data.yml
+- include_tasks: database-clean-and-prepare.yml
+- include_tasks: setup-import-data.yml
 
 - shell: |
     #/bin/bash

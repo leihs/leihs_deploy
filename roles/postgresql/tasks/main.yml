@@ -1,6 +1,20 @@
-- include: install.yml
+- include_tasks: apt.yml
 
-- include: monitor.yml
+- include_tasks: install.yml
+
+- shell: dpkg-query -S 'postgresql-9.6'
+  ignore_errors: True
+  register: has_pg96
+
+- include_tasks: upgrade.yml
+  when: has_pg96|succeeded
+
+- name: make sure main pg is running
+  service:
+    name: postgresql
+    state: started
+
+- include_tasks: monitor.yml
 
 - name: add root postgresql user
   become: yes
@@ -9,6 +23,7 @@
     name: root
     role_attr_flags: CREATEDB,SUPERUSER
     password: root
+    encrypted: true
   tags: debug
 
 - postgresql_db:

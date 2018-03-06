@@ -1,25 +1,25 @@
-- include: prepare.yml
+- include_tasks: prepare.yml
 
-- include: journald.yml
+- include_tasks: journald.yml
 
-- include: time.yml
+- include_tasks: time.yml
 
-- include: ntp.yml
+- include_tasks: ntp.yml
   when: ntp_setup
   tags: [ntp]
 
-- include: vim.yml
+- include_tasks: vim.yml
   when: ci_vim_mode
 
-- include: etckeeper.yml
+- include_tasks: etckeeper.yml
 
-- include: apache2.yml
+- include_tasks: apache2.yml
 
-- include: monit.yml
+- include_tasks: monit.yml
 
-- include: vmware.yml
+- include_tasks: vmware.yml
 
-- include: ssh-keys.yml
+- include_tasks: ssh-keys.yml
   tags: [ssh-keys]
 
 

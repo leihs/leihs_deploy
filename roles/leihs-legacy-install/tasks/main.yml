@@ -1,14 +1,16 @@
-- include: setup-user.yml
-- include: install-project.yml
-- include: install-ruby.yml
-- include: install-nodejs.yml
-- include: database.yml
+- include_tasks: setup-user.yml
+- include_tasks: install-project.yml
+- include_tasks: install-ruby.yml
+- include_tasks: install-nodejs.yml
+- include_tasks: database.yml
 
 - when: zhdk_agw_info_file_path is defined
-  include: zhdk_agw_info.yml
+  include_tasks: zhdk_agw_info.yml
 
 - when: settings_file_path is defined
   include: settings.yml
 
 - include: service.yml
+
+- include_tasks: service.yml
   tags: [leihs-legacy-service]

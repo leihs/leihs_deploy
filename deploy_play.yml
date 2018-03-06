@@ -1,6 +1,7 @@
-- include: system-prepare_play.yml
-- include: stop_play.yml
-- include: install_play.yml
-- include: configure_play.yml
-- include: db-backup_play.yml
-- include: start_play.yml
+- import_playbook: system-prepare_play.yml
+- import_playbook: switch-sp_play.yml
+- import_playbook: stop_play.yml
+- import_playbook: install_play.yml
+- import_playbook: configure_play.yml
+- import_playbook: db-backup_play.yml
+- import_playbook: start_play.yml
