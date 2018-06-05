@@ -1,0 +1,4 @@
+- user:
+    name: '{{leihs_procurement_user}}'
+    system: yes
+  name: create leihs-procurement user

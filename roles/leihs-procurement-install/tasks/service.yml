@@ -1,0 +1,13 @@
+- template:
+    src: leihs-procurement.service
+    dest: /etc/systemd/system/leihs-procurement.service
+    mode: 0644
+  name: copy leihs-procurement.service
+  tags:
+    - test
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl
+  tags:
+    - test

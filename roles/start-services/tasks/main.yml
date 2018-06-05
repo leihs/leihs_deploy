@@ -19,6 +19,12 @@
     port: '{{leihs_admin_port}}'
     timeout: 180
 
+- name: wait for leihs-procurement.service
+  wait_for:
+    host: localhost
+    port: '{{leihs_procurement_port}}'
+    timeout: 180
+
 - name: wait for leihs-legacy.service
   wait_for:
     host: localhost

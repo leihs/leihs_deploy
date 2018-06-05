@@ -1,0 +1,17 @@
+- file:
+    path: '{{leihs_procurement_dir}}'
+    state: absent
+  name: remove existing leihs-procurement dir
+
+- include_tasks: user.yml
+- include_tasks: jar.yml
+- include_tasks: log-dir.yml
+
+- file:
+    path: '{{leihs_procurement_dir}}'
+    state: directory
+    owner: '{{leihs_procurement_user}}'
+    recurse: yes
+  name: set permissions for leihs-procurement dir
+
+- include_tasks: service.yml
