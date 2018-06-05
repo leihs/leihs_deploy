@@ -17,7 +17,7 @@
   name: create empty {{leihs_procurement_dir}}
 
 - copy:
-    src: '{{playbook_dir}}/../procurement/target/leihs-procurement.jar'
+    src: '{{playbook_dir}}/../procurement/target/uberjar/leihs-procurement.jar'
     dest: '{{leihs_procurement_dir}}/leihs-procurement.jar'
     owner: '{{leihs_procurement_user}}'
   name: copy jar over to server
