@@ -1,18 +1,17 @@
 - file:
     path: '{{leihs_admin_dir}}'
     state: absent
-  name: remove existing /leihs/admin
+  name: remove existing leihs-admin dir
 
 - include_tasks: user.yml
 - include_tasks: jar.yml
 - include_tasks: log-dir.yml
 
 - file:
-    path: /leihs/admin
+    path: '{{leihs_admin_dir}}'
     state: directory
-    owner: leihs-admin
+    owner: '{{leihs_admin_user}}'
     recurse: yes
-  name: set permissions for /leihs/admin
+  name: set permissions for leihs-admin dir
 
 - include_tasks: service.yml
-

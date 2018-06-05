@@ -10,13 +10,12 @@
 - file:
     path: '{{leihs_admin_dir}}'
     state: directory
-    owner: leihs-system
+    owner: '{{leihs_admin_user}}'
     recurse: yes
   name: create empty {{leihs_admin_dir}}
 
 - copy:
     src: '{{playbook_dir}}/../admin/target/leihs-admin.jar'
     dest: '{{leihs_admin_dir}}/leihs-admin.jar'
-    owner: leihs-admin
+    owner: '{{leihs_admin_user}}'
   name: copy jar over to server
-

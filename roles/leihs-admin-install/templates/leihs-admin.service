@@ -9,8 +9,8 @@ After=leihs-migration.service
 
 [Service]
 WorkingDirectory={{leihs_admin_dir}}
-User=leihs-admin
-Group=leihs-admin
+User={{leihs_admin_user}}
+Group={{leihs_admin_user}}
 Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:5432/{{database.database}}?max-pool-size=20
 Environment=CLASSPATH={{leihs_admin_dir}}/leihs-admin.jar
 Environment=LEIHS_SECRET={{leihs_master_secret}}
