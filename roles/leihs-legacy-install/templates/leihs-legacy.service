@@ -19,7 +19,7 @@ ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}
     -e production \
     -t 1:{{leihs_legacy_max_threads_per_worker}} \
     -w {{leihs_leagcy_workers}} \
-    -b tcp://localhost:3210
+    -b tcp://localhost:{{leihs_legacy_port}}
 
 [Install]
 WantedBy=multi-user.target

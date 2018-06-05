@@ -16,12 +16,11 @@
 - name: wait for leihs-admin.service
   wait_for:
     host: localhost
-    port: 3211
+    port: '{{leihs_admin_port}}'
     timeout: 180
 
 - name: wait for leihs-legacy.service
   wait_for:
     host: localhost
-    port: 3210
+    port: '{{leihs_legacy_port}}'
     timeout: 180
-
