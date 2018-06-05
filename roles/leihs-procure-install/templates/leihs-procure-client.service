@@ -1,0 +1,16 @@
+[Unit]
+Description=Leihs procure-client Service
+After=syslog.target
+After=network.target
+
+BindsTo=leihs-migration.service
+After=leihs-migration.service
+
+[Service]
+WorkingDirectory={{leihs_procure_dir}}/client
+User={{leihs_procure_user}}
+Group={{leihs_procure_user}}
+ExecStart={{leihs_procure_dir}}/client/node_modules/.bin/serve -s -n -c serve.json -l {{leihs_procure_client_port}}
+
+[Install]
+WantedBy=multi-user.target

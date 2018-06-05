@@ -1,0 +1,26 @@
+- name: create client app
+  delegate_to: localhost
+  shell: |
+    #!/bin/bash -eux
+
+    PUBLIC_PATH="/procure"
+    export PUBLIC_URL="$PUBLIC_PATH" # for react-scripts
+
+    cd "{{playbook_dir}}/../procure/client"
+    npm ci || npm install # for building
+    npm run build
+    rm -rf .git node_modules # optimize disk size/transfer time
+    npm ci --production || npm install --production # for serving
+
+    # subdir like public path for simpler config
+    mkdir -p "procure_client_app/$(dirname ${PUBLIC_PATH})"
+    mv build "procure_client_app/${PUBLIC_PATH}"
+
+    cd ..
+    tar -czf client.tgz client
+
+- unarchive:
+    src: '{{playbook_dir}}/../procure/client.tgz'
+    dest: '{{leihs_procure_dir}}'
+    owner: '{{leihs_procure_user}}'
+  name: copy client app over to server

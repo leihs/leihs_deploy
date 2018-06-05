@@ -1,0 +1,21 @@
+- shell: |
+    #!/bin/bash
+    set -eux
+    DEPLOY_DIR='{{playbook_dir}}'
+    cd $DEPLOY_DIR/../procure/server
+    $DEPLOY_DIR/bin/lein with-profile prod uberjar
+  delegate_to: localhost
+  name: create jar
+
+- file:
+    path: '{{leihs_procure_dir}}'
+    state: directory
+    owner: '{{leihs_procure_user}}'
+    recurse: yes
+  name: create empty {{leihs_procure_dir}}
+
+- copy:
+    src: '{{playbook_dir}}/../procure/server/target/uberjar/leihs-procurement.jar'
+    dest: '{{leihs_procure_dir}}/leihs-procurement.jar'
+    owner: '{{leihs_procure_user}}'
+  name: copy jar over to server

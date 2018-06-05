@@ -1,0 +1,21 @@
+- template:
+    src: leihs-procure.service
+    dest: /etc/systemd/system/leihs-procure.service
+    mode: 0644
+  name: copy leihs-procure.service
+  tags:
+    - test
+
+- template:
+    src: leihs-procure-client.service
+    dest: /etc/systemd/system/leihs-procure-client.service
+    mode: 0644
+  name: copy leihs-procure-client.service
+  tags:
+    - test
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl
+  tags:
+    - test
