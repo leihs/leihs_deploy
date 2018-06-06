@@ -4,6 +4,11 @@
     enabled: yes
 
 - service:
+    name: leihs-procurement.service
+    state: started
+    enabled: yes
+
+- service:
     name: leihs-legacy.service
     state: started
     enabled: yes
