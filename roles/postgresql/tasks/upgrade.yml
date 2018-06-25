@@ -8,11 +8,6 @@
 - name: drop 9.6 cluster
   shell: pg_dropcluster 9.6 main
 
-- name: start postgresql service
-  service:
-    name: postgresql
-    state: started
-
 - name: Remove earlier installations of postgresql
   apt: pkg={{item}} state=absent purge=yes update_cache=yes cache_valid_time=3600
   tags: [internet]
@@ -20,5 +15,3 @@
     - postgresql-9.4
     - postgresql-9.5
     - postgresql-9.6
-
-

@@ -1,10 +1,18 @@
 - include_tasks: apt.yml
 
-- include_tasks: install.yml
 
 - shell: dpkg-query -S 'postgresql-9.6'
   ignore_errors: True
   register: has_pg96
+
+- name: stop postgresql service (to free up the port before upgrading)
+  service:
+    name: postgresql
+    state: stopped
+  ignore_errors: True
+  when: has_pg96|succeeded
+
+- include_tasks: install.yml
 
 - include_tasks: upgrade.yml
   when: has_pg96|succeeded
