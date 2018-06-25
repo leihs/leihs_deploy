@@ -1,5 +1,5 @@
 - shell: |
-    #/bin/bash
+    #!/bin/bash
     set eux
     ruby-install --no-install-deps --no-reinstall ruby {{leihs_legacy_ruby_version}}
   become: yes
@@ -8,7 +8,7 @@
   name: install ruby
 
 - shell: |
-    #/bin/bash
+    #!/bin/bash
     set eux
     export PATH=$HOME/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:$PATH
     which gem

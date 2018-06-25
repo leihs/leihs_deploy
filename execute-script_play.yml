@@ -31,7 +31,7 @@
       name: create log file
 
     - shell: |
-        #/bin/bash
+        #!/bin/bash
         set eux
         cd /leihs/database
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
