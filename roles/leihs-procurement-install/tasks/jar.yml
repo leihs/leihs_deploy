@@ -3,9 +3,7 @@
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
     cd $DEPLOY_DIR/../procurement
-    # FIXME: prod env!!!
-    # $DEPLOY_DIR/bin/lein with-profile prod uberjar
-    $DEPLOY_DIR/bin/lein with-profile test uberjar
+    $DEPLOY_DIR/bin/lein with-profile prod uberjar
   delegate_to: localhost
   name: create jar
 
