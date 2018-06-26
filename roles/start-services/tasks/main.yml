@@ -1,19 +1,29 @@
-- service:
+- name: start leihs-admin.service
+  service:
     name: leihs-admin.service
     state: started
     enabled: yes
 
-- service:
+- name: start leihs-procurement.service
+  service:
     name: leihs-procurement.service
     state: started
     enabled: yes
 
-- service:
+- name: start leihs-procurement-client.service
+  service:
+    name: leihs-procurement-client.service
+    state: started
+    enabled: yes
+
+- name: start leihs-legacy.service
+  service:
     name: leihs-legacy.service
     state: started
     enabled: yes
 
-- service:
+- name: start leihs-legacy-cron.timer
+  service:
     name: leihs-legacy-cron.timer
     state: started
     enabled: yes
@@ -28,6 +38,12 @@
   wait_for:
     host: localhost
     port: '{{leihs_procurement_port}}'
+    timeout: 180
+
+- name: wait for leihs-procurement-client.service
+  wait_for:
+    host: localhost
+    port: '{{leihs_procurement_client_port}}'
     timeout: 180
 
 - name: wait for leihs-legacy.service

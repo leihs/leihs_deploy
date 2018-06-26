@@ -6,6 +6,14 @@
   tags:
     - test
 
+- template:
+    src: leihs-procurement-client.service
+    dest: /etc/systemd/system/leihs-procurement-client.service
+    mode: 0644
+  name: copy leihs-procurement-client.service
+  tags:
+    - test
+
 - command: systemctl daemon-reload
   changed_when: false
   name: reload systemctl

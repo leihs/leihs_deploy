@@ -4,8 +4,15 @@
   name: remove existing leihs-procurement dir
 
 - include_tasks: user.yml
+
+- include_tasks: nodejs.yml
+  vars:
+    debian_repo_version: '8.x' # curent LTS
+    nodejs_nodesource_pin_priority: 500
+
 - include_tasks: jar.yml
 - include_tasks: log-dir.yml
+- include_tasks: frontend.yml
 
 - file:
     path: '{{leihs_procurement_dir}}'

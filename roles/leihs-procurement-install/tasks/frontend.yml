@@ -1,0 +1,17 @@
+- shell: |
+    #/bin/bash -eux
+    cd "{{playbook_dir}}/../procurement/client"
+    npm ci || npm install
+    npm run build
+    rm -rf .git node_modules # optimize disk size/transfer time
+    npm i serve
+    cd ..
+    tar -czf client.tgz client
+  delegate_to: localhost
+  name: create client app
+
+- unarchive:
+    src: '{{playbook_dir}}/../procurement/client.tgz'
+    dest: '{{leihs_procurement_dir}}'
+    owner: '{{leihs_procurement_user}}'
+  name: copy client app over to server

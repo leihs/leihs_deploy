@@ -1,0 +1,17 @@
+[Unit]
+Description=Leihs procurement-client Service
+After=syslog.target
+After=network.target
+
+BindsTo=postgresql.service
+BindsTo=leihs-migration.service
+After=leihs-migration.service
+
+[Service]
+WorkingDirectory={{leihs_procurement_dir}}/client
+User={{leihs_procurement_user}}
+Group={{leihs_procurement_user}}
+ExecStart={{leihs_procurement_dir}}/client/node_modules/.bin/serve -s -n -l {{leihs_procurement_client_port}} build/
+
+[Install]
+WantedBy=multi-user.target
