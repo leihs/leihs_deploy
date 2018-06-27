@@ -1,14 +1,20 @@
-- shell: |
-    #/bin/bash -eux
+- name: create client app
+  delegate_to: localhost
+  shell: |
+    #!/bin/bash -eux
     cd "{{playbook_dir}}/../procurement/client"
-    npm ci || npm install
+    PUBLIC_PATH=$(node -p 'require("url").parse(require("./package.json").homepage).pathname.replace(/\/$/, "")')
+    npm ci || npm install # for building
     npm run build
     rm -rf .git node_modules # optimize disk size/transfer time
-    npm i serve
+    npm ci --production || npm install --production # for serving
+
+    # subdir like public path for simpler config
+    mkdir -p "procurement_client_app/$(dirname ${PUBLIC_PATH})"
+    mv build "procurement_client_app/${PUBLIC_PATH}"
+
     cd ..
     tar -czf client.tgz client
-  delegate_to: localhost
-  name: create client app
 
 - unarchive:
     src: '{{playbook_dir}}/../procurement/client.tgz'
