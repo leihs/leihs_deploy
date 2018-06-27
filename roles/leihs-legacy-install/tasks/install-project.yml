@@ -6,7 +6,7 @@
 
 - when: zhdk_agw_info_file_path is defined
   shell: |
-    #/bin/bash
+    #!/bin/bash
     set -eux
     cd '{{playbook_dir}}/../legacy'
     git crypt unlock
@@ -14,7 +14,7 @@
   name: git uncrypt legacy
 
 - shell: |
-    #/bin/bash
+    #!/bin/bash
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
     cd $DEPLOY_DIR/../legacy

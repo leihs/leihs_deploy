@@ -5,7 +5,7 @@
   name: remove possibly exisiting archive
 
 - shell: |
-    #/bin/bash
+    #!/bin/bash
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
     cd $DEPLOY_DIR/../database

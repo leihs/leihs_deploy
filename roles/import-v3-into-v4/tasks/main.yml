@@ -2,7 +2,7 @@
 - include_tasks: setup-import-data.yml
 
 - shell: |
-    #/bin/bash
+    #!/bin/bash
     set eux
     cd /leihs/legacy
     export PATH=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:$PATH
