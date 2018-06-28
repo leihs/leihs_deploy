@@ -5,10 +5,11 @@
 
 - include_tasks: user.yml
 
-- include_tasks: nodejs.yml
+- name: install nodejs
+  include_role:
+    name: nodejs-install
   vars:
     debian_repo_version: '8.x' # curent LTS
-    nodejs_nodesource_pin_priority: 500
 
 - include_tasks: jar.yml
 - include_tasks: log-dir.yml
