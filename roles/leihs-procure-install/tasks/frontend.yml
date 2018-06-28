@@ -2,7 +2,7 @@
   delegate_to: localhost
   shell: |
     #!/bin/bash -eux
-    cd "{{playbook_dir}}/../procurement/client"
+    cd "{{playbook_dir}}/../procure/client"
     PUBLIC_PATH=$(node -p 'require("url").parse(require("./package.json").homepage).pathname.replace(/\/$/, "")')
     npm ci || npm install # for building
     npm run build
@@ -10,14 +10,14 @@
     npm ci --production || npm install --production # for serving
 
     # subdir like public path for simpler config
-    mkdir -p "procurement_client_app/$(dirname ${PUBLIC_PATH})"
-    mv build "procurement_client_app/${PUBLIC_PATH}"
+    mkdir -p "procure_client_app/$(dirname ${PUBLIC_PATH})"
+    mv build "procure_client_app/${PUBLIC_PATH}"
 
     cd ..
     tar -czf client.tgz client
 
 - unarchive:
-    src: '{{playbook_dir}}/../procurement/client.tgz'
-    dest: '{{leihs_procurement_dir}}'
-    owner: '{{leihs_procurement_user}}'
+    src: '{{playbook_dir}}/../procure/client.tgz'
+    dest: '{{leihs_procure_dir}}'
+    owner: '{{leihs_procure_user}}'
   name: copy client app over to server
