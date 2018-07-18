@@ -2,8 +2,11 @@
   delegate_to: localhost
   shell: |
     #!/bin/bash -eux
+
+    PUBLIC_PATH="/procure"
+    export PUBLIC_URL="$PUBLIC_PATH" # for react-scripts
+
     cd "{{playbook_dir}}/../procure/client"
-    PUBLIC_PATH=$(node -p 'require("url").parse(require("./package.json").homepage).pathname.replace(/\/$/, "")')
     npm ci || npm install # for building
     npm run build
     rm -rf .git node_modules # optimize disk size/transfer time
