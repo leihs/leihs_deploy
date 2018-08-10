@@ -14,5 +14,6 @@
   - role: leihs-admin-install
     tags: [leihs-admin-install,test]
 
-  - role: leihs-system-install
-    tags: [leihs-system-install]
+  # TMP: disabled because it's broken
+  # - role: leihs-system-install
+  #   tags: [leihs-system-install]
