@@ -3,7 +3,6 @@ Description=Leihs Admin Service
 After=syslog.target
 After=network.target
 
-BindsTo=postgresql.service
 BindsTo=leihs-migration.service
 After=leihs-migration.service
 
