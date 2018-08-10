@@ -30,4 +30,9 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -eux
-      lxc exec ${CONTAINER_NAME} -- /bin/bash -c "set -eux && cd /tmp/${CIDER_CI_WORKING_DIR}/deploy && container-test/bin/deploy"
+      lxc exec ${CONTAINER_NAME} -- /bin/bash -c "\
+        set -eux && \
+        export ANSIBLE_STDOUT_CALLBACK=${ANSIBLE_STDOUT_CALLBACK} && \
+        cd /tmp/${CIDER_CI_WORKING_DIR}/deploy && \
+        container-test/bin/deploy\
+      "
