@@ -1,0 +1,2 @@
+[leihs_server]
+leihs.example.com ansible_connection=local ansible_user=root
