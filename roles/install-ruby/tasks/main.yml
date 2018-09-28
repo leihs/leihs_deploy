@@ -1,0 +1,10 @@
+- name: install system ruby
+  shell: |
+    #/bin/bash
+    set eux
+    ruby-install --system --no-install-deps --no-reinstall ruby {{leihs_system_ruby_version}}
+  when: |
+    ( leihs_system_ruby_version is defined ) and ( leihs_system_ruby_version )
+  become: yes
+  become_user: root
+  become_method: sudo

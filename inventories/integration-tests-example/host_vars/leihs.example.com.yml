@@ -7,6 +7,11 @@ database:
   password: root
   database: leihs
 
+# only install ruby once
+leihs_system_ruby_version: 2.4.2
+leihs_legacy_ruby_version: false # use system version
+leihs_database_ruby_version: false # use system version
+
 db_backup_nigthly_enabled: No
 db_backup_on_deploy: No
 leihs_send_mails: No

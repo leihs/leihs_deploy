@@ -2,6 +2,8 @@
     #/bin/bash
     set eux
     ruby-install --no-install-deps --no-reinstall ruby {{leihs_database_ruby_version}}
+  when: |
+    ( leihs_database_ruby_version is defined ) and ( leihs_database_ruby_version )
   become: yes
   become_user: '{{leihs_database_user}}'
   become_method: sudo
