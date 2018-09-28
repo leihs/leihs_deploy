@@ -1,0 +1,12 @@
+---
+
+database:
+  host: localhost
+  port: 5432
+  username: root
+  password: root
+  database: leihs
+
+db_backup_nigthly_enabled: No
+db_backup_on_deploy: No
+leihs_send_mails: No
