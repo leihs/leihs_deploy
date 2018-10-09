@@ -4,15 +4,6 @@
   delegate_to: localhost
   name: remove possibly exisiting archive
 
-- when: zhdk_agw_info_file_path is defined
-  shell: |
-    #!/bin/bash
-    set -eux
-    cd '{{playbook_dir}}/../legacy'
-    git crypt unlock
-  delegate_to: localhost
-  name: git uncrypt legacy
-
 - shell: |
     #!/bin/bash
     set -eux

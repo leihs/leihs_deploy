@@ -3,9 +3,6 @@
 - include_tasks: install-ruby.yml
 - include_tasks: database.yml
 
-- when: zhdk_agw_info_file_path is defined
-  include_tasks: zhdk_agw_info.yml
-
 - when: settings_file_path is defined
   include: settings.yml
 
