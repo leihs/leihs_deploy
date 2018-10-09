@@ -1,0 +1,18 @@
+[Unit]
+Description=Leihs Admin Service
+After=syslog.target
+After=network.target
+
+BindsTo=leihs-migration.service
+After=leihs-migration.service
+
+[Service]
+WorkingDirectory={{leihs_my_dir}}
+User={{leihs_my_user}}
+Group={{leihs_my_user}}
+Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:5432/{{database.database}}?max-pool-size=20
+Environment=CLASSPATH={{leihs_my_dir}}/leihs-my.jar
+ExecStart=/usr/lib/jvm/java-9-openjdk-amd64/bin/java "-Xmx300m" leihs.my.back.main run
+
+[Install]
+WantedBy=multi-user.target

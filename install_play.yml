@@ -12,7 +12,10 @@
     tags: [leihs-legacy-install]
 
   - role: leihs-admin-install
-    tags: [leihs-admin-install,test]
+    tags: [leihs-admin-install]
+
+  - role: leihs-my-install
+    tags: [leihs-my-install]
 
   - role: leihs-procure-install
     tags: [leihs-procure-install]

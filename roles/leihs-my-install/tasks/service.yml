@@ -1,0 +1,13 @@
+- template:
+    src: leihs-my.service
+    dest: /etc/systemd/system/leihs-my.service
+    mode: 0644
+  name: copy leihs-my.service
+  tags:
+    - test
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl
+  tags:
+    - test
