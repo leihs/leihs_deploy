@@ -4,6 +4,12 @@
     state: started
     enabled: yes
 
+- name: start leihs-my.service
+  service:
+    name: leihs-my.service
+    state: started
+    enabled: yes
+
 - name: start leihs-procure.service
   service:
     name: leihs-procure.service
@@ -32,6 +38,12 @@
   wait_for:
     host: localhost
     port: '{{leihs_admin_port}}'
+    timeout: 180
+
+- name: wait for leihs-my.service
+  wait_for:
+    host: localhost
+    port: '{{leihs_my_port}}'
     timeout: 180
 
 - name: wait for leihs-procure.service

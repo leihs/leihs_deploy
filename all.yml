@@ -42,6 +42,7 @@ leihs_leagcy_workers: '{{ansible_processor_vcpus}}'
 
 leihs_legacy_port: '3210'
 leihs_admin_port: '3211'
+leihs_my_port: '3212'
 leihs_procure_port: '3311'
 leihs_procure_client_port: '3312'
 
