@@ -41,10 +41,10 @@ leihs_leagcy_workers: '{{ansible_processor_vcpus}}'
 ### micro services configuration ###############################################
 
 leihs_legacy_port: '3210'
-leihs_admin_port: '3211'
-leihs_my_port: '3212'
-leihs_procure_port: '3311'
-leihs_procure_client_port: '3312'
+leihs_admin_port: '3220'
+leihs_procure_port: '3230'
+leihs_procure_client_port: '3231'
+leihs_my_port: '3240'
 
 ################################################################################
 
@@ -58,3 +58,6 @@ database:
   username: root
   password: root
   database: leihs
+
+manipulate_data_reset_all_login_fields: false
+manipulate_data_revoke_all_admins: false

@@ -12,7 +12,7 @@ User={{leihs_my_user}}
 Group={{leihs_my_user}}
 Environment=LEIHS_MY_HTTP_BASE_URL=http://localhost:{{leihs_my_port}}
 Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:5432/{{database.database}}?max-pool-size=20
+Environment=LEIHS_MY_HTTP_BASE_URL=http://localhost:{{leihs_my_port}}
 ExecStart=/usr/lib/jvm/java-9-openjdk-amd64/bin/java "-Xmx300m" -jar {{leihs_my_dir}}/leihs-my.jar run
-
 [Install]
 WantedBy=multi-user.target
