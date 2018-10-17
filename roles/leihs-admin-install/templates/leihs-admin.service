@@ -14,7 +14,7 @@ Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{databas
 Environment=LEIHS_SECRET={{leihs_master_secret}}
 Environment=LEIHS_ADMIN_HTTP_BASE_URL=http://localhost:{{leihs_admin_port}}
 Environment=CLASSPATH={{leihs_admin_dir}}/leihs-admin.jar
-ExecStart=/usr/lib/jvm/java-9-openjdk-amd64/bin/java "-Xmx500m" leihs.admin.back.main run
+ExecStart=/usr/lib/jvm/default-java/bin/java "-Xmx500m" leihs.admin.back.main run
 
 [Install]
 WantedBy=multi-user.target

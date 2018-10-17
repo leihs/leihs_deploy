@@ -4,7 +4,7 @@
       and ansible_distribution_release == "stretch")
 
 - apt:
-    name: openjdk-9-jdk
+    name: openjdk-11-jdk
     state: latest
     update_cache: yes
     cache_valid_time: 3600

@@ -14,7 +14,7 @@ Environment=LEIHS_PROCURE_HTTP_BASE_URL=http://localhost:{{leihs_procure_port}}
 Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:5432/{{database.database}}?max-pool-size=20
 Environment=CLASSPATH={{leihs_procure_dir}}/leihs-procurement.jar
 Environment=LEIHS_SECRET={{leihs_master_secret}}
-ExecStart=/usr/lib/jvm/java-9-openjdk-amd64/bin/java "-Xmx512m" leihs.procurement.backend.main run
+ExecStart=/usr/lib/jvm/default-java/bin/java "-Xmx512m" leihs.procurement.backend.main run
 
 [Install]
 WantedBy=multi-user.target
