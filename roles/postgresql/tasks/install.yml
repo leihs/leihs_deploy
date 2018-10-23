@@ -3,8 +3,15 @@
   with_items:
     - sudo
     - libpq-dev
-    - postgresql-client
+    - postgresql-client-10
     - postgresql-contrib-10
     - postgresql-10
     - python-psycopg2
   tags: [internet]
+
+- name: Uninstall postgresql-client-11 
+  apt: pkg={{item}} state=absent update_cache=yes cache_valid_time=3600
+  with_items:
+    - postgresql-client-11
+  tags: [internet]
+
