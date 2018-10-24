@@ -5,4 +5,3 @@
 - import_playbook: configure_play.yml
 - import_playbook: db-backup_play.yml
 - import_playbook: start_play.yml
-- import_playbook: manipulate-data_play.yml
