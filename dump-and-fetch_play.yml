@@ -1,0 +1,3 @@
+- hosts: leihs_server
+  roles:
+    - role: dump-and-fetch-db

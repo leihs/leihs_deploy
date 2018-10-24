@@ -1,0 +1,17 @@
+- name: dump-db
+  shell: |
+    set -euxo
+    pg_dump -F c -x -O --exclude-table audits -f /tmp/leihs-dump.pgbin {{database.database}}
+    
+- name: fetch dump
+  fetch:
+    src: /tmp/leihs-dump.pgbin  
+    dest: >
+      {{playbook_dir}}/../tmp/{{inventory_hostname}}_{{ansible_date_time.date}}_dump.pgbin
+    flat: yes
+    fail_on_missing: yes
+
+- name: remove dump on server 
+  file:
+    state: absent
+    path: /tmp/leihs-dump.pgbin  
