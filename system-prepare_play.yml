@@ -15,8 +15,8 @@
   - role: os-setup
     tags: [os-setup]
 
-  - role: openjdk9
-    tags: [openjdk9]
+  - role: openjdk
+    tags: [openjdk]
 
   - role: postgresql
     tags: [postgresql]
