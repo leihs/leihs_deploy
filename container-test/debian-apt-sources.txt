@@ -1,14 +1,14 @@
 # use same apt sources as our prod setup.
-# Source: <https://gitlab.zhdk.ch/itzansible/itzansible/blob/master/roles/apt/templates/sources.list.j2>
+# Source: itzansible/roles/apt/templates/sources.list.j2
 #
 # Debian standard mirror for Switzerland
-deb http://mirror.switch.ch/ftp/mirror/debian/ stretch main contrib non-free
-deb-src http://mirror.switch.ch/ftp/mirror/debian/ stretch main contrib non-free
+deb http://ftp.ch.debian.org/debian/ stretch main contrib non-free
+deb-src http://ftp.ch.debian.org/debian/ stretch main contrib non-free
 
 # Debian Security Updates
 deb http://security.debian.org/ stretch/updates main contrib non-free
 deb-src http://security.debian.org/ stretch/updates main contrib non-free
 
 # Debian Stable Updates (Stuff you want to update during a release like virus definitions, timezone data, etc.)
-deb http://mirror.switch.ch/ftp/mirror/debian/ stretch-updates main contrib non-free
-deb-src http://mirror.switch.ch/ftp/mirror/debian/ stretch-updates main contrib non-free
+deb http://ftp.ch.debian.org/debian/ stretch-updates main contrib non-free
+deb-src http://ftp.ch.debian.org/debian/ stretch-updates main contrib non-free
