@@ -1,0 +1,44 @@
+- shell: |
+    #!/bin/bash
+    set -eux
+    cd "{{playbook_dir}}/../admin"
+    sh scripts/prepare-shared-ui.sh
+
+  delegate_to: localhost
+  name: create shared-ui
+
+# BUG: https://github.com/ansible/ansible/issues/42090
+# - name: make shared-ui tarball
+#   delegate_to: localhost
+#   archive:
+#     path: '{{playbook_dir}}/../admin/leihs-ui'
+#     dest: '{{playbook_dir}}/../admin/leihs-ui.tgz'
+
+- name: make shared-ui tarball
+  delegate_to: localhost
+  command: 'tar -cvz -f "leihs-ui.tgz" "leihs-ui"'
+  args:
+    chdir: '{{playbook_dir}}/../admin'
+    creates: '{{playbook_dir}}/../admin/leihs-ui.tgz'
+
+- file:
+    path: '{{leihs_admin_dir}}/leihs-ui'
+    state: directory
+    owner: '{{leihs_admin_user}}'
+    recurse: yes
+  name: create empty {{leihs_admin_dir}}/leihs-ui
+
+# - name: copy shared-ui over to server
+#   copy:
+#     src: '{{playbook_dir}}/../admin/leihs-ui/{{ item }}'
+#     dest: '{{leihs_admin_dir}}/leihs-ui/{{ item }}'
+#     owner: '{{leihs_admin_user}}'
+#   with_items:
+#     - 'dist/'
+#     - 'bootstrap-theme-leihs/build/'
+
+- name: copy shared-ui over to server
+  unarchive:
+    src: '{{playbook_dir}}/../admin/leihs-ui.tgz'
+    dest: '{{leihs_admin_dir}}/leihs-ui'
+    owner: '{{leihs_admin_user}}'

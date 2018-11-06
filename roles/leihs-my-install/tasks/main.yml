@@ -4,6 +4,7 @@
   name: remove existing leihs-my dir
 
 - include_tasks: user.yml
+- include_tasks: shared-ui.yml
 - include_tasks: jar.yml
 - include_tasks: log-dir.yml
 
