@@ -16,9 +16,9 @@
 
 - name: make shared-ui tarball
   delegate_to: localhost
-  command: 'tar -cvz -f "leihs-ui.tgz" "leihs-ui"'
+  command: 'tar -cvz -f "{{playbook_dir}}/../admin/leihs-ui.tgz" .'
   args:
-    chdir: '{{playbook_dir}}/../admin'
+    chdir: '{{playbook_dir}}/../admin/leihs-ui'
     creates: '{{playbook_dir}}/../admin/leihs-ui.tgz'
 
 - file:
