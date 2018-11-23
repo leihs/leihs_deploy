@@ -1,9 +1,8 @@
-- include: stop_play.yml
+- import_playbook: stop_play.yml
 
 - hosts: leihs_server
 
   tasks:
-
     - name: make sure current ruby is installed
       include_role:
         name: leihs-database-install
