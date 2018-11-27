@@ -1,4 +1,5 @@
 [Unit]
+SyslogIdentifier=leihs-admin
 Description=Leihs Admin Service
 After=syslog.target
 After=network.target

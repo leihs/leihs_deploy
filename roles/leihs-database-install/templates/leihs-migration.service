@@ -1,4 +1,5 @@
 [Unit]
+SyslogIdentifier=leihs-migration
 Description=Leihs Migration Service
 After=syslog.target
 BindsTo=postgresql@10-main.service

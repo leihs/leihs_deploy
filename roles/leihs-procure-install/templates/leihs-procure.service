@@ -1,4 +1,5 @@
 [Unit]
+SyslogIdentifier=leihs-procure
 Description=Leihs procure Service
 After=syslog.target
 After=network.target

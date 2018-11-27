@@ -1,5 +1,6 @@
 [Unit]
-Description=Leihs Admin Service
+SyslogIdentifier=leihs-my
+Description=Leihs My Service
 After=syslog.target
 After=network.target
 
