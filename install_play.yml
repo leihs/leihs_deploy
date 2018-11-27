@@ -19,7 +19,3 @@
 
   - role: leihs-procure-install
     tags: [leihs-procure-install]
-
-  # TMP: disabled because it's broken
-  # - role: leihs-system-install
-  #   tags: [leihs-system-install]
