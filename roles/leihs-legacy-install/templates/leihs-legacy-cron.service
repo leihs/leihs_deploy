@@ -9,6 +9,7 @@ Type=oneshot
 WorkingDirectory=/leihs/legacy
 User={{leihs_legacy_user}}
 Group={{leihs_legacy_user}}
+Environment=LEIHS_SECRET={{leihs_master_secret}}
 Environment=PATH=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
