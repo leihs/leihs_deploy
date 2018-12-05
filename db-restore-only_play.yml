@@ -27,6 +27,11 @@
       become: yes
       become_user: '{{leihs_database_user}}'
 
+    - name: vacuum analyze
+      shell: psql -c "VACUUM ANALYZE;"
+      become: yes
+      become_user: root
+
     - file:
         path: /tmp/restore-dump.pgbin
         state: absent
