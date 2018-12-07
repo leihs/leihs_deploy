@@ -1,5 +1,4 @@
 - shell: |
-    #!/bin/bash
     set -eux
     cd "{{playbook_dir}}/../admin"
     sh scripts/prepare-shared-ui.sh

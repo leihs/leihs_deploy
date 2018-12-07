@@ -1,5 +1,4 @@
 - shell: |
-    #!/bin/bash
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
     cd $DEPLOY_DIR/../admin

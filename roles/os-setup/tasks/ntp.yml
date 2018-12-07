@@ -22,10 +22,7 @@
     state: stopped
 
 - name: run initial ntpdate
-  shell:
-    #!/bin/bash
-    set -eux
-    ntpdate {{ci_ntp_server}}
+  shell: 'ntpdate {{ci_ntp_server}}'
 
 - name: start ntp service
   service:

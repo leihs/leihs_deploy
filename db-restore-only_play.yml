@@ -17,8 +17,7 @@
 
     - name: restore DB
       shell: |
-        #!/bin/bash
-        set eux
+        set -eux
         cd /leihs/database
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
         export FILE=/tmp/restore-dump.pgbin

@@ -6,8 +6,7 @@
 - hosts: leihs_server
   tasks:
     - shell: |
-        #!/bin/bash
-        set eux
+        set -eux
         cd /leihs/database
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
         export RAILS_ENV=production
@@ -19,8 +18,7 @@
       name: create and migrate database
 
     - shell: |
-        #!/bin/bash
-        set eux
+        set -eux
         cd /leihs/legacy
         export PATH=$HOME/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:$PATH
         export RAILS_ENV=production

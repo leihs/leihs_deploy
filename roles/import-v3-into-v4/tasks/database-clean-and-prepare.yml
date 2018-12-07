@@ -1,5 +1,5 @@
 - shell: |
-    set eux
+    set -eux
     export PATH=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
     export RAILS_ENV=production
     cd /leihs/database/

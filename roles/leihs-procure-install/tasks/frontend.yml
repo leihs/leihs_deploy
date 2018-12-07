@@ -1,7 +1,7 @@
 - name: create client app
   delegate_to: localhost
   shell: |
-    #!/bin/bash -eux
+    set -eux
 
     PUBLIC_PATH="/procure"
     export PUBLIC_URL="$PUBLIC_PATH" # for react-scripts

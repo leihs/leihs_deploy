@@ -5,7 +5,6 @@
   name: remove possibly exisiting archive
 
 - shell: |
-    #!/bin/bash
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
     cd $DEPLOY_DIR/../database
@@ -35,5 +34,3 @@
     dest: '{{leihs_database_path}}'
     owner: '{{leihs_database_user}}'
   name: extract archive
-
-
