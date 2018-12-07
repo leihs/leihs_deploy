@@ -61,3 +61,13 @@ database:
 
 manipulate_data_reset_all_login_fields: false
 manipulate_data_revoke_all_admins: false
+
+### building/compiling #########################################################
+
+build_host: 'localhost'
+build_host_java: '{{ build_host }}'
+build_host_nodejs: '{{ build_host }}'
+
+# setting this to `true` will disable all build artefact caching
+force_rebuild: false
+debug_build_caching: true # DEBUG: set this to false when everything works

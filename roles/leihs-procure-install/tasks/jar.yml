@@ -1,10 +1,37 @@
-- shell: |
+- name: restore jar from cache
+  delegate_to: '{{ build_host_java }}'
+  when: not force_rebuild
+  failed_when: false
+  register: restore_cache_procure_uberjar
+  changed_when: restore_cache_procure_uberjar.rc == 0
+  args:
+    executable: /bin/bash
+  shell: |
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
+    source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
+
+    cd $DEPLOY_DIR/../procure/server
+    restore_from_cache "procure-uberjar"
+
+- name: debug jar build caching
+  debug:
+    var: restore_cache_procure_uberjar
+  when: debug_build_caching
+
+- name: create jar
+  delegate_to: '{{ build_host_java }}'
+  when: not restore_cache_procure_uberjar.changed
+  args:
+    executable: /bin/bash
+  shell: |
+    set -eux
+    DEPLOY_DIR='{{playbook_dir}}'
+    source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
+
     cd $DEPLOY_DIR/../procure/server
     $DEPLOY_DIR/bin/lein with-profile prod uberjar
-  delegate_to: localhost
-  name: create jar
+    save_to_cache "procure-uberjar" "target"
 
 - file:
     path: '{{leihs_procure_dir}}'
