@@ -1,0 +1,4 @@
+#!/bin/sh
+
+source bin/virtualenv-install -qqq || exit 1
+echo '✪ local env OK'

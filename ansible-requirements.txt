@@ -1,0 +1,8 @@
+# python dependency list so ansible can be installed non-globally
+# and pinned to a specific version.
+# see https://pip.pypa.io/en/stable/user_guide/#id11
+
+setuptools>=11.3
+ansible==2.5.11
+pyopenssl
+jinja2==2.8
