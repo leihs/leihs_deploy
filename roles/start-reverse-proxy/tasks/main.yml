@@ -27,7 +27,7 @@
 - include_tasks: virtual-host.yml
   with_indexed_items: '{{leihs_virtual_hosts}}'
 
-- name: reload reverse-proxy
+- name: restart reverse-proxy
   service:
     name: apache2
-    state: reloaded
+    state: restarted
