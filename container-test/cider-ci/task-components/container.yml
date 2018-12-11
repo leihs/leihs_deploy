@@ -67,5 +67,5 @@ scripts:
       # enable for debugging; keeps the container running for a while
       # sleep 1000
 
-      lxc delete --force "$CONTAINER_NAME"
+      until lxc delete --force "$CONTAINER_NAME"; do sleep 10; done
       lxc list

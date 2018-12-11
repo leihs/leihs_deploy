@@ -21,6 +21,7 @@
 
 - name: create shared-ui
   delegate_to: '{{ build_host_nodejs }}'
+  when: not restore_cache_my_leihs_ui.changed
   args:
     executable: /bin/bash
   shell: |

@@ -70,4 +70,4 @@ build_host_nodejs: '{{ build_host }}'
 
 # setting this to `true` will disable all build artefact caching
 force_rebuild: false
-debug_build_caching: true # DEBUG: set this to false when everything works
+debug_build_caching: false

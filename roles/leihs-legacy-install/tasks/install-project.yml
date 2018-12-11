@@ -4,11 +4,7 @@
   delegate_to: localhost
   name: remove possibly exisiting archive
 
-- shell: |
-    set -eux
-    DEPLOY_DIR='{{playbook_dir}}'
-    cd $DEPLOY_DIR/../legacy
-    $DEPLOY_DIR/bin/git-archive-all -v $DEPLOY_DIR/tmp/legacy.tar.gz
+- command: 'tar -cz -f "{{playbook_dir}}/tmp/legacy.tar.gz" -C "{{playbook_dir}}/../legacy" .'
   delegate_to: localhost
   name: create archive
 
