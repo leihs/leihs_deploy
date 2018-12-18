@@ -11,7 +11,7 @@ SyslogIdentifier=leihs-admin
 WorkingDirectory={{leihs_admin_dir}}
 User={{leihs_admin_user}}
 Group={{leihs_admin_user}}
-Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:5432/{{database.database}}?max-pool-size=20
+Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:{{database.port}}/{{database.database}}?max-pool-size=20
 Environment=LEIHS_SECRET={{leihs_master_secret}}
 Environment=LEIHS_ADMIN_HTTP_BASE_URL=http://localhost:{{leihs_admin_port}}
 Environment=LEIHS_REMOTE_NAVBAR_URL=http://localhost:{{leihs_my_port}}/my/navbar
