@@ -1,8 +1,8 @@
 [Unit]
-SyslogIdentifier=leihs-db-backup
 Description=Leihs Daily Backup
 
 [Service]
+SyslogIdentifier=leihs-db-backup
 Type=oneshot
 WorkingDirectory={{db_backup_dir}}
 ExecStart=/usr/local/bin/dump-leihs-db

@@ -1,11 +1,11 @@
 [Unit]
-SyslogIdentifier=leihs-legacy
 Description=Leihs Legacy Service
 After=syslog.target
 BindsTo=leihs-migration.service
 After=leihs-migration.service
 
 [Service]
+SyslogIdentifier=leihs-legacy
 WorkingDirectory=/leihs/legacy
 User={{leihs_legacy_user}}
 Group={{leihs_legacy_user}}

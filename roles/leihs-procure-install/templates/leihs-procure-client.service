@@ -1,5 +1,4 @@
 [Unit]
-SyslogIdentifier=leihs-procure-client
 Description=Leihs procure-client Service
 After=syslog.target
 After=network.target
@@ -8,6 +7,7 @@ BindsTo=leihs-migration.service
 After=leihs-migration.service
 
 [Service]
+SyslogIdentifier=leihs-procure-client
 WorkingDirectory={{leihs_procure_dir}}/client
 User={{leihs_procure_user}}
 Group={{leihs_procure_user}}

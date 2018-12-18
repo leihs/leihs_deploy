@@ -1,5 +1,4 @@
 [Unit]
-SyslogIdentifier=leihs-my
 Description=Leihs My Service
 After=syslog.target
 After=network.target
@@ -8,6 +7,7 @@ BindsTo=leihs-migration.service
 After=leihs-migration.service
 
 [Service]
+SyslogIdentifier=leihs-my
 WorkingDirectory={{leihs_my_dir}}
 User={{leihs_my_user}}
 Group={{leihs_my_user}}

@@ -1,10 +1,10 @@
 [Unit]
-SyslogIdentifier=leihs-legacy-cron
 Description=Leihs Legacy Cron Service
 After=syslog.target
 BindsTo=leihs-migration.service
 
 [Service]
+SyslogIdentifier=leihs-legacy-cron
 Type=oneshot
 WorkingDirectory=/leihs/legacy
 User={{leihs_legacy_user}}

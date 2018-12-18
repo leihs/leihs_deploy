@@ -1,11 +1,11 @@
 [Unit]
-SyslogIdentifier=leihs-migration
 Description=Leihs Migration Service
 After=syslog.target
 BindsTo=postgresql@10-main.service
 
 
 [Service]
+SyslogIdentifier=leihs-migration
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/leihs/database
