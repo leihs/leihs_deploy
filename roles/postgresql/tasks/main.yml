@@ -17,12 +17,16 @@
 - include_tasks: upgrade.yml
   when: has_pg96|succeeded
 
-- name: make sure main pg is running
+- name: start pg service
   service:
     name: postgresql
     state: started
 
 - include_tasks: monitor.yml
+
+- name: make sure pg port is opened
+  wait_for:
+    port: '{{ database.port }}'
 
 - name: add root postgresql user
   become: yes
