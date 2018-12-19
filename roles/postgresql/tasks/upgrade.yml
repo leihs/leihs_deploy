@@ -4,9 +4,11 @@
 
 - name: upgrade to pg 10
   shell: pg_upgradecluster 9.6 main
+  ignore_errors: True
 
 - name: drop 9.6 cluster
   shell: pg_dropcluster 9.6 main
+  ignore_errors: True
 
 - name: Remove earlier installations of postgresql
   apt: pkg={{item}} state=absent purge=yes update_cache=yes cache_valid_time=3600
