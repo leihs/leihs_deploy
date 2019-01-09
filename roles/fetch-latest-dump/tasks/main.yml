@@ -4,3 +4,9 @@
     flat: yes
     fail_on_missing: yes
     name: fetch latest.pgbin
+
+- name: ensure the dump is there 
+  delegate_to: localhost
+  shell: |
+    ls -lah "{{database_dump_restore_file_path}}"
+

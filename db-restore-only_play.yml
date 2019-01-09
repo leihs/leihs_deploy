@@ -8,7 +8,6 @@
         name: leihs-database-install
         tasks_from: ruby
 
-
     - name: copy dump file to remote
       copy:
         src: '{{database_dump_restore_file_path}}'

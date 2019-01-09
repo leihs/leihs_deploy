@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 QUIETARGS=$1 # call this script with `-qqq` for more quietness
 
