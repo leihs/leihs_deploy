@@ -1,0 +1,12 @@
+- name: setup active locales
+  shell: |
+    psql {{database.database}} -c "UPDATE languages SET active = {{ item.value }} WHERE locale_name = '{{ item.key }}'"
+  with_dict: "{{ active_locales }}"
+  when: active_locales is defined
+  tags: locales
+
+- name: setup default locale
+  shell: |
+    psql {{database.database}} -c "UPDATE languages SET \"default\" = TRUE WHERE locale_name = '{{ default_locale }}'"
+  when: default_locale is defined
+  tags: locales

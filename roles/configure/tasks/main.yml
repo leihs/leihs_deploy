@@ -11,6 +11,8 @@
 
 - include_tasks: database.yml
 
+- include_tasks: locales.yml
+
 - command: systemctl daemon-reload
   changed_when: false
   name: reload systemctl
