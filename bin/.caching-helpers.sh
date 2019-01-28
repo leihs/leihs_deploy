@@ -24,7 +24,7 @@ function save_to_cache() {
   local key=$(git_cache_key "${3-.}")
 
   mkdir -p "${CACHE_DIR}"
-  tar czf "${CACHE_DIR}/${name}__${key}.tgz" $files
+  tar -cz --exclude-vcs -f "${CACHE_DIR}/${name}__${key}.tgz" $files
   sync "$CACHE_DIR"
   echo "[cache]: ($name): cached!"
 }
@@ -40,7 +40,7 @@ function restore_from_cache() {
     echo "[cache]: ($name): miss!"
   else
     echo "[cache]: ($name): hit!"
-    tar xzf "$cache_file"
+    tar -xzf "$cache_file"
     sync "$CACHE_DIR"
     echo "[cache]: ($name): restored!"
     return 0
