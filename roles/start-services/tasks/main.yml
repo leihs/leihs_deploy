@@ -34,6 +34,12 @@
     state: started
     enabled: yes
 
+- name: start monit
+  service:
+    name: monit
+    state: started
+  failed_when: false
+
 - name: wait for leihs-admin.service
   wait_for:
     host: localhost
