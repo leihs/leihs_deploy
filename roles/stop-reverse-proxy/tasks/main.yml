@@ -19,19 +19,6 @@
     path: /etc/apache2/leihs
     state: absent
 
-- file:
-    path: /etc/apache2/leihs/
-    state: directory
-    mode: 0755
-
-- template:
-    src: shared.conf
-    dest: /etc/apache2/leihs/shared.conf
-    mode: 0644
-
-- include_tasks: virtual-host.yml
-  with_indexed_items: '{{leihs_virtual_hosts}}'
-
 - name: restart reverse-proxy
   service:
     name: apache2

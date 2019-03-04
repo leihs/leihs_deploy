@@ -17,6 +17,10 @@ apache2_modules:
   - rewrite
   - ssl
   - xsendfile
+  - cache
+  - cache_disk
+  - cache_socache
+  - socache_shmcb
 
 ssh_keys_present: []
 ssh_keys_absent: []
