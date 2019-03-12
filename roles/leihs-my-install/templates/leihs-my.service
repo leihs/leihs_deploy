@@ -12,7 +12,6 @@ WorkingDirectory={{leihs_my_dir}}
 User={{leihs_my_user}}
 Group={{leihs_my_user}}
 LimitNOFILE=64000
-Environment=LEIHS_MY_HTTP_BASE_URL=http://localhost:{{leihs_my_port}}
 Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:{{database.port}}/{{database.database}}?max-pool-size=20
 Environment=LEIHS_MY_HTTP_BASE_URL=http://localhost:{{leihs_my_port}}
 ExecStart=/usr/bin/env java "-Xmx500m" -jar {{leihs_my_dir}}/leihs-my.jar run
