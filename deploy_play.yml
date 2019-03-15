@@ -1,5 +1,4 @@
 - import_playbook: system-prepare_play.yml
-- import_playbook: switch-sp_play.yml
 - import_playbook: stop_play.yml
 - import_playbook: install_play.yml
 - import_playbook: configure_play.yml

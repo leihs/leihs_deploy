@@ -1,6 +1,0 @@
-- hosts: leihs_server
-
-  roles:
-
-    - role: switch-sp-install
-      when: shibboleth_sign_in_enabled

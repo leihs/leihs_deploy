@@ -13,7 +13,6 @@ leihs_virtual_hosts:
   ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
   force_redirect_to_https: no
 
-shibboleth_sign_in_enabled: No
 
 ### database backup ############################################################
 
