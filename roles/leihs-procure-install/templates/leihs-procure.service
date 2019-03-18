@@ -11,9 +11,9 @@ SyslogIdentifier=leihs-procure
 WorkingDirectory={{leihs_procure_dir}}
 User={{leihs_procure_user}}
 Group={{leihs_procure_user}}
-Environment=LEIHS_PROCURE_HTTP_BASE_URL=http://localhost:{{leihs_procure_port}}
+Environment=LEIHS_PROCURE_HTTP_BASE_URL=http://localhost:{{LEIHS_PROCURE_HTTP_PORT}}
 Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:{{database.port}}/{{database.database}}?max-pool-size=20
-Environment=CLASSPATH={{leihs_procure_dir}}/leihs-procurement.jar
+Environment=CLASSPATH={{leihs_procure_dir}}/leihs-procure.jar
 Environment=LEIHS_SECRET={{leihs_master_secret}}
 ExecStart=/usr/bin/env java "-Xmx512m" leihs.procurement.backend.main run
 

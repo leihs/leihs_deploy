@@ -4,6 +4,7 @@
 # - images only saved via tarball, after run they are removed from lxd
 
 traits:
+  g2018: yes
   LXD: yes
 
 scripts:

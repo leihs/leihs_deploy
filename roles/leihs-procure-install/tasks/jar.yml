@@ -1,37 +1,23 @@
-- name: restore jar from cache
-  delegate_to: '{{ build_host_java }}'
-  when: not force_rebuild
-  failed_when: false
-  register: restore_cache_procure_uberjar
-  changed_when: restore_cache_procure_uberjar.rc == 0
-  args:
-    executable: /bin/bash
-  shell: |
-    set -eux
-    DEPLOY_DIR='{{playbook_dir}}'
-    source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
-
-    cd $DEPLOY_DIR/../procure/server
-    restore_from_cache "procure-uberjar"
-
-- name: debug jar build caching
-  debug:
-    var: restore_cache_procure_uberjar
-  when: debug_build_caching
-
 - name: create jar
   delegate_to: '{{ build_host_java }}'
-  when: not restore_cache_procure_uberjar.changed
   args:
     executable: /bin/bash
   shell: |
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
+    LEIHS_PROCURE_DIR=$DEPLOY_DIR/../procure 
 
-    cd $DEPLOY_DIR/../procure/server
+    ## frontend 
+
+    PUBLIC_URL="/procure"
+    cd $LEIHS_PROCURE_DIR/client
+    npm ci || npm install # for building
+    npm run build
+
+    ## backend and uberjar
+
+    cd $LEIHS_PROCURE_DIR/server
     $DEPLOY_DIR/bin/lein with-profile prod uberjar
-    save_to_cache "procure-uberjar" "target"
 
 - file:
     path: '{{leihs_procure_dir}}'
@@ -41,7 +27,7 @@
   name: create empty {{leihs_procure_dir}}
 
 - copy:
-    src: '{{playbook_dir}}/../procure/server/target/uberjar/leihs-procurement.jar'
-    dest: '{{leihs_procure_dir}}/leihs-procurement.jar'
+    src: '{{playbook_dir}}/../procure/server/target/leihs-procure.jar'
+    dest: '{{leihs_procure_dir}}/leihs-procure.jar'
     owner: '{{leihs_procure_user}}'
   name: copy jar over to server

@@ -14,10 +14,9 @@
 - name: install exiftool
   apt: pkg=exiftool state=latest update_cache=yes cache_valid_time=3600
 
-
 - include_tasks: jar.yml
+
 - include_tasks: log-dir.yml
-- include_tasks: frontend.yml
 
 - file:
     path: '{{leihs_procure_dir}}'

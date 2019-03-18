@@ -1,0 +1,5 @@
+name: LEIHS/v5/deploy
+windows:
+  2: 
+    name: deploy
+    command: # ansible-playbook deploy_play.yml -i ../zhdk-inventory/test-hosts -l zhdk-leihs-test   --ssh-common-args '-o ProxyCommand="ssh -W %h:%p -q root@ci.zhdk.ch"'
