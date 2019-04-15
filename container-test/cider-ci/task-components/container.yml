@@ -1,59 +1,22 @@
-# LXC_IMAGE_CACHE: after successful run, container is exported as "cached base image".
-# - once per day and deploy project tree_id
-# - only per executor, not shared at the moment
-# - images only saved via tarball, after run they are removed from lxd
-
 traits:
-  g2018: yes
   LXD: yes
 
 scripts:
 
   create-container:
-    exclusive_executor_resource: 'lxc_image_caching_{{LXC_IMAGE_CACHE_NAME}}_{{LXC_CACHED_BASE_IMAGE}}'
     start_when:
       bundled:
         script_key: bundle
     body: |
       #!/usr/bin/env bash
       set -eux
-      source deploy/container-test/bin/shared-container-cache.sh
-
-      select_cached_or_base_image
       lxc image list
-      lxc launch --ephemeral ${SELECTED_LXC_IMAGE} ${CONTAINER_NAME}
+      lxc launch --ephemeral ${LXC_BASE_IMAGE} ${CONTAINER_NAME}
       lxc list
-
-
-  cache-container:
-    exclusive_executor_resource: 'lxc_image_caching_{{LXC_IMAGE_CACHE_NAME}}_{{LXC_CACHED_BASE_IMAGE}}'
-    start_when:
-      test is ok:
-        script_key: test
-        states: [passed]
-    ignore_abort: yes
-    timeout: 1 Hour
-    body: |
-      #!/usr/bin/env bash
-      set -eux
-      source deploy/container-test/bin/shared-container-cache.sh
-
-      lxc info "$CONTAINER_NAME"
-
-      # cleanup before caching:
-      lxc exec "$CONTAINER_NAME" -- /bin/bash -c '\
-        systemctl stop leihs* && dropdb leihs && systemctl stop postgresql && rm -rf /tmp/leihs /leihs'
-
-      save_container_to_image_cache
-      lxc image info "$CACHED_IMAGE_NAME" || true
-      remove_cached_image_from_lxd || true
 
 
   destroy-container:
     start_when:
-      test is ok and tried to cache container:
-        script_key: cache-container
-        states: [aborted, passed, failed, skipped]
       test failed:
         script_key: test
         states: [aborted, passed, failed, skipped]
