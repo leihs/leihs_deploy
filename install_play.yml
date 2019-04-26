@@ -5,6 +5,9 @@
   - role: leihs-database-install
     tags: [leihs-database-install]
 
+  - role: leihs-mail-install
+    tags: [leihs-mail-install]
+
   - role: leihs-my-install
     tags: [leihs-my-install]
 

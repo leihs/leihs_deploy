@@ -1,3 +1,9 @@
+- name: start leihs-mail.service
+  service:
+    name: leihs-mail.service
+    state: started
+    enabled: yes
+
 - name: start leihs-admin.service
   service:
     name: leihs-admin.service

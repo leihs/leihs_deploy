@@ -5,6 +5,11 @@
   failed_when: false
 
 - service:
+    name: leihs-mail.service
+    state: stopped
+  failed_when: false
+
+- service:
     name: leihs-admin.service
     state: stopped
   failed_when: false

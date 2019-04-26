@@ -1,0 +1,13 @@
+- file:
+    path: '{{leihs_mail_dir}}/logs'
+    state: directory
+    owner: '{{leihs_mail_user}}'
+    recurse: yes
+  name: create empty leihs-mail logs dir
+
+- file:
+    path: '{{leihs_mail_dir}}'
+    state: directory
+    owner: '{{leihs_mail_user}}'
+    recurse: yes
+  name: set permissions for leihs-mail dir
