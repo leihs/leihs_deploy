@@ -26,6 +26,9 @@
     executable: /bin/bash
   shell: |
     set -eux
+
+    export LEIN_SNAPSHOTS_IN_RELEASE=Yes
+
     DEPLOY_DIR='{{playbook_dir}}'
     source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
 
