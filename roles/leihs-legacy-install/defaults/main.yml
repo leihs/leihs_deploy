@@ -4,3 +4,4 @@ leihs_legacy_clean_slate: false
 leihs_legacy_user: leihs-legacy
 leihs_legacy_max_threads_per_worker: 2
 leihs_leagcy_workers: '{{ansible_processor_vcpus}}'
+shibboleth_file_path: '{{inventory_dir}}/settings/shibboleth.yml'

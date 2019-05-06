@@ -4,3 +4,11 @@
     owner: '{{leihs_legacy_user}}'
   name: copy settings.yml file to leihs_legacy
   tags: [settings]
+
+- copy:
+    src: '{{shibboleth_file_path}}'
+    dest: '{{leihs_legacy_path}}/config/shibboleth.yml'
+    owner: '{{leihs_legacy_user}}'
+  failed_when: false
+  name: copy shibboleth.yml file to leihs_legacy
+  tags: [settings]
