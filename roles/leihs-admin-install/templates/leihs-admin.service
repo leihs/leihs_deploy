@@ -16,7 +16,7 @@ Environment=LEIHS_SECRET={{leihs_master_secret}}
 Environment=LEIHS_ADMIN_HTTP_BASE_URL=http://localhost:{{LEIHS_ADMIN_HTTP_PORT}}
 Environment=LEIHS_REMOTE_NAVBAR_URL=http://localhost:{{LEIHS_MY_HTTP_PORT}}/my/navbar
 Environment=CLASSPATH={{leihs_admin_dir}}/leihs-admin.jar
-ExecStart=/usr/bin/env java "-Xmx500m" leihs.admin.back.main run
+ExecStart=/usr/bin/env java "-Xmx2000m" leihs.admin.back.main run
 
 [Install]
 WantedBy=multi-user.target
