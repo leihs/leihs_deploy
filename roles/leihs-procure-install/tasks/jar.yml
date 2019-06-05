@@ -9,7 +9,7 @@
 
     ## frontend 
 
-    PUBLIC_URL="/procure"
+    export PUBLIC_URL="/procure"
     cd $LEIHS_PROCURE_DIR/client
     npm ci || npm install # for building
     npm run build
