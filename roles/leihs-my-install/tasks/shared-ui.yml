@@ -1,44 +1,12 @@
-- name: restore leihs-ui from cache
-  delegate_to: '{{ build_host_nodejs }}'
-  when: not force_rebuild
-  failed_when: false
-  register: restore_cache_my_leihs_ui
-  changed_when: restore_cache_my_leihs_ui.rc == 0
-  args:
-    executable: /bin/bash
-  shell: |
-    set -eux
-    DEPLOY_DIR='{{playbook_dir}}'
-    source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
-
-    cd $DEPLOY_DIR/../my
-    restore_from_cache "leihs-ui" "./leihs-ui"
-
-- name: debug leihs-ui build caching
-  debug:
-    var: restore_cache_my_leihs_ui
-  when: debug_build_caching
-
 - name: create shared-ui
   delegate_to: '{{ build_host_nodejs }}'
-  when: not restore_cache_my_leihs_ui.changed
   args:
     executable: /bin/bash
   shell: |
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
-
     cd "${DEPLOY_DIR}/../my"
     sh scripts/prepare-shared-ui.sh
-    save_to_cache "leihs-ui" "./leihs-ui" "./leihs-ui"
-
-# BUG: https://github.com/ansible/ansible/issues/42090
-# - name: make shared-ui tarball
-#   delegate_to: localhost
-#   archive:
-#     path: '{{playbook_dir}}/../my/leihs-ui'
-#     dest: '{{playbook_dir}}/../my/leihs-ui.tgz'
 
 - name: make shared-ui tarball
   delegate_to: localhost
@@ -47,21 +15,13 @@
     chdir: '{{playbook_dir}}/../my/leihs-ui'
     creates: '{{playbook_dir}}/../my/leihs-ui.tgz'
 
-- file:
+- name: create empty {{leihs_my_dir}}/leihs-ui
+  file:
     path: '{{leihs_my_dir}}/leihs-ui'
     state: directory
     owner: '{{leihs_my_user}}'
     recurse: yes
-  name: create empty {{leihs_my_dir}}/leihs-ui
-
-# - name: copy shared-ui over to server
-#   copy:
-#     src: '{{playbook_dir}}/../my/leihs-ui/{{ item }}'
-#     dest: '{{leihs_my_dir}}/leihs-ui/{{ item }}'
-#     owner: '{{leihs_my_user}}'
-#   with_items:
-#     - 'dist/'
-#     - 'bootstrap-theme-leihs/build/'
+  
 
 - name: copy shared-ui over to server
   unarchive:

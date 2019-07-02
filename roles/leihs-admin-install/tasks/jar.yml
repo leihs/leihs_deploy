@@ -1,37 +1,12 @@
-- name: restore jar from cache
-  delegate_to: '{{ build_host_java }}'
-  when: not force_rebuild
-  failed_when: false
-  register: restore_cache_admin_uberjar
-  changed_when: restore_cache_admin_uberjar.rc == 0
-  args:
-    executable: /bin/bash
-  shell: |
-    set -eux
-    DEPLOY_DIR='{{playbook_dir}}'
-    source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
-
-    cd $DEPLOY_DIR/../admin
-    restore_from_cache "admin-uberjar"
-
-- name: debug jar build caching
-  debug:
-    var: restore_cache_admin_uberjar
-  when: debug_build_caching
-
 - name: create jar
   delegate_to: '{{ build_host_java }}'
-  when: not restore_cache_admin_uberjar.changed
   args:
     executable: /bin/bash
   shell: |
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    source "${DEPLOY_DIR}/bin/.caching-helpers.sh"
-
     cd $DEPLOY_DIR/../admin
     $DEPLOY_DIR/bin/lein uberjar
-    save_to_cache "admin-uberjar" "target"
 
 - file:
     path: '{{leihs_admin_dir}}'
