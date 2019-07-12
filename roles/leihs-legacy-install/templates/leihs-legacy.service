@@ -1,14 +1,18 @@
 [Unit]
 Description=Leihs Legacy Service
 After=syslog.target
+
 BindsTo=leihs-migration.service
 After=leihs-migration.service
+PartOf=leihs-migration.service
 
 [Service]
 SyslogIdentifier=leihs-legacy
 WorkingDirectory=/leihs/legacy
 User={{leihs_legacy_user}}
 Group={{leihs_legacy_user}}
+Restart=on-failure
+RestartSec=5
 Environment=LEIHS_SECRET={{leihs_master_secret}}
 Environment=PATH=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN

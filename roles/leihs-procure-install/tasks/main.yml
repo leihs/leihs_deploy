@@ -17,6 +17,7 @@
 - include_tasks: jar.yml
 
 - include_tasks: log-dir.yml
+- include_tasks: tmp-dir.yml
 
 - file:
     path: '{{leihs_procure_dir}}'

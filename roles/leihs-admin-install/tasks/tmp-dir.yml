@@ -1,0 +1,13 @@
+- file:
+    path: '{{leihs_admin_dir}}/tmp'
+    state: directory
+    owner: '{{leihs_admin_user}}'
+    recurse: yes
+  name: create empty leihs-admin tmp dir
+
+- file:
+    path: '{{leihs_admin_dir}}'
+    state: directory
+    owner: '{{leihs_admin_user}}'
+    recurse: yes
+  name: set permissions for leihs-admin dir

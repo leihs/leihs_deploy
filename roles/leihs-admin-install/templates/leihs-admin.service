@@ -5,12 +5,15 @@ After=network.target
 
 BindsTo=leihs-migration.service
 After=leihs-migration.service
+PartOf=leihs-migration.service
 
 [Service]
 SyslogIdentifier=leihs-admin
 WorkingDirectory={{leihs_admin_dir}}
 User={{leihs_admin_user}}
 Group={{leihs_admin_user}}
+Restart=on-failure
+RestartSec=5
 Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:{{database.port}}/{{database.database}}?max-pool-size=20
 Environment=LEIHS_SECRET={{leihs_master_secret}}
 Environment=LEIHS_ADMIN_HTTP_BASE_URL=http://localhost:{{LEIHS_ADMIN_HTTP_PORT}}

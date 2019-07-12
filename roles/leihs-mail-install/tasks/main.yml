@@ -6,6 +6,7 @@
 - include_tasks: user.yml
 - include_tasks: jar.yml
 - include_tasks: log-dir.yml
+- include_tasks: tmp-dir.yml
 
 - file:
     path: '{{leihs_mail_dir}}'

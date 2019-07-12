@@ -5,6 +5,7 @@ After=network.target
 
 BindsTo=leihs-migration.service
 After=leihs-migration.service
+PartOf=leihs-migration.service
 
 [Service]
 SyslogIdentifier=leihs-mail
@@ -12,6 +13,8 @@ WorkingDirectory={{leihs_mail_dir}}
 User={{leihs_mail_user}}
 Group={{leihs_mail_user}}
 LimitNOFILE=64000
+Restart=on-failure
+RestartSec=5
 Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:{{database.port}}/{{database.database}}?max-pool-size=20
 ExecStart=/usr/bin/env java "-Xmx500m" -jar {{leihs_mail_dir}}/leihs-mail.jar run
 [Install]
