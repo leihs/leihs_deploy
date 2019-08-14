@@ -1,9 +1,3 @@
-- name: stop monit
-  service:
-    name: monit
-    state: stopped
-  failed_when: false
-
 - service:
     name: leihs-mail.service
     state: stopped

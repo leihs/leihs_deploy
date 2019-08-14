@@ -1,5 +1,9 @@
 - include_tasks: prepare.yml
 
+- include_tasks: etckeeper.yml
+
+- include_tasks: locales.yml
+
 - include_tasks: journald.yml
 
 - include_tasks: time.yml
@@ -11,7 +15,6 @@
 - include_tasks: vim.yml
   when: ci_vim_mode
 
-- include_tasks: etckeeper.yml
 
 - include_tasks: apache2.yml
 

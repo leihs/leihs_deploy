@@ -1,6 +1,6 @@
 ci_vim_mode: false
 
-ci_server_timezone: Etc/UTC
+server_timezone: Etc/UTC
 
 # reset Debian default and restore Systemd default: prevent system crashes by
 # overflowing disks due to excessive logging

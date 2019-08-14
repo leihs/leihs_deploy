@@ -1,51 +1,15 @@
 ### install and configure monit ###############################################
 
-- name: install monit
-  apt: name={{item}} state=latest update_cache=yes cache_valid_time=3600
-  with_items: [monit]
+- name: purge monit
+  apt: 
+    name: "{{packages}}" 
+    state: absent
+    update_cache: yes 
+    cache_valid_time: 3600
+    purge: yes
+  vars: 
+    packages: [monit]
+  ignore_errors: true
   tags: [internet]
 
-- name: configure monit service interval
-  lineinfile:
-    dest: /etc/monit/monitrc
-    regexp: 'set daemon'
-    line: set daemon 60 # check services at 60 seconds interval
 
-- name: configure monit http port
-  lineinfile:
-    dest: /etc/monit/monitrc
-    regexp: set httpd port
-    line: set httpd port 2812 and
-
-- name: configure monit http address
-  lineinfile:
-    dest: /etc/monit/monitrc
-    regexp: 'address localhost'
-    line: '   address localhost'
-
-#- name: configure monit http address
-#  lineinfile:
-#    dest: /etc/monit/monitrc
-#    regexp: 'address localhost'
-#    line: '   address localhost'
-#
-- name: configure monit http allow localhost
-  lineinfile:
-    dest: /etc/monit/monitrc
-    regexp: 'allow localhost'
-    line: '   allow localhost'
-#
-#- name: configure monit http allow localhost
-#  lineinfile:
-#    dest: /etc/monit/monitrc
-#    regexp: 'allow (admin|cider-ci):.*'
-#    state: absent
-
-- name: reload monit
-  service:
-    name: monit
-    state: reloaded
-    enabled: true
-
-- name: call monit to awake it
-  command: monit

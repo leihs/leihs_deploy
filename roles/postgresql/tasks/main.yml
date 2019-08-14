@@ -22,8 +22,6 @@
     name: postgresql
     state: started
 
-- include_tasks: monitor.yml
-
 - name: make sure pg port is opened
   wait_for:
     port: '{{ database.port }}'
