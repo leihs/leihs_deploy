@@ -1,3 +1,9 @@
+- hosts: all
+  gather_facts: False
+  pre_tasks: 
+  - name: install system python
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+
 - hosts: leihs_gateway
 
   roles:

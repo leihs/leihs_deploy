@@ -4,7 +4,7 @@ scripts:
     start_when:
       container has been created:
         script_key: create-container
-    timeout: 10 Minutes
+    timeout: 15 Minutes
     body: |
       #!/usr/bin/env bash
       set -eux
