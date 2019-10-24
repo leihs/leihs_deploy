@@ -36,6 +36,7 @@
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
         export RAILS_ENV=production
         export IMPORT_FILE=/tmp/leihs-import
+        export LEIHS_SECRET=secret
         cd /leihs/legacy
         ruby -S bundle exec rails runner /tmp/leihs-scripts/script.rb
       become: yes
