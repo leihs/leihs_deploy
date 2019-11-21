@@ -20,6 +20,11 @@
   failed_when: false
 
 - service:
+    name: leihs-borrow.service
+    state: stopped
+  failed_when: false
+
+- service:
     name: leihs-procure.service
     state: stopped
   failed_when: false

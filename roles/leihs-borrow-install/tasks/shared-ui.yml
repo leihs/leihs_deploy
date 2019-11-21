@@ -1,0 +1,29 @@
+- name: create shared-ui
+  delegate_to: "{{ build_host_nodejs }}"
+  args:
+    executable: /bin/bash
+  shell: |
+    set -eux
+    DEPLOY_DIR='{{playbook_dir}}'
+    cd "${DEPLOY_DIR}/../borrow"
+    sh scripts/prepare-shared-ui.sh
+
+- name: make shared-ui tarball
+  delegate_to: localhost
+  command: 'tar -cvz -f "{{playbook_dir}}/../borrow/leihs-ui.tgz" .'
+  args:
+    chdir: "{{playbook_dir}}/../borrow/leihs-ui"
+    creates: "{{playbook_dir}}/../borrow/leihs-ui.tgz"
+
+- name: create empty {{leihs_borrow_dir}}/leihs-ui
+  file:
+    path: "{{leihs_borrow_dir}}/leihs-ui"
+    state: directory
+    owner: "{{leihs_borrow_user}}"
+    recurse: yes
+
+- name: copy shared-ui over to server
+  unarchive:
+    src: "{{playbook_dir}}/../borrow/leihs-ui.tgz"
+    dest: "{{leihs_borrow_dir}}/leihs-ui"
+    owner: "{{leihs_borrow_user}}"

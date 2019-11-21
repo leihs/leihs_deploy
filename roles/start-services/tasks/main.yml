@@ -16,6 +16,12 @@
     state: started
     enabled: yes
 
+- name: start leihs-borrow.service
+  service:
+    name: leihs-borrow.service
+    state: started
+    enabled: yes
+
 - name: start leihs-procure.service
   service:
     name: leihs-procure.service
