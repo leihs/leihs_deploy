@@ -6,6 +6,7 @@
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
     cd $DEPLOY_DIR/../admin
+    export LEIN_SNAPSHOTS_IN_RELEASE=1
     $DEPLOY_DIR/bin/lein uberjar
 
 - file:

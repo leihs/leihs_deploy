@@ -16,6 +16,13 @@
     state: started
     enabled: yes
 
+- name: start leihs-borrow.service
+  when: "LEIHS_DEPLOY_NEW_BORROW_APP"
+  service:
+    name: leihs-borrow.service
+    state: started
+    enabled: yes
+
 - name: start leihs-procure.service
   service:
     name: leihs-procure.service
@@ -37,23 +44,30 @@
 - name: wait for leihs-admin.service
   wait_for:
     host: localhost
-    port: '{{LEIHS_ADMIN_HTTP_PORT}}'
+    port: "{{LEIHS_ADMIN_HTTP_PORT}}"
     timeout: 180
 
 - name: wait for leihs-my.service
   wait_for:
     host: localhost
-    port: '{{LEIHS_MY_HTTP_PORT}}'
+    port: "{{LEIHS_MY_HTTP_PORT}}"
+    timeout: 180
+
+- name: wait for leihs-borrow.service
+  when: "LEIHS_DEPLOY_NEW_BORROW_APP"
+  wait_for:
+    host: localhost
+    port: "{{LEIHS_BORROW_HTTP_PORT}}"
     timeout: 180
 
 - name: wait for leihs-procure.service
   wait_for:
     host: localhost
-    port: '{{LEIHS_PROCURE_HTTP_PORT}}'
+    port: "{{LEIHS_PROCURE_HTTP_PORT}}"
     timeout: 180
 
 - name: wait for leihs-legacy.service
   wait_for:
     host: localhost
-    port: '{{LEIHS_LEGACY_HTTP_PORT}}'
+    port: "{{LEIHS_LEGACY_HTTP_PORT}}"
     timeout: 180

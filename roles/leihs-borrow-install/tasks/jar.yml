@@ -1,0 +1,22 @@
+- name: create jar
+  delegate_to: "{{ build_host_java }}"
+  args:
+    executable: /bin/bash
+  shell: |
+    set -eux
+    DEPLOY_DIR='{{playbook_dir}}'
+    cd $DEPLOY_DIR/../borrow
+    ./scripts/build-uberjar-prod.sh
+
+- file:
+    path: "{{leihs_borrow_dir}}"
+    state: directory
+    owner: "{{leihs_borrow_user}}"
+    recurse: yes
+  name: create empty {{leihs_borrow_dir}}
+
+- copy:
+    src: "{{playbook_dir}}/../borrow/target/leihs-borrow.jar"
+    dest: "{{leihs_borrow_dir}}/leihs-borrow.jar"
+    owner: "{{leihs_borrow_user}}"
+  name: copy jar over to server

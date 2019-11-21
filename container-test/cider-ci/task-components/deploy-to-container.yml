@@ -40,4 +40,5 @@ scripts:
       bin/ansible-playbook \
         -i container-test/inventory/hosts \
         -e "ansible_ssh_host=${CONTAINER_IP}" \
+        -e "LEIHS_DEPLOY_NEW_BORROW_APP=${DEPLOY_NEW_BORROW}" \
         deploy_play.yml
