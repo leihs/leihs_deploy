@@ -1,0 +1,23 @@
+[Unit]
+Description=Leihs Borrow Service
+After=syslog.target
+After=network.target
+
+BindsTo=leihs-migration.service
+After=leihs-migration.service
+PartOf=leihs-migration.service
+
+[Service]
+SyslogIdentifier=leihs-borrow
+WorkingDirectory={{leihs_borrow_dir}}
+User={{leihs_borrow_user}}
+Group={{leihs_borrow_user}}
+LimitNOFILE=64000
+Restart=on-failure
+RestartSec=5
+Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:{{database.port}}/{{database.database}}?max-pool-size=20
+Environment=LEIHS_LEGACY_HTTP_BASE_URL=http://localhost:{{LEIHS_LEGACY_HTTP_PORT}}/
+Environment=LEIHS_BORROW_HTTP_BASE_URL=http://localhost:{{LEIHS_BORROW_HTTP_PORT}}/borrow
+ExecStart=/usr/bin/env java "-Xmx500m" -jar {{leihs_borrow_dir}}/leihs-borrow.jar run
+[Install]
+WantedBy=multi-user.target
