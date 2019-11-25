@@ -1,39 +1,53 @@
-- service:
+- name: stop monit
+  service:
+    name: monit
+    state: stopped
+  failed_when: false
+
+- name: stop leihs-mail.service
+  service:
     name: leihs-mail.service
     state: stopped
   failed_when: false
 
-- service:
+- name: stop leihs-admin.service
+  service:
     name: leihs-admin.service
     state: stopped
   failed_when: false
 
-- service:
+- name: stop leihs-my.service
+  service:
     name: leihs-my.service
     state: stopped
   failed_when: false
 
-- service:
+- name: stop leihs-procure.service
+  service:
     name: leihs-procure.service
     state: stopped
   failed_when: false
 
-- service:
+- name: stop leihs-procure-client.service
+  service:
     name: leihs-procure-client.service
     state: stopped
   failed_when: false
 
-- service:
+- name: stop leihs-legacy.service
+  service:
     name: leihs-legacy.service
     state: stopped
   failed_when: false
 
-- service:
+- name: stop leihs-legacy-cron.timer
+  service:
     name: leihs-legacy-cron.timer
     state: stopped
   failed_when: false
 
-- service:
+- name: stop leihs-migration.service
+  service:
     name: leihs-migration.service
     state: stopped
   failed_when: false
