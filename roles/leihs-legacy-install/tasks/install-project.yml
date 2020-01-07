@@ -30,3 +30,10 @@
     dest: /leihs/legacy
     owner: '{{leihs_legacy_user}}'
   name: extract archive
+
+- name: set LEIHS_MOBILE_APP_ENABLED feature toggle
+  when: "LEIHS_DEPLOY_NEW_BORROW_APP"
+  copy:
+    content: "LEIHS_MOBILE_APP_ENABLED = true"
+    dest: "/leihs/legacy/config/initializers/mobile_app_feature_toggle.rb"
+    owner: "{{leihs_legacy_user}}"
