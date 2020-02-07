@@ -7,6 +7,6 @@
 
 - name: setup default locale
   shell: |
-    psql {{database.database}} -c "UPDATE languages SET \"default\" = TRUE WHERE locale_name = '{{ default_locale }}'"
+    psql {{database.database}} -c "UPDATE languages SET \"default\" = CASE WHEN locale_name = '{{ default_locale }}' THEN TRUE ELSE FALSE END"
   when: default_locale is defined
   tags: locales
