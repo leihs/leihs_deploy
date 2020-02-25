@@ -1,5 +1,5 @@
 *play.retry
 tmp/
-inventories/prototype/script_vars.yml
+# inventories/prototype/script_vars.yml
 master_secret.txt
 /.virtualenv

@@ -1,0 +1,5 @@
+---
+# this is only a template. make your own copy of this file 'script_vars.yml'.
+# import_file_path: ~/Downloads/export.csv
+script_file_path: ~/src/work/LEIHS/leihs/zhdk-inventory/scripts/roger.rb
+shared_scripts_dir_path: ~/src/work/LEIHS/leihs/zhdk-inventory/scripts/shared/
