@@ -3,6 +3,6 @@
 # see https://pip.pypa.io/en/stable/user_guide/#id11
 
 setuptools>=11.3
-ansible==2.7.4
+ansible==2.7.16
 pyopenssl
 jinja2==2.8
