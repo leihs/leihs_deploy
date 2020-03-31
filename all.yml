@@ -31,7 +31,7 @@ db_backup_on_deploy: No
 
 ### database service configuration #############################################
 
-leihs_database_ruby_version: 2.6.0
+leihs_database_ruby_version: 2.6.6
 leihs_database_user: leihs-database
 leihs_database_path: /leihs/database
 leihs_database_clean_slate: false
@@ -39,7 +39,7 @@ leihs_database_clean_slate: false
 
 ### legacy service configuration ###############################################
 
-leihs_legacy_ruby_version: 2.6.0
+leihs_legacy_ruby_version: 2.6.6
 leihs_legacy_clean_slate: false
 leihs_legacy_user: leihs-legacy
 leihs_legacy_max_threads_per_worker: 2
