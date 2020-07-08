@@ -1,10 +1,6 @@
-- shell: |
-    set -eux
-    ruby-install --no-install-deps --no-reinstall ruby {{leihs_database_ruby_version}}
-  become: yes
-  become_user: '{{leihs_database_user}}'
-  become_method: sudo
-  name: install ruby
+- import_tasks: shared/task_install_ruby.yml
+  vars:
+    become_user: "{{leihs_database_user}}"
 
 - shell: |
     set -eux
@@ -13,6 +9,6 @@
     cd /leihs/database
      bundle install
   become: yes
-  become_user: '{{leihs_database_user}}'
+  become_user: "{{leihs_database_user}}"
   become_method: sudo
   name: install bundler and bundle
