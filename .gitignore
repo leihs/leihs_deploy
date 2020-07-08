@@ -3,3 +3,6 @@ tmp/
 inventories/prototype/script_vars.yml
 master_secret.txt
 /.virtualenv
+
+.env
+.env.sh

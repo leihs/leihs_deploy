@@ -1,0 +1,5 @@
+# ignore irrelant files to not break the cache when they change
+/Dockerfile
+/.virtualenv/
+/.git/
+/tmp/
