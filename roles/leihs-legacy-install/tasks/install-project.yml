@@ -1,10 +1,13 @@
 - file:
-    path: '{{playbook_dir}}/tmp/legacy.tar.gz'
+    path: "{{playbook_dir}}/tmp/legacy.tar.gz"
     state: absent
   delegate_to: localhost
   name: remove possibly exisiting archive
 
-- command: 'tar -cz -f "{{playbook_dir}}/tmp/legacy.tar.gz" -C "{{playbook_dir}}/../legacy" .'
+- shell: |
+    cd "{{playbook_dir}}/../legacy"
+    tar -cz --exclude-vcs --exclude-vcs-ignores --exclude "./node_modules" --exclude "./tmp" --exclude "./spec" --exclude "./features" \
+      -f "{{playbook_dir}}/tmp/legacy.tar.gz" .
   delegate_to: localhost
   name: create archive
 
@@ -16,7 +19,7 @@
 - file:
     path: /leihs/legacy
     state: directory
-    owner: '{{leihs_legacy_user}}'
+    owner: "{{leihs_legacy_user}}"
     recurse: yes
   name: create empty /leihs/legacy
 
@@ -26,9 +29,9 @@
   name: remove existing archive
 
 - unarchive:
-    src: '{{playbook_dir}}/tmp/legacy.tar.gz'
+    src: "{{playbook_dir}}/tmp/legacy.tar.gz"
     dest: /leihs/legacy
-    owner: '{{leihs_legacy_user}}'
+    owner: "{{leihs_legacy_user}}"
   name: extract archive
 
 - name: set LEIHS_MOBILE_APP_ENABLED feature toggle

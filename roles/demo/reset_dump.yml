@@ -7,8 +7,14 @@
     ruby -S bundle exec rake db:environment:set
     ruby -S bundle exec rake db:drop db:create
   become: yes
-  become_user: '{{leihs_database_user}}'
+  become_user: "{{leihs_database_user}}"
   name: create and migrate database
+
+- name: copy DB dump to server
+  copy:
+    src: "{{playbook_dir}}/../legacy/features/personas/demo.pgbin"
+    dest: "/leihs/legacy/features/personas/demo.pgbin"
+    owner: "{{leihs_legacy_user}}"
 
 - shell: |
     set -eux
@@ -19,5 +25,5 @@
     export LEIHS_SECRET={{leihs_master_secret}}
     ruby -S bundle exec rake db:pg:structure_and_data:restore
   become: yes
-  become_user: '{{leihs_legacy_user}}'
+  become_user: "{{leihs_legacy_user}}"
   name: seed the database
