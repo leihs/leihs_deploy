@@ -1,34 +1,37 @@
 - hosts: all
   gather_facts: False
-  pre_tasks: 
-  - name: install system python
-    raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+  pre_tasks:
+    - name: install system python
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
 
 - hosts: leihs_gateway
 
   roles:
-
-  - role: os-setup
-    tags: [os-setup]
+    - role: os-setup
+      tags: [os-setup]
 
 - hosts: [leihs_server]
 
   roles:
+    - role: os-check
+      tags: [os-check]
 
-  - role: os-check
-    tags: [os-check]
+    - role: os-setup
+      tags: [os-setup]
 
-  - role: os-setup
-    tags: [os-setup]
+    - role: openjdk
+      tags: [openjdk]
 
-  - role: openjdk
-    tags: [openjdk]
+    - role: postgresql
+      tags: [postgresql]
 
-  - role: postgresql
-    tags: [postgresql]
+    - role: install
+      tags: [install]
 
-  - role: install
-    tags: [install]
+    - role: ruby-install
+      tags: [ruby-install]
 
-  - role: ruby-install
-    tags: [ruby-install]
+    - role: nodejs-install
+      tags: [nodejs-install]
+      vars:
+        debian_repo_version: "8.x" # curent LTS

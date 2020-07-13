@@ -1,15 +1,9 @@
 - file:
-    path: '{{leihs_procure_dir}}'
+    path: "{{leihs_procure_dir}}"
     state: absent
   name: remove existing leihs-procure dir
 
 - include_tasks: user.yml
-
-- name: install nodejs
-  include_role:
-    name: nodejs-install
-  vars:
-    debian_repo_version: '8.x' # curent LTS
 
 - name: install exiftool
   apt: pkg=exiftool state=latest update_cache=yes cache_valid_time=3600
@@ -20,9 +14,9 @@
 - include_tasks: tmp-dir.yml
 
 - file:
-    path: '{{leihs_procure_dir}}'
+    path: "{{leihs_procure_dir}}"
     state: directory
-    owner: '{{leihs_procure_user}}'
+    owner: "{{leihs_procure_user}}"
     recurse: yes
   name: set permissions for leihs-procure dir
 
