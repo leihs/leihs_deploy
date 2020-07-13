@@ -34,4 +34,4 @@
     - role: nodejs-install
       tags: [nodejs-install]
       vars:
-        debian_repo_version: "8.x" # curent LTS
+        debian_repo_version: "12.x" # should be current LTS
