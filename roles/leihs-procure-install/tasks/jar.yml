@@ -1,33 +1,35 @@
 - name: create jar
-  delegate_to: '{{ build_host_java }}'
+  delegate_to: "{{ build_host_java }}"
   args:
     executable: /bin/bash
   shell: |
     set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    LEIHS_PROCURE_DIR=$DEPLOY_DIR/../procure 
+    LEIHS_PROCURE_DIR=$DEPLOY_DIR/../procure
 
-    ## frontend 
+    # deps
+    gem install $(grep 'exiftool_vendored (' server/database/Gemfile.lock | sed -En "s/\s*\((.*)\)/:\1/p")
+    export PATH="$(ruby -r exiftool_vendored -e 'puts ExiftoolVendored.path_to_exiftool_home'):${PATH}"
 
+    ## frontend
     export PUBLIC_URL="/procure"
     cd $LEIHS_PROCURE_DIR/client
     npm ci || npm install # for building
     npm run build
 
     ## backend and uberjar
-
     cd $LEIHS_PROCURE_DIR/server
     $DEPLOY_DIR/bin/lein with-profile prod uberjar
 
 - file:
-    path: '{{leihs_procure_dir}}'
+    path: "{{leihs_procure_dir}}"
     state: directory
-    owner: '{{leihs_procure_user}}'
+    owner: "{{leihs_procure_user}}"
     recurse: yes
   name: create empty {{leihs_procure_dir}}
 
 - copy:
-    src: '{{playbook_dir}}/../procure/server/target/leihs-procure.jar'
-    dest: '{{leihs_procure_dir}}/leihs-procure.jar'
-    owner: '{{leihs_procure_user}}'
+    src: "{{playbook_dir}}/../procure/server/target/leihs-procure.jar"
+    dest: "{{leihs_procure_dir}}/leihs-procure.jar"
+    owner: "{{leihs_procure_user}}"
   name: copy jar over to server
