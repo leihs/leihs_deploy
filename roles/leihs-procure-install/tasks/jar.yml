@@ -1,25 +1,35 @@
 - name: create jar
-  delegate_to: "{{ build_host_java }}"
+  tags: [builds_artefact, builds_artefact_with_java]
+  delegate_to: localhost
   args:
     executable: /bin/bash
   shell: |
-    set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    LEIHS_PROCURE_DIR=$DEPLOY_DIR/../procure
+    PROJECT_DIR="${DEPLOY_DIR}/../procure"
 
-    # deps
-    gem install $(grep 'exiftool_vendored (' server/database/Gemfile.lock | sed -En "s/\s*\((.*)\)/:\1/p")
-    export PATH="$(ruby -r exiftool_vendored -e 'puts ExiftoolVendored.path_to_exiftool_home'):${PATH}"
+    ARTEFACT_DIGEST="$(cd "$PROJECT_DIR" && git log -n 1 HEAD --pretty=%T)"
+    ARTEFACT_PATH="${PROJECT_DIR}/server/target/leihs-procure.jar"
+    ARTEFACT_S3_CACHE_FILE_NAME="leihs-procure.jar"
 
-    ## frontend
-    export PUBLIC_URL="/procure"
-    cd $LEIHS_PROCURE_DIR/client
-    npm ci || npm install # for building
-    npm run build
+    function build_artefact() {
+      cd $PROJECT_DIR
 
-    ## backend and uberjar
-    cd $LEIHS_PROCURE_DIR/server
-    $DEPLOY_DIR/bin/lein with-profile prod uberjar
+      # deps
+      gem install $(grep 'exiftool_vendored (' server/database/Gemfile.lock | sed -En "s/\s*\((.*)\)/:\1/p")
+      export PATH="$(ruby -r exiftool_vendored -e 'puts ExiftoolVendored.path_to_exiftool_home'):${PATH}"
+
+      ## frontend
+      export PUBLIC_URL="/procure"
+      cd "${PROJECT_DIR}/client"
+      npm ci || npm install
+      npm run build
+
+      ## backend and uberjar
+      cd "${PROJECT_DIR}/server"
+      $DEPLOY_DIR/bin/lein clean
+      $DEPLOY_DIR/bin/lein with-profile prod uberjar
+    }
+    {{ lookup('template', "{{playbook_dir}}/helpers/build-artefact-with-s3-cache.bash") }}
 
 - file:
     path: "{{leihs_procure_dir}}"

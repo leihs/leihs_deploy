@@ -1,26 +1,23 @@
 leihs_send_mails: No
 
-LEIHS_ROOT_DIR: '/leihs'
-
+LEIHS_ROOT_DIR: "/leihs"
 
 # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨
 LEIHS_DEPLOY_NEW_BORROW_APP: false # this is still beta! ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ #
 # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨
 
-
 ### reverse proxy configuration ###############################################
 
 leihs_virtual_hosts:
-- hostname: "localhost"
-  ip: "localhost"
-  logfile_infix: "localhost"
-  force_redirect_to_https: no
-- hostname: NULL
-  ip: '*'
-  ssl_certificate_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
-  ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
-  force_redirect_to_https: no
-
+  - hostname: "localhost"
+    ip: "localhost"
+    logfile_infix: "localhost"
+    force_redirect_to_https: no
+  - hostname: NULL
+    ip: "*"
+    ssl_certificate_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
+    force_redirect_to_https: no
 
 ### database backup ############################################################
 
@@ -36,23 +33,22 @@ leihs_database_user: leihs-database
 leihs_database_path: /leihs/database
 leihs_database_clean_slate: false
 
-
 ### legacy service configuration ###############################################
 
 leihs_legacy_ruby_version: 2.6.6
 leihs_legacy_clean_slate: false
 leihs_legacy_user: leihs-legacy
 leihs_legacy_max_threads_per_worker: 2
-leihs_leagcy_workers: '{{ansible_processor_vcpus}}'
+leihs_leagcy_workers: "{{ansible_processor_vcpus}}"
 
 ### micro services configuration ###############################################
 
-LEIHS_LEGACY_HTTP_PORT: '3210'
-LEIHS_ADMIN_HTTP_PORT: '3220'
-LEIHS_PROCURE_HTTP_PORT: '3230'
-LEIHS_PROCURE_CLIENT_HTTP_PORT: '3231'
-LEIHS_MY_HTTP_PORT: '3240'
-LEIHS_BORROW_HTTP_PORT: '3250'
+LEIHS_LEGACY_HTTP_PORT: "3210"
+LEIHS_ADMIN_HTTP_PORT: "3220"
+LEIHS_PROCURE_HTTP_PORT: "3230"
+LEIHS_PROCURE_CLIENT_HTTP_PORT: "3231"
+LEIHS_MY_HTTP_PORT: "3240"
+LEIHS_BORROW_HTTP_PORT: "3250"
 
 ################################################################################
 
@@ -72,10 +68,12 @@ manipulate_data_revoke_all_admins: false
 
 ### building/compiling #########################################################
 
-build_host: 'localhost'
-build_host_java: '{{ build_host }}'
-build_host_nodejs: '{{ build_host }}'
-
-# setting this to `true` will disable all build artefact caching
-force_rebuild: false
-debug_build_caching: false
+# set `use_s3_build_cache` true to save compile time by downloading pre-built artefacts to an S3-compatible storage.
+# after a successfull build the artefacts will try to be uploaded.
+use_s3_build_cache: no # TODO: set to yes once the setup and S3 server have proven to be stable
+force_rebuild: no # if this and `use_s3_build_cache` is true will rebuild all and upload to the cache
+s3_cache_endpoint: "{{lookup('env', 'S3_CACHE_ENDPOINT') | default('https://s3.dev.leihs.app', true)}}"
+s3_cache_bucket: "{{lookup('env', 'S3_CACHE_BUCKET') | default('leihs-deploy-build-cache', true)}}"
+# credentials are optional: when just downloading from a public, read-only cache, anonymous access is sufficient
+s3_cache_access_key: "{{lookup('env', 'S3_ACCESS_KEY_ID') | default('', true)}}"
+s3_cache_secret_key: "{{lookup('env', 'S3_SECRET_ACCESS_KEY') | default('', true)}}"

@@ -1,30 +1,37 @@
-- name: create shared-ui
-  delegate_to: '{{ build_host_nodejs }}'
+- name: build shared-ui
+  tags: [builds_artefact, builds_artefact_with_nodejs]
+  delegate_to: localhost
   args:
     executable: /bin/bash
   shell: |
-    set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    cd "${DEPLOY_DIR}/../my"
-    sh scripts/prepare-shared-ui.sh
+    PROJECT_DIR="${DEPLOY_DIR}/../my"
 
-- name: make shared-ui tarball
-  delegate_to: localhost
-  command: 'tar -cvz -f "{{playbook_dir}}/../my/leihs-ui.tgz" .'
-  args:
-    chdir: '{{playbook_dir}}/../my/leihs-ui'
-    creates: '{{playbook_dir}}/../my/leihs-ui.tgz'
+    ARTEFACT_DIGEST="$(cd "$PROJECT_DIR/leihs-ui" && git log -n 1 HEAD --pretty=%T)"
+    ARTEFACT_PATH="${PROJECT_DIR}/leihs-ui.tgz"
+    ARTEFACT_S3_CACHE_FILE_NAME="leihs-shared-ui.tgz"
+
+    function build_artefact {
+      cd "$PROJECT_DIR"
+      sh scripts/prepare-shared-ui.sh || { echo "build error!"; exit 1; }
+      tar -cz --exclude-vcs --exclude 'leihs-ui/node_modules' --exclude 'leihs-ui/bootstrap-theme-leihs/node_modules' \
+          -f "$ARTEFACT_PATH" leihs-ui
+    }
+    function restore_artefact {
+      cd "$PROJECT_DIR" && \
+      tar -xz -f "${ARTEFACT_PATH}"
+    }
+    {{ lookup('template', "{{playbook_dir}}/helpers/build-artefact-with-s3-cache.bash") }}
 
 - name: create empty {{leihs_my_dir}}/leihs-ui
   file:
-    path: '{{leihs_my_dir}}/leihs-ui'
+    path: "{{leihs_my_dir}}/leihs-ui"
     state: directory
-    owner: '{{leihs_my_user}}'
+    owner: "{{leihs_my_user}}"
     recurse: yes
-  
 
 - name: copy shared-ui over to server
   unarchive:
-    src: '{{playbook_dir}}/../my/leihs-ui.tgz'
-    dest: '{{leihs_my_dir}}/leihs-ui'
-    owner: '{{leihs_my_user}}'
+    src: "{{playbook_dir}}/../my/leihs-ui.tgz"
+    dest: "{{leihs_my_dir}}/leihs-ui"
+    owner: "{{leihs_my_user}}"

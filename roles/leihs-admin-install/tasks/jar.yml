@@ -1,23 +1,32 @@
 - name: create jar
-  delegate_to: '{{ build_host_java }}'
+  tags: [builds_artefact, builds_artefact_with_java]
+  delegate_to: localhost
   args:
     executable: /bin/bash
   shell: |
-    set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    cd $DEPLOY_DIR/../admin
-    export LEIN_SNAPSHOTS_IN_RELEASE=1
-    $DEPLOY_DIR/bin/lein uberjar
+    PROJECT_DIR="${DEPLOY_DIR}/../admin"
+
+    ARTEFACT_DIGEST="$(cd "$PROJECT_DIR" && git log -n 1 HEAD --pretty=%T)"
+    ARTEFACT_PATH="${PROJECT_DIR}/target/leihs-admin.jar"
+    ARTEFACT_S3_CACHE_FILE_NAME="leihs-admin.jar"
+
+    function build_artefact() {
+      export LEIN_SNAPSHOTS_IN_RELEASE=1
+      $DEPLOY_DIR/bin/lein clean
+      $DEPLOY_DIR/bin/lein uberjar
+    }
+    {{ lookup('template', "{{playbook_dir}}/helpers/build-artefact-with-s3-cache.bash") }}
 
 - file:
-    path: '{{leihs_admin_dir}}'
+    path: "{{leihs_admin_dir}}"
     state: directory
-    owner: '{{leihs_admin_user}}'
+    owner: "{{leihs_admin_user}}"
     recurse: yes
   name: create empty {{leihs_admin_dir}}
 
 - copy:
-    src: '{{playbook_dir}}/../admin/target/leihs-admin.jar'
-    dest: '{{leihs_admin_dir}}/leihs-admin.jar'
-    owner: '{{leihs_admin_user}}'
+    src: "{{playbook_dir}}/../admin/target/leihs-admin.jar"
+    dest: "{{leihs_admin_dir}}/leihs-admin.jar"
+    owner: "{{leihs_admin_user}}"
   name: copy jar over to server

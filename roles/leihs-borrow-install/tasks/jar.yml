@@ -1,12 +1,22 @@
 - name: create jar
-  delegate_to: "{{ build_host_java }}"
+  tags: [builds_artefact, builds_artefact_with_java]
+  delegate_to: localhost
   args:
     executable: /bin/bash
   shell: |
-    set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    cd $DEPLOY_DIR/../borrow
-    ./scripts/build-uberjar-prod.sh
+    PROJECT_DIR="${DEPLOY_DIR}/../borrow"
+
+    ARTEFACT_DIGEST="$(cd "$PROJECT_DIR" && git log -n 1 HEAD --pretty=%T)"
+    ARTEFACT_PATH="${PROJECT_DIR}/target/leihs-borrow.jar"
+    ARTEFACT_S3_CACHE_FILE_NAME="leihs-borrow.jar"
+
+    function build_artefact() {
+      cd "$PROJECT_DIR"
+      mkdir -p $PROJECT_DIR/target
+      ./scripts/build-uberjar-prod.sh
+    }
+    {{ lookup('template', "{{playbook_dir}}/helpers/build-artefact-with-s3-cache.bash") }}
 
 - file:
     path: "{{leihs_borrow_dir}}"

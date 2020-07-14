@@ -1,22 +1,31 @@
 - name: create jar
-  delegate_to: '{{ build_host_java }}'
+  tags: [builds_artefact, builds_artefact_with_java]
+  delegate_to: localhost
   args:
     executable: /bin/bash
   shell: |
-    set -eux
     DEPLOY_DIR='{{playbook_dir}}'
-    cd $DEPLOY_DIR/../mail
-    $DEPLOY_DIR/bin/boot uberjar
+    PROJECT_DIR="${DEPLOY_DIR}/../mail"
+
+    ARTEFACT_DIGEST="$(cd "$PROJECT_DIR" && git log -n 1 HEAD --pretty=%T)"
+    ARTEFACT_PATH="${PROJECT_DIR}/target/leihs-mail.jar"
+    ARTEFACT_S3_CACHE_FILE_NAME="leihs-mail.jar"
+
+    function build_artefact() {
+      cd $PROJECT_DIR
+      $DEPLOY_DIR/bin/boot --no-colors uberjar
+    }
+    {{ lookup('template', "{{playbook_dir}}/helpers/build-artefact-with-s3-cache.bash") }}
 
 - file:
-    path: '{{leihs_mail_dir}}'
+    path: "{{leihs_mail_dir}}"
     state: directory
-    owner: '{{leihs_mail_user}}'
+    owner: "{{leihs_mail_user}}"
     recurse: yes
   name: create empty {{leihs_mail_dir}}
 
 - copy:
-    src: '{{playbook_dir}}/../mail/target/leihs-mail.jar'
-    dest: '{{leihs_mail_dir}}/leihs-mail.jar'
-    owner: '{{leihs_mail_user}}'
+    src: "{{playbook_dir}}/../mail/target/leihs-mail.jar"
+    dest: "{{leihs_mail_dir}}/leihs-mail.jar"
+    owner: "{{leihs_mail_user}}"
   name: copy jar over to server

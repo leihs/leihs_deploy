@@ -1,0 +1,11 @@
+- hosts: leihs_server
+  tasks:
+    - name: Show config values
+      debug:
+        msg: |
+          force_rebuild: {{force_rebuild}}
+          use_s3_build_cache: {{use_s3_build_cache}}
+          s3_cache_endpoint: {{s3_cache_endpoint}}
+          s3_cache_bucket: {{s3_cache_bucket}}
+          s3_cache_access_key: {{s3_cache_access_key}}
+          s3_cache_secret_key: {{s3_cache_secret_key}}

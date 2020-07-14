@@ -1,5 +1,4 @@
 scripts:
-
   prepare-container:
     start_when:
       container has been created:
@@ -41,4 +40,9 @@ scripts:
         -i container-test/inventory/hosts \
         -e "ansible_ssh_host=${CONTAINER_IP}" \
         -e "LEIHS_DEPLOY_NEW_BORROW_APP=${DEPLOY_NEW_BORROW}" \
+        -e "use_s3_build_cache=${USE_S3_BUILD_CACHE:-}" \
+        -e "s3_cache_bucket=leihs-deploy-build-cache" \
+        -e "s3_cache_endpoint=${S3_CI_ENDPOINT:-}" \
+        -e "s3_cache_access_key=${AWS_ACCESS_KEY_ID:-}" \
+        -e "s3_cache_secret_key=${AWS_SECRET_ACCESS_KEY:-}" \
         deploy_play.yml
