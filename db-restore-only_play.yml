@@ -10,9 +10,8 @@
 
     - name: copy dump file to remote
       copy:
-        src: '{{database_dump_restore_file_path}}'
+        src: "{{database_dump_restore_file_path}}"
         dest: /tmp/restore-dump.pgbin
-
 
     - name: restore DB
       shell: |
@@ -23,7 +22,9 @@
         export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
         ruby -S bundle exec rake db:pg:terminate_connections db:drop db:create db:pg:structure_and_data:restore
       become: yes
-      become_user: '{{leihs_database_user}}'
+      become_user: "{{leihs_database_user}}"
+      async: 3600
+      poll: 10
 
     - name: vacuum analyze
       shell: psql -c "VACUUM ANALYZE;"
