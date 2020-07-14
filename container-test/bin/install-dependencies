@@ -2,14 +2,9 @@
 set -euxo
 
 # remove this packet if installed - its not needed and causes problems on Ubuntu
-apt purge -y -f open-iscsi || true
+apt-get purge -y -f open-iscsi || true
 
-apt update
+apt-get update
 
-# first pacakges line only needed for container test, 
-# second line some deps for installing ruby and bundler,
-# rest is standard recommendation
-apt install -y -f \
-  ssh \
-  gcc libcurl4-openssl-dev libxml2-dev \
-  git curl build-essential libssl-dev default-jdk ruby libyaml-dev python2.7 python2.7-dev python-pip git libffi-dev
+# extra packages for testing the container:
+apt-get install -y -f curl ssh
