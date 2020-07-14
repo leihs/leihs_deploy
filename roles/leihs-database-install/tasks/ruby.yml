@@ -7,7 +7,7 @@
     export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
     gem install bundler
     cd /leihs/database
-     bundle install
+     bundle install --deployment
   become: yes
   become_user: "{{leihs_database_user}}"
   become_method: sudo
