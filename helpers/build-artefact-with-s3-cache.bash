@@ -40,21 +40,25 @@ function download_from_cache {
 cd "$PROJECT_DIR"
 rm -rf "$ARTEFACT_PATH"
 
-if [ ! $FORCE_REBUILD ] && download_from_cache; then
-  echo "INFO: Rerrieved artefact from s3 cache ${ARTEFACT_S3_URL} @ ${S3_CACHE_ENDPOINT}"
-  if declare -F restore_artefact >/dev/null; then
-    if restore_artefact; then
-      echo "INFO: Restored artefact from file ${ARTEFACT_PATH}"
-    else
-      echo "ERROR: Could not restore artefact from file ${ARTEFACT_PATH}"
-      exit 1
-    fi
-  fi
+if [ ! $USE_S3_CACHE ] || [ $FORCE_REBUILD ]; then
+  echo "INFO: Not using S3 build cache"
 else
-  echo "INFO: No S3 cached artefact found ${ARTEFACT_S3_URL} @ ${S3_CACHE_ENDPOINT}"
+  if download_from_cache; then
+    echo "INFO: Retrieved artefact from s3 cache ${ARTEFACT_S3_URL} @ ${S3_CACHE_ENDPOINT}"
+    if declare -F restore_artefact >/dev/null; then
+      if restore_artefact; then
+        echo "INFO: Restored artefact from file ${ARTEFACT_PATH}"
+      else
+        echo "ERROR: Could not restore artefact from file ${ARTEFACT_PATH}"
+        exit 1
+      fi
+    fi
+  else
+    echo "INFO: No S3 cached artefact found ${ARTEFACT_S3_URL} @ ${S3_CACHE_ENDPOINT}"
+  fi
 fi
 
-if [ $FORCE_REBUILD ] || [ ! $USE_S3_CACHE ] || [ ! -f "${ARTEFACT_PATH}" ]; then
+if [ ! $USE_S3_CACHE ] || [ $FORCE_REBUILD ] || [ ! -f "${ARTEFACT_PATH}" ]; then
   echo "INFO: building artefact ${ARTEFACT_PATH}"
   if build_artefact ; then
     echo "INFO: built artefact ${ARTEFACT_PATH}"
