@@ -8,7 +8,7 @@
     which gem
     gem install bundler
     cd /leihs/legacy
-    bundle install  --deployment
+    bundle install --retry=12 --without development --without test
   become: yes
   become_user: "{{leihs_legacy_user}}"
   become_method: sudo
