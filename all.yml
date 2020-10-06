@@ -65,6 +65,7 @@ database:
 
 manipulate_data_reset_all_login_fields: false
 manipulate_data_revoke_all_admins: false
+demo_database_dump_file: "{{playbook_dir}}/../legacy/features/personas/demo.pgbin"
 
 ### building/compiling #########################################################
 

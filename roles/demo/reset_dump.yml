@@ -10,9 +10,16 @@
   become_user: "{{leihs_database_user}}"
   name: create and migrate database
 
+- name: create directory
+  file:
+    path: "/leihs/legacy/features/personas"
+    state: "directory"
+    owner: "{{leihs_legacy_user}}"
+
 - name: copy DB dump to server
   copy:
-    src: "{{playbook_dir}}/../legacy/features/personas/demo.pgbin"
+    # src: "{{playbook_dir}}/../legacy/features/personas/demo.pgbin"
+    src: "{{demo_database_dump_file}}"
     dest: "/leihs/legacy/features/personas/demo.pgbin"
     owner: "{{leihs_legacy_user}}"
 
