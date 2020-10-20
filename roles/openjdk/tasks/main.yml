@@ -10,8 +10,7 @@
     cache_valid_time: 3600
   tags: [internet]
   when: >
-    (ansible_distribution == "Ubuntu"
-      and ansible_distribution_release == "bionic")
+    ansible_distribution == "Ubuntu"
     or
      (ansible_distribution == "Debian"
       and ansible_distribution_release == "buster")

@@ -1,9 +1,12 @@
 - name: Install apache2
-  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
-  register: apache2_install
-  with_items:
+  apt:
+    pkg:
     - apache2
     - libapache2-mod-xsendfile
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+  register: apache2_install
   tags: [internet]
 
 - name: Disable default site
@@ -15,6 +18,6 @@
   shell:  a2enmod {{item}}
   register: result
   with_items: '{{apache2_modules}}'
-  changed_when: result.stdout | search("Enabling module")
+  changed_when: result.stdout is search("Enabling module")
 
 

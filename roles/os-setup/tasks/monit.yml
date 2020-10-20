@@ -1,14 +1,12 @@
 ### install and configure monit ###############################################
 
 - name: purge monit
-  apt: 
-    name: "{{packages}}" 
+  apt:
+    pkg: monit
     state: absent
-    update_cache: yes 
+    update_cache: yes
     cache_valid_time: 3600
     purge: yes
-  vars: 
-    packages: [monit]
   ignore_errors: true
   tags: [internet]
 

@@ -1,11 +1,8 @@
 - name: install vmware tools
-  apt: 
-    name: "{{packages}}" 
-    state: latest 
-    update_cache: yes 
+  apt:
+    pkg: open-vm-tools
+    state: latest
+    update_cache: yes
     cache_valid_time: 3600
   when: ansible_virtualization_type == "VMware"
-  vars:
-    packages: 
-      - open-vm-tools
   tags: [internet]

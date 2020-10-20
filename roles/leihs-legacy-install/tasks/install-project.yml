@@ -6,7 +6,7 @@
 
 - shell: |
     cd "{{playbook_dir}}/../legacy"
-    tar -cz --exclude-vcs --exclude-vcs-ignores --exclude "./node_modules" --exclude "./tmp" --exclude "./spec" --exclude "./features" \
+    {{local_tar_cmd}} -cz --exclude-vcs --exclude-vcs-ignores --exclude "./node_modules" --exclude "./tmp" --exclude "./spec" --exclude "./features" \
       -f "{{playbook_dir}}/tmp/legacy.tar.gz" .
   delegate_to: localhost
   name: create archive

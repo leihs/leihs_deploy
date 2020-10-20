@@ -11,9 +11,14 @@
   ignore_errors: True
 
 - name: Remove earlier installations of postgresql
-  apt: pkg={{item}} state=absent purge=yes update_cache=yes cache_valid_time=3600
-  tags: [internet]
-  with_items:
+  apt:
+    pkg:
     - postgresql-9.4
     - postgresql-9.5
     - postgresql-9.6
+    state: absent
+    purge: yes
+    update_cache: yes
+    cache_valid_time: 3600
+  tags: [internet]
+

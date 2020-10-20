@@ -1,3 +1,7 @@
+
+# ansible_python_interpreter: /usr/bin/python3
+
+
 leihs_send_mails: No
 
 LEIHS_ROOT_DIR: "/leihs"

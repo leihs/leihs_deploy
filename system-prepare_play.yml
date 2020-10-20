@@ -2,7 +2,13 @@
   gather_facts: False
   pre_tasks:
     - name: install system python
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python)
+      raw: |
+        apt -y update
+        if [ $(lsb_release -c -s) = 'focal' ]; then
+          apt install -y python3 python-is-python3
+        else
+          apt install -y python
+        fi
 
 - hosts: leihs_gateway
 
@@ -15,6 +21,9 @@
   roles:
     - role: os-check
       tags: [os-check]
+
+    - role: set_local_tar_cmd
+      tags: [always]
 
     - role: os-setup
       tags: [os-setup]

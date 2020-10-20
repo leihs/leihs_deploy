@@ -6,7 +6,11 @@
 - include_tasks: user.yml
 
 - name: install exiftool
-  apt: pkg=exiftool state=latest update_cache=yes cache_valid_time=3600
+  apt:
+    pkg: exiftool
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
 
 - include_tasks: jar.yml
 
