@@ -1,17 +1,43 @@
-- name: Install postgresql
-  apt: pkg={{item}} state=present update_cache=yes cache_valid_time=3600
-  with_items:
-    - sudo
-    - libpq-dev
-    - postgresql-client-10
-    - postgresql-contrib-10
-    - postgresql-10
-    - python-psycopg2
+- name: Uninstall postgresql-client-11
+  apt:
+    pkg: postgresql-client-11
+    state: absent
+    update_cache: yes
+    cache_valid_time: 3600
   tags: [internet]
 
-- name: Uninstall postgresql-client-11 
-  apt: pkg={{item}} state=absent update_cache=yes cache_valid_time=3600
-  with_items:
-    - postgresql-client-11
+- name: Install psycopg2
+  apt:
+    pkg: python-psycopg2
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: >
+    not (ansible_distribution == "Ubuntu"
+    and ansible_distribution_release == "focal")
+
+- name: Install psycopg2
+  apt:
+    pkg: python3-psycopg2
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: >
+    (ansible_distribution == "Ubuntu"
+    and ansible_distribution_release == "focal")
+
+- name: Install postgresql
+  apt:
+    pkg:
+    - libpq-dev
+    - postgresql
+    - postgresql-10
+    - postgresql-client-10
+    - postgresql-contrib-10
+    - sudo
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
   tags: [internet]
+
 

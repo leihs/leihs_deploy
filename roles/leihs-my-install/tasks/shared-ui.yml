@@ -14,12 +14,12 @@
     function build_artefact {
       cd "$PROJECT_DIR"
       sh scripts/prepare-shared-ui.sh || { echo "build error!"; exit 1; }
-      tar -cz --exclude-vcs --exclude 'leihs-ui/node_modules' --exclude 'leihs-ui/bootstrap-theme-leihs/node_modules' \
+      {{local_tar_cmd}} -cz --exclude-vcs --exclude 'leihs-ui/node_modules' --exclude 'leihs-ui/bootstrap-theme-leihs/node_modules' \
           -f "$ARTEFACT_PATH" leihs-ui
     }
     function restore_artefact {
       cd "$PROJECT_DIR" && \
-      tar -xz -f "${ARTEFACT_PATH}"
+      {{local_tar_cmd}} -xz -f "${ARTEFACT_PATH}"
     }
     {{ lookup('template', "{{playbook_dir}}/helpers/build-artefact-with-s3-cache.bash") }}
 

@@ -1,5 +1,33 @@
 - hosts: leihs_server
+
   tasks:
+
+    - command: which gnutar
+      register: localhost_gnutar
+      delegate_to: localhost
+      # ignore_errors: true
+      failed_when: false
+
+    - name: tar vs gnutar
+      debug:
+        msg: |
+          {{localhost_gnutar}}
+
+    - set_fact:
+        local_tar_cmd: 'gnutar'
+      when: "localhost_gnutar.rc == 0"
+      delegate_to: localhost
+
+    - set_fact:
+        local_tar_cmd: 'tar'
+      when: "localhost_gnutar.rc != 0"
+      delegate_to: localhost
+
+    - name: local_tar_cmd
+      debug:
+        msg: |
+          {{local_tar_cmd}}
+
     - name: Show config values
       debug:
         msg: |
