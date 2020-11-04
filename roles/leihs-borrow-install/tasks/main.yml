@@ -4,7 +4,6 @@
   name: remove existing leihs-borrow dir
 
 - include_tasks: user.yml
-- include_tasks: shared-ui.yml
 - include_tasks: jar.yml
 - include_tasks: log-dir.yml
 - include_tasks: tmp-dir.yml

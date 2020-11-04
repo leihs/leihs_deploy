@@ -6,16 +6,7 @@
   shell: |
     DEPLOY_DIR='{{playbook_dir}}'
     PROJECT_DIR="${DEPLOY_DIR}/../mail"
-
-    ARTEFACT_DIGEST="$(cd "$PROJECT_DIR" && git log -n 1 HEAD --pretty=%T)"
-    ARTEFACT_PATH="${PROJECT_DIR}/target/leihs-mail.jar"
-    ARTEFACT_S3_CACHE_FILE_NAME="leihs-mail.jar"
-
-    function build_artefact() {
-      cd $PROJECT_DIR
-      $DEPLOY_DIR/bin/boot --no-colors uberjar
-    }
-    {{ lookup('template', "{{playbook_dir}}/helpers/build-artefact-with-s3-cache.bash") }}
+    ${PROJECT_DIR}/bin/build
 
 - file:
     path: "{{leihs_mail_dir}}"

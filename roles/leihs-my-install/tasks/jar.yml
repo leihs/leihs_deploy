@@ -6,18 +6,7 @@
   shell: |
     DEPLOY_DIR='{{playbook_dir}}'
     PROJECT_DIR="${DEPLOY_DIR}/../my"
-
-    ARTEFACT_DIGEST="$(cd "$PROJECT_DIR" && git log -n 1 HEAD --pretty=%T)"
-    ARTEFACT_PATH="${PROJECT_DIR}/target/leihs-my.jar"
-    ARTEFACT_S3_CACHE_FILE_NAME="leihs-my.jar"
-
-    function build_artefact() {
-      export LEIN_SNAPSHOTS_IN_RELEASE=Yes
-      cd $PROJECT_DIR
-      $DEPLOY_DIR/bin/lein clean
-      $DEPLOY_DIR/bin/lein uberjar
-    }
-    {{ lookup('template', "{{playbook_dir}}/helpers/build-artefact-with-s3-cache.bash") }}
+    ${PROJECT_DIR}/bin/build
 
 - file:
     path: "{{leihs_my_dir}}"
