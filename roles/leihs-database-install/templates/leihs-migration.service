@@ -16,7 +16,7 @@ Group={{leihs_database_user}}
 Environment=PATH=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
-ExecStart=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin/ruby -S bundle exec rake db:create db:migrate
+ExecStart=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin/ruby -S bundle exec rake db:migrate
 
 [Install]
 WantedBy=multi-user.target
