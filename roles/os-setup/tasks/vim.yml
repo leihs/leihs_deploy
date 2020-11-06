@@ -10,7 +10,7 @@
 - name: Set vim-nox as default editor
   command: update-alternatives --set editor /usr/bin/vim.nox
   register: result
-  changed_when: result.stdout | search("using \/usr\/bin\/vim\.nox")
+  changed_when: result.stdout is search("using \/usr\/bin\/vim\.nox")
 
 - name: set the vi mode for the shell
   lineinfile:
