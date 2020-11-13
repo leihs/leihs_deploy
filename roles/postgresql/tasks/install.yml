@@ -1,6 +1,9 @@
-- name: Uninstall postgresql-client-11
+- name: Uninstall newer postgresql clients
   apt:
-    pkg: postgresql-client-11
+    pkg:
+    - postgresql-client-11
+    - postgresql-client-12
+    - postgresql-client-13
     state: absent
     update_cache: yes
     cache_valid_time: 3600
