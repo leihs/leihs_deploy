@@ -1,3 +1,0 @@
-# set default version to 10 for all users. see Debian's `pg_wrapper` for details.
-# USER  GROUP   VERSION CLUSTER DATABASE
-*       *       {{postgres_version}}      main    *

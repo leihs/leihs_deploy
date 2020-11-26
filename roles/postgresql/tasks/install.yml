@@ -1,13 +1,6 @@
-# NOTE: we install our wanted version of the server but the newest version of the client, per Debian recommendation.
+# NOTE: we force our wanted version of PostgreSQL by removing the Debian-provided `pg_wrapper` and linking used cli tools directly
 
-- name: configure default postgresql version 10
-  vars:
-    postgres_version: 10
-  template:
-    dest: /etc/postgresql-common/user_clusters
-    src: etc__postgresql-common__user_clusters
-
-- name: Uninstall other postgresql versions
+- name: Uninstall newer postgresql versions
   apt:
     pkg:
     - postgresql-11
@@ -15,6 +8,7 @@
     - postgresql-12
     - postgresql-client-12
     - postgresql-13
+    - postgresql-client-13
     state: absent
     update_cache: yes
     cache_valid_time: 3600
@@ -44,8 +38,8 @@
   apt:
     pkg:
     - postgresql-10
+    - postgresql-client-10
     - postgresql-contrib-10
-    - postgresql-client
     - libpq-dev
     - sudo
     state: present
@@ -53,4 +47,20 @@
     cache_valid_time: 3600
   tags: [internet]
 
+- name: remove `pg_wrapper`
+  file:
+    path: "/usr/share/postgresql-common/pg_wrapper"
+    state: absent
 
+- name: set default postgresql version 10 for cli tools
+  vars:
+    postgres_version: 10 # NOTE: if needed this can just move to global vars
+  file:
+    src: "/usr/lib/postgresql/{{postgres_version}}/bin/{{item}}"
+    dest: "/usr/bin/{{item}}"
+    state: link
+    force: yes
+  with_items:
+    - psql
+    - pg_dump
+    - pg_restore
