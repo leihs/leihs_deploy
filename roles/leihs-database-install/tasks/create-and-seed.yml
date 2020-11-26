@@ -14,3 +14,7 @@
   shell: |
     createdb {{database.database}}
     pg_restore --disable-triggers -x -O -d {{database.database}} /tmp/structure_and_seeds.pgbin
+
+# TODO: set settings from inventory vars where this is needed
+# - external_base_url
+
