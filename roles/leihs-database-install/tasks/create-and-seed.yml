@@ -1,16 +1,18 @@
 - name: check for existing database
   changed_when: false
   register: check_existing_database
-  shell: psql -lqt
+  shell: |
+    psql -AXtq -c \
+      "SELECT 'already exists' FROM pg_database WHERE datname = '{{database.database}}';"
 
 - name: copy structure_and_seeds.pgbin to remote
-  when: '"{{database.database}}" not in check_existing_database.stdout'
+  when: '"already exists" not in check_existing_database.stdout'
   copy:
     src: "{{playbook_dir}}/../database/db/structure_and_seeds.pgbin"
     dest: /tmp/structure_and_seeds.pgbin
 
 - name: create and seed database if it does not exist
-  when: '"{{database.database}}" not in check_existing_database.stdout'
+  when: '"already exists" not in check_existing_database.stdout'
   shell: |
-    createdb {{database.database}}
-    pg_restore --disable-triggers -x -O -d {{database.database}} /tmp/structure_and_seeds.pgbin
+    /usr/lib/postgresql/{{postgres_version}}/bin/createdb {{database.database}}
+    /usr/lib/postgresql/{{postgres_version}}/bin/pg_restore --disable-triggers -x -O -d {{database.database}} /tmp/structure_and_seeds.pgbin
