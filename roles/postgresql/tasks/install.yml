@@ -1,4 +1,11 @@
-# NOTE: we install a fixed version of the server and the newest version of the client, per Debian recommendation.
+# NOTE: we install our wanted version of the server but the newest version of the client, per Debian recommendation.
+
+- name: configure default postgresql version 10
+  vars:
+    postgres_version: 10
+  template:
+    dest: /etc/postgresql-common/user_clusters
+    src: etc__postgresql-common__user_clusters
 
 - name: Uninstall other postgresql versions
   apt:
