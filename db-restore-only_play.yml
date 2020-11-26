@@ -23,14 +23,6 @@
       become: yes
       become_user: "{{leihs_database_user}}"
 
-    - name: remove 'public' schema from DB if present
-      shell: |
-        # older versions of PostgreSQL (v10 and older) included the "public" schema – we need to remove it before restoring because `pg_restore` after v10 does not does this workaround anymore
-        # -- source: <https://www.postgresql.org/message-id/20849.1541638465%40sss.pgh.pa.us>
-        psql -d '{{database.database}}' -c "DROP SCHEMA IF EXISTS \"public\";"
-      become: yes
-      become_user: root
-
     - name: restore DB
       shell: |
         set -eux
