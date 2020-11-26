@@ -12,6 +12,9 @@ LEIHS_DEPLOY_NEW_BORROW_APP: false # this is still beta! ✨ # ✨ # ✨ # ✨ #
 
 ### reverse proxy configuration ###############################################
 
+leihs_external_hostname: "leihs.example.org"
+leihs_external_base_url: "https://{{leihs_external_hostname}}"
+
 leihs_virtual_hosts:
   - hostname: "localhost"
     ip: "localhost"

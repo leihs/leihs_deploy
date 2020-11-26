@@ -3,9 +3,6 @@
 - include_tasks: install-ruby.yml
 - include_tasks: database.yml
 
-- when: settings_file_path is defined
-  include: settings.yml
-
 - include: service.yml
 
 - include_tasks: service.yml
