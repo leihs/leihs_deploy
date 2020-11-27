@@ -33,7 +33,7 @@
     - shell: |
         set -eux
         cd /leihs/database
-        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
+        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
         export RAILS_ENV=production
         export IMPORT_FILE=/tmp/leihs-import
         export LEIHS_SECRET={{leihs_master_secret}}
