@@ -1,6 +1,7 @@
 - name: setup active locales
   shell: |
-    psql {{database.database}} -c "UPDATE languages SET active = {{ item.value }} WHERE locale_name = '{{ item.key }}'"
+    /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
+      "UPDATE languages SET active = {{ item.value }} WHERE locale_name = '{{ item.key }}'"
   with_dict: "{{ active_locales }}"
   when: >
     (active_locales is defined) and
@@ -9,7 +10,8 @@
 
 - name: setup default locale
   shell: |
-    psql {{database.database}} -c "UPDATE languages SET \"default\" = CASE WHEN locale_name = '{{ default_locale }}' THEN TRUE ELSE FALSE END"
+    /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
+      "UPDATE languages SET \"default\" = CASE WHEN locale_name = '{{ default_locale }}' THEN TRUE ELSE FALSE END"
   when: >
     (default_locale is defined)
     and (default_locale is not none)

@@ -32,6 +32,7 @@ db_backup_on_deploy: No
 
 ### database service configuration #############################################
 
+postgres_version: 10 # major version, NOTE: this variable is not used yet everywhere
 leihs_database_ruby_version: 2.6.6
 leihs_database_user: leihs-database
 leihs_database_path: /leihs/database

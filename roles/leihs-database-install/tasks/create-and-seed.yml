@@ -2,7 +2,7 @@
   changed_when: false
   register: check_existing_database
   shell: |
-    psql -AXtq -c \
+    /usr/lib/postgresql/{{postgres_version}}/bin/psql -AXtq -c \
       "SELECT 'already exists' FROM pg_database WHERE datname = '{{database.database}}';"
 
 - name: copy structure_and_seeds.pgbin to remote
