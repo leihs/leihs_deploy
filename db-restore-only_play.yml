@@ -8,10 +8,13 @@
 
 - hosts: leihs_server
   tasks:
-    - name: make sure current ruby is installed
+    - name: make sure current PostgreSQL is installed
+      include_role:
+        name: postgresql
+
+    - name: make sure the DB is set up
       include_role:
         name: leihs-database-install
-        tasks_from: ruby
 
     - name: copy dump file to remote
       copy:
