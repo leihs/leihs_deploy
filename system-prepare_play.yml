@@ -1,6 +1,8 @@
 - hosts: all
   gather_facts: False
   pre_tasks:
+    - name: cleanup ansible remote tmp dir
+      raw: "rm -rf ~/.ansible/tmp"
     - name: install system python
       raw: |
         apt -y update
