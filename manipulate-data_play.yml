@@ -3,11 +3,11 @@
 
     - name: reset all login fields
       shell: |
-        psql {{database.database}} -c 'UPDATE users SET login = NULL'
+        /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c 'UPDATE users SET login = NULL'
       when: manipulate_data_reset_all_login_fields
 
     - name: revoke all admins
       shell: |
-        psql {{database.database}} -c 'UPDATE users SET is_admin = false'
+        /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c 'UPDATE users SET is_admin = false'
       when: manipulate_data_revoke_all_admins
 

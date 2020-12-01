@@ -1,0 +1,29 @@
+- name: DB settings -- check for valid variables/settings
+  fail:
+    msg: "Invalid settings! Check the following variables: `leihs_external_hostname` and `leihs_external_base_url`"
+  when: >
+    (leihs_external_hostname is not defined) or (leihs_external_hostname is none)
+    or (leihs_external_base_url == "https://")
+
+- name: DB settings -- set active locales
+  shell: |
+    /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
+      "UPDATE languages SET active = {{ item.value }} WHERE locale_name = '{{ item.key }}'"
+  with_dict: "{{ active_locales }}"
+  when: >
+    (active_locales is defined) and
+    (active_locales is not none)
+
+- name: DB settings -- set default locale
+  shell: |
+    /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
+      "UPDATE languages SET \"default\" = CASE WHEN locale_name = '{{ default_locale }}' THEN TRUE ELSE FALSE END"
+  when: >
+    (default_locale is defined)
+    and (default_locale is not none)
+
+- name: DB settings -- set external_base_url
+  shell: |
+    /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
+      "UPDATE settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
+

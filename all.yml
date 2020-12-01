@@ -12,6 +12,9 @@ LEIHS_DEPLOY_NEW_BORROW_APP: false # this is still beta! ✨ # ✨ # ✨ # ✨ #
 
 ### reverse proxy configuration ###############################################
 
+leihs_external_hostname: "leihs.example.org"
+leihs_external_base_url: "https://{{leihs_external_hostname}}"
+
 leihs_virtual_hosts:
   - hostname: "localhost"
     ip: "localhost"
@@ -32,6 +35,7 @@ db_backup_on_deploy: No
 
 ### database service configuration #############################################
 
+postgres_version: 10 # major version, NOTE: this variable is not used yet everywhere
 leihs_database_ruby_version: 2.6.6
 leihs_database_user: leihs-database
 leihs_database_path: /leihs/database
