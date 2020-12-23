@@ -21,6 +21,7 @@ apache2_modules:
   - cache_disk
   - cache_socache
   - socache_shmcb
+  - unique_id
 
 ssh_keys_present: []
 ssh_keys_absent: []
