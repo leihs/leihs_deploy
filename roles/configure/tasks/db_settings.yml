@@ -25,5 +25,5 @@
 - name: DB settings -- set external_base_url
   shell: |
     /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
-      "UPDATE settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
+      "UPDATE system_and_security_settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
 
