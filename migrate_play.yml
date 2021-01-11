@@ -1,0 +1,12 @@
+- name: Migrate Database
+  hosts: leihs_server
+
+
+  tasks:
+
+  - name: Migrate Database
+    service:
+      name: leihs-migration.service
+      enabled: true
+      state: restarted
+

@@ -3,4 +3,8 @@
 - import_playbook: install_play.yml
 - import_playbook: configure_play.yml
 - import_playbook: db-backup_play.yml
+- import_playbook: migrate_play.yml
+- import_playbook: post-configure_play.yml
 - import_playbook: start_play.yml
+
+
