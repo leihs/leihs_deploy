@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo '✪ virtualenv: preparing…'
+echo '✪ virtualenv: preparing…   [if this fails, run `./bin/virtualenv-install` to debug]'
 
 source bin/virtualenv-install -qqq &>/dev/null \
   || source bin/virtualenv-install \
