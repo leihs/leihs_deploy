@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/bash -e
 
-python3.8 -m venv tmp/py-venv
+python3 -m venv tmp/py-venv
 source tmp/py-venv/bin/activate
 pip install -r ansible-requirements.txt
