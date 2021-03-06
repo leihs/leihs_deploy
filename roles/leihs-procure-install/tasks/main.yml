@@ -12,7 +12,20 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- include_tasks: jar.yml
+- include_tasks: build.yml
+
+- file:
+    path: "{{leihs_procure_dir}}"
+    state: directory
+    owner: "{{leihs_procure_user}}"
+    recurse: yes
+  name: create empty {{leihs_procure_dir}}
+
+- copy:
+    src: "{{playbook_dir}}/../procure/server/target/leihs-procure.jar"
+    dest: "{{leihs_procure_dir}}/leihs-procure.jar"
+    owner: "{{leihs_procure_user}}"
+  name: copy jar over to server
 
 - include_tasks: log-dir.yml
 - include_tasks: tmp-dir.yml

@@ -1,17 +1,31 @@
 - file:
-    path: '{{leihs_mail_dir}}'
+    path: "{{leihs_mail_dir}}"
     state: absent
   name: remove existing leihs-mail dir
 
 - include_tasks: user.yml
-- include_tasks: jar.yml
+- include_tasks: build.yml
+
+- file:
+    path: "{{leihs_mail_dir}}"
+    state: directory
+    owner: "{{leihs_mail_user}}"
+    recurse: yes
+  name: create empty {{leihs_mail_dir}}
+
+- copy:
+    src: "{{playbook_dir}}/../mail/target/leihs-mail.jar"
+    dest: "{{leihs_mail_dir}}/leihs-mail.jar"
+    owner: "{{leihs_mail_user}}"
+  name: copy jar over to server
+
 - include_tasks: log-dir.yml
 - include_tasks: tmp-dir.yml
 
 - file:
-    path: '{{leihs_mail_dir}}'
+    path: "{{leihs_mail_dir}}"
     state: directory
-    owner: '{{leihs_mail_user}}'
+    owner: "{{leihs_mail_user}}"
     recurse: yes
   name: set permissions for leihs-mail dir
 

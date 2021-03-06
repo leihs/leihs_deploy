@@ -1,17 +1,31 @@
 - file:
-    path: '{{leihs_admin_dir}}'
+    path: "{{leihs_admin_dir}}"
     state: absent
   name: remove existing leihs-admin dir
 
 - include_tasks: user.yml
-- include_tasks: jar.yml
+- include_tasks: build.yml
+
+- file:
+    path: "{{leihs_admin_dir}}"
+    state: directory
+    owner: "{{leihs_admin_user}}"
+    recurse: yes
+  name: create empty {{leihs_admin_dir}}
+
+- copy:
+    src: "{{playbook_dir}}/../admin/target/leihs-admin.jar"
+    dest: "{{leihs_admin_dir}}/leihs-admin.jar"
+    owner: "{{leihs_admin_user}}"
+  name: copy jar over to server
+
 - include_tasks: log-dir.yml
 - include_tasks: tmp-dir.yml
 
 - file:
-    path: '{{leihs_admin_dir}}'
+    path: "{{leihs_admin_dir}}"
     state: directory
-    owner: '{{leihs_admin_user}}'
+    owner: "{{leihs_admin_user}}"
     recurse: yes
   name: set permissions for leihs-admin dir
 

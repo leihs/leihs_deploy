@@ -1,0 +1,27 @@
+- hosts: localhost
+
+  tasks:
+    - name: Build Admin
+      include_role:
+        name: leihs-admin-install
+        tasks_from: build.yml
+
+    - name: Build Borrow
+      include_role:
+        name: leihs-borrow-install
+        tasks_from: build.yml
+
+    - name: Build Mail
+      include_role:
+        name: leihs-mail-install
+        tasks_from: build.yml
+
+    - name: Build My
+      include_role:
+        name: leihs-my-install
+        tasks_from: build.yml
+
+    - name: Build Procure
+      include_role:
+        name: leihs-procure-install
+        tasks_from: build.yml
