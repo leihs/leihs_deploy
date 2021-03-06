@@ -1,4 +1,4 @@
 #!/bin/bash -exu
 
-./scripts/-from-docker \
+./bin/-from-docker \
   ansible-playbook "$@"
