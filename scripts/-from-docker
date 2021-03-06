@@ -1,7 +1,16 @@
 #!/bin/sh -exu
 
+# config
+DOCKER_EXTRA_ARGS="${DOCKER_EXTRA_ARGS:-""}"
+DOCKER_RUN_EXTRA_ARGS="${DOCKER_RUN_EXTRA_ARGS:-""}"
+USE_APPLE_SILICON="${USE_APPLE_SILICON:-}"
+
+if test ! $USE_APPLE_SILICON; then
+  DOCKER_EXTRA_ARGS="${DOCKER_EXTRA_ARGS} --platform linux/amd64"
+fi
+
 # build the docker image and tag it with a name
-docker build -t leihs/ansible-controller .
+docker build ${DOCKER_EXTRA_ARGS} -t leihs/ansible-controller .
 
 # start a temporary container from this image,
 # mounting our working directory in it,
@@ -16,5 +25,7 @@ docker run --rm -it \
     -v "/run/host-services/ssh-auth.sock:/ssh-agent" \
     -v "$HOME/.ssh/known_hosts:/root/.ssh/known_hosts" \
     -e SSH_AUTH_SOCK="/ssh-agent" \
+    ${DOCKER_EXTRA_ARGS} \
+    ${DOCKER_RUN_EXTRA_ARGS} \
     leihs/ansible-controller \
     "$@"
