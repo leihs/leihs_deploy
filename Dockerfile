@@ -3,7 +3,10 @@
 # > debian container with everything needed to build and deploy leihs #
 #######################################################################
 
-FROM debian:buster-slim
+# NOTE: use ruby image (itself based on `debian:buster-slim`, so the version is recent, precompiled, and 'bundler/inline' works)
+#       this is a good compromise as long as all the other steps are rather quick,
+#       if we ever need to base it on several base images, we'll need to look into multi-stage builds <https://docs.docker.com/develop/develop-images/multistage-build/>
+FROM ruby:2.7-slim-buster
 
 # BASE CONFIG
 ENV DEBIAN_FRONTEND noninteractive
@@ -17,7 +20,7 @@ ENV LC_ALL en_US.UTF-8
 RUN apt-get update && \
     apt-get install -fy \
     git curl vim gnupg software-properties-common \
-    ruby gcc libcurl4-openssl-dev libxml2-dev \
+    gcc libcurl4-openssl-dev libxml2-dev \
     build-essential libssl-dev libyaml-dev python2.7 python2.7-dev python-pip libffi-dev
 
 # JAVA 8
@@ -26,7 +29,7 @@ RUN curl https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key
     add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && apt-get update && \
     apt-get -fy install adoptopenjdk-8-hotspot
 
-# NODEJS
+# NODEJS 12
 RUN DEBIAN_FRONTEND=noninteractive \
     apt-get update -qq \
     && apt-get install curl gnupg -yq \
@@ -56,6 +59,7 @@ ENV ANSIBLE_SSH_PIPELINING True
 # ENV ANSIBLE_ROLES_PATH /ansible/playbooks/roles
 # ENV PYTHONPATH /ansible/lib
 # ENV ANSIBLE_LIBRARY /ansible/library
+
 
 VOLUME [ "/leihs" ]
 WORKDIR /leihs/deploy
