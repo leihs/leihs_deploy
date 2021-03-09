@@ -8,7 +8,8 @@ if test ! "${S3_ACCESS_KEY_ID:-}" -o ! "${S3_SECRET_ACCESS_KEY:-}"; then
 fi
 
 export USE_S3_BUILD_CACHE=1
-export LOCAL_CACHE_DIR="$(realpath "$(dirname ${BASH_SOURCE})/../tmp/build_cache")"
+export LOCAL_CACHE_DIR="$(dirname "${BASH_SOURCE}/../tmp/build_cache")"
+
 export AWS_ACCESS_KEY_ID="$S3_ACCESS_KEY_ID"
 export AWS_SECRET_ACCESS_KEY="$S3_SECRET_ACCESS_KEY"
 
@@ -21,7 +22,7 @@ bin/ansible-playbook -i 'localhost' -v build_only_play.yml
 
 # second run, because everything is cached this just fills a local directory with the used artefacts
 export LEIHS_VERSION="6.0.0-RC.1" # tmp hardcoded
-export LOCAL_CACHE_DIR="$(realpath -m "$(dirname ${BASH_SOURCE})/../tmp/release-builds/${LEIHS_VERSION}/build-artefacts")"
+export LOCAL_CACHE_DIR="$(dirname "${BASH_SOURCE}/../tmp/release-builds/${LEIHS_VERSION}/build-artefacts")"
 source bin/set-env-build-cache
 
 bin/ansible-playbook -i 'localhost' -v build_only_play.yml
