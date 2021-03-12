@@ -2,8 +2,8 @@
 
 # * for testing the build process and/or make sure every is pre-built and cached locally before a prod deploy *
 
-LOCAL_CACHE_DIR_RELATIVE="../tmp/build_cache" # inside the `deploy` dir so it stays on the disk
-export LOCAL_CACHE_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" && cd "$LOCAL_CACHE_DIR_RELATIVE" > /dev/null 2>&1 && pwd -P || exit 1)"
+LOCAL_CACHE_DIR_RELATIVE="${LOCAL_CACHE_DIR-:"../tmp/build_cache"}" # inside the `deploy` dir so it stays on the disk
+export LOCAL_CACHE_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" && mkdir -p "$LOCAL_CACHE_DIR_RELATIVE" && cd "$LOCAL_CACHE_DIR_RELATIVE" > /dev/null 2>&1 && pwd -P || exit 1)"
 
 # TODO: try to get prebuilt artefacts for latest (in tree) release
 # $ curl -LC- "https://github.com/leihs/leihs/releases/download/${LEIHS_VERSION}/build-artefacts.tar.gz" \
