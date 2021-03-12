@@ -1,14 +1,29 @@
-#!/bin/bash -exu
+#!/bin/bash -eu
 
 # * only relevant for releasing Leihs *
 
+cd "$(dirname "${BASH_SOURCE}")/.."
+
+set +x
 if test ! "${S3_ACCESS_KEY_ID:-}" -o ! "${S3_SECRET_ACCESS_KEY:-}"; then
   echo "S3_ACCESS_KEY_ID and S3_SECRET_ACCESS_KEY must be present in ENV!"
   exit 1
 fi
 
+# export LEIHS_VERSION="6.0.0-RC.1" # tmp hardcoded
+export LEIHS_VERSION="$(bin/get-latest-leihs-version)"
+
+echo; echo "Making release archive for 'Leihs ${LEIHS_VERSION}'."; echo
+read -p "Continue (y/n)?" choice
+case "$choice" in
+  y|Y ) echo;;
+  * ) exit 1;;
+esac
+
+set -x
+
 export USE_S3_BUILD_CACHE=1
-export LOCAL_CACHE_DIR="$(dirname "${BASH_SOURCE}/../tmp/build_cache")"
+export LOCAL_CACHE_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && mkdir -p ../tmp/build_cache && cd ../tmp/build_cache && pwd -P)"
 
 export AWS_ACCESS_KEY_ID="$S3_ACCESS_KEY_ID"
 export AWS_SECRET_ACCESS_KEY="$S3_SECRET_ACCESS_KEY"
@@ -21,20 +36,22 @@ source bin/set-env-build-cache
 bin/ansible-playbook -i 'localhost' -v build_only_play.yml
 
 # second run, because everything is cached this just fills a local directory with the used artefacts
-export LEIHS_VERSION="6.0.0-RC.1" # tmp hardcoded
-export LOCAL_CACHE_DIR="$(dirname "${BASH_SOURCE}/../tmp/release-builds/${LEIHS_VERSION}/build-artefacts")"
+export ARTEFACTS_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && mkdir -p "../tmp/release-builds/${LEIHS_VERSION}/" && cd "../tmp/release-builds/${LEIHS_VERSION}" && pwd -P)"
+export ARTEFACTS_ARCHIVE_FILE="${ARTEFACTS_DIR}/build-artefacts.tar.gz"
+export LOCAL_CACHE_DIR="${ARTEFACTS_DIR}/build-artefacts/"
+rm -rf "$ARTEFACTS_DIR" && mkdir -p "$LOCAL_CACHE_DIR"
 source bin/set-env-build-cache
 
 bin/ansible-playbook -i 'localhost' -v build_only_play.yml
 
 # check if leihs-ui artefact is present
 # (because it is only indirectly used, it can happen thats its missing. we want to enforce the presence to that recompile of services is still fast if other parts have changed!)
-if ! ls /tmp/build_cache/leihs-ui_*.tgz &>/dev/null; then
+if ! ls "${LOCAL_CACHE_DIR}"/leihs-ui_*.tgz &>/dev/null; then
   echo "ERROR: leihs-ui artefact is missing! check that deploy/roles/leihs-admin-install/tasks/build.yml ran!"
   exit 1
 fi
 
-tar -C "$LOCAL_CACHE_DIR" -cvzf "${LOCAL_CACHE_DIR}.tar.gz" .
+tar -C "$LOCAL_CACHE_DIR" -cvzf "$ARTEFACTS_ARCHIVE_FILE" . # yes, no version in the name, because it will an genericly names attachment.
 
 # NOTE: this tar is (manually) attached to a github release, so the build cache can be prepared by downloading and extracting it (should later be handled in ansible)
 # $ curl -sL "https://github.com/leihs/leihs/releases/download/6.0.0-RC.1/build-artefacts.tar.gz" | tar -C ./tmp/build_cache/ -xvzf -
