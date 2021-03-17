@@ -1,6 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-source bin/set-env-build-cache
-source bin/virtualenv-activate || exit 1
+DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+
+source ${DEPLOY_DIR}/bin/set-env-build-cache
+source ${DEPLOY_DIR}/bin/virtualenv-activate || exit 1
 
 ansible-playbook "$@"

@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/usr/bin/env bash -eu
 
 USE_S3_BUILD_CACHE="${USE_S3_BUILD_CACHE:-"1"}"
 LOCAL_CACHE_DIR_RELATIVE="${LOCAL_CACHE_DIR:-"../tmp/build_cache"}"
