@@ -1,9 +1,14 @@
 - hosts: leihs_server
-  vars_files:
-    - inventories/prototype/script_vars.yml
+  # NOTE: those vars need to be set. they are listed here for reference but its recommended to define them on the command line,
+  # example: $ bin/ansible-playbook -i ../zhdk-inventory/test-hosts execute-script_play.yml -e 'script_file=/tmp/myscript.rb'
+  vars:
+    script_file_path: "{{ script_file | mandatory }}"
+    # import_file_path: "{{ import_file }}"
+    # shared_scripts_dir_path: "{{ shared_scripts_dir }}"
+    logfile_path: "/tmp/leihs-script.{{ansible_date_time.iso8601_basic_short}}.log.txt"
   tasks:
     - copy:
-        src: '{{import_file_path}}'
+        src: "{{import_file_path}}"
         dest: /tmp/leihs-import
       when: import_file_path is defined
       name: copy import file
@@ -20,14 +25,14 @@
       name: copy shared script files
 
     - copy:
-        src: '{{script_file_path}}'
+        src: "{{script_file_path}}"
         dest: /tmp/leihs-scripts/script.rb
       name: copy script file
 
     - file:
-        path: /tmp/leihs-script.log
+        path: "{{logfile_path}}"
         state: touch
-        owner: '{{leihs_legacy_user}}'
+        owner: "{{leihs_legacy_user}}"
       name: create log file
 
     - shell: |
@@ -38,7 +43,12 @@
         export IMPORT_FILE=/tmp/leihs-import
         export LEIHS_SECRET={{leihs_master_secret}}
         cd /leihs/legacy
-        ruby -S bundle exec rails runner /tmp/leihs-scripts/script.rb
+        ruby -S bundle exec rails runner /tmp/leihs-scripts/script.rb | tee '{{logfile_path}}'
       become: yes
-      become_user: '{{leihs_legacy_user}}'
+      become_user: "{{leihs_legacy_user}}"
       name: run rails script
+
+    - fetch:
+        src: "{{logfile_path}}"
+        dest: "log"
+        fail_on_missing: yes

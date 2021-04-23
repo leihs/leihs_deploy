@@ -1,5 +1,0 @@
----
-# this is only a template. make your own copy of this file 'script_vars.yml'.
-import_file_path: foo
-script_file_path: bar
-shared_scripts_dir_path: baz
