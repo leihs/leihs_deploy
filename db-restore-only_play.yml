@@ -45,7 +45,7 @@
       poll: 10
 
     - name: vacuum DB
-      shell: /usr/lib/postgresql/{{postgres_version}}/bin/psql -c "VACUUM FULL ANALYZE;"
+      shell: /usr/lib/postgresql/{{postgres_version}}/bin/psql -d "{{database.database}}" -c "VACUUM ANALYZE;"
       become: yes
       become_user: root
 
