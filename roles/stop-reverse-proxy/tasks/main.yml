@@ -4,9 +4,17 @@
     state: directory
     mode: 0755
 
-- template:
-    src: 503.html
+- name: maintenance page HTML
+  template:
+    src: maintenance-page.html
     dest: /var/www/leihs-maintenance/503.html
+    mode: 0644
+
+- name: maintenance page vhost config
+  template:
+    src: maintenance-page-vhost.conf
+    dest: /etc/apache2/sites-enabled/leihs-maintenance.conf
+    mode: 0644
 
 - name: disable all leihs sites
   shell: rm /etc/apache2/sites-enabled/leihs_*
