@@ -1,8 +1,15 @@
+- name: remove maintenance page vhost config
+  file:
+    path: /etc/apache2/sites-enabled/leihs-maintenance.conf
+    state: absent
+
+- name: remove maintenance page directory
+  file:
+    path: /var/www/leihs-maintenance
+    state: absent
+
 - name: disable all leihs sites
-  shell: rm /etc/apache2/sites-enabled/leihs_*
-  failed_when: false
-  register: cmd
-  changed_when: cmd.rc != 0
+  shell: rm -rf /etc/apache2/sites-enabled/leihs*
 
 - name: remove leihs configurations
   file:
@@ -28,7 +35,7 @@
     var: leihs_virtual_hosts
 
 - include_tasks: virtual-host.yml
-  with_indexed_items: '{{leihs_virtual_hosts}}'
+  with_indexed_items: "{{leihs_virtual_hosts}}"
 
 - name: restart reverse-proxy
   service:

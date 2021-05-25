@@ -1,6 +1,4 @@
-
 # ansible_python_interpreter: /usr/bin/python3
-
 
 leihs_send_mails: No
 
@@ -73,3 +71,13 @@ database:
 
 manipulate_data_reset_all_login_fields: false
 manipulate_data_revoke_all_admins: false
+
+### maintenance page configuration #############################################
+
+maintenance_page_title: "Leihs Maintenance" # (title shown in browser tab)
+maintenance_page_heading: "Leihs will be back soon!" # (title shown on the page)
+maintenance_page_body_paragraphs_html: # NOTE: multiple paragraphs can be added, HTML is supported.
+  - "Sorry for the inconvenience, but we're performing some scheduled maintenance at the moment."
+  # - "Désolé pour le dérangement, mais nous effectuons actuellement une maintenance programmée."
+  # - 'Contact <a href="mailto:service@example.org">service@example.org</a> for support.'
+maintenance_page_status_page_url: null # e.g.: https://ci.example.org/jobs/cf3782e7-43c9-4239-9dcf-d24469a44296

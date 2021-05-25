@@ -1,23 +1,28 @@
-- name: maintenance site
-  file:
-    path: /var/www/leihs-maintenance
-    state: directory
-    mode: 0755
-
-- template:
-    src: 503.html
-    dest: /var/www/leihs-maintenance/503.html
-
 - name: disable all leihs sites
-  shell: rm /etc/apache2/sites-enabled/leihs_*
-  failed_when: false
-  register: cmd
-  changed_when: cmd.rc != 0
+  shell: rm -rf /etc/apache2/sites-enabled/leihs*
 
 - name: remove leihs configurations
   file:
     path: /etc/apache2/leihs
     state: absent
+
+- name: maintenance page directory
+  file:
+    path: /var/www/leihs-maintenance
+    state: directory
+    mode: 0755
+
+- name: maintenance page HTML
+  template:
+    src: maintenance-page.html
+    dest: /var/www/leihs-maintenance/503.html
+    mode: 0644
+
+- name: maintenance page vhost config
+  template:
+    src: maintenance-page-vhost.conf
+    dest: /etc/apache2/sites-enabled/leihs-maintenance.conf
+    mode: 0644
 
 - name: restart reverse-proxy
   service:
