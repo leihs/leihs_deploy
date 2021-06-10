@@ -13,6 +13,8 @@
     recurse: yes
   name: create empty {{leihs_borrow_dir}}
 
+- include_tasks: translations.yml
+
 - copy:
     src: "{{playbook_dir}}/../borrow/target/leihs-borrow.jar"
     dest: "{{leihs_borrow_dir}}/leihs-borrow.jar"
