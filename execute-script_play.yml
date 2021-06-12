@@ -3,52 +3,90 @@
   # example: $ bin/ansible-playbook -i ../zhdk-inventory/test-hosts execute-script_play.yml -e 'script_file=/tmp/myscript.rb'
   vars:
     script_file_path: "{{ script_file | mandatory }}"
+    script_args_string: "{{ script_args | default('') }}"
     # import_file_path: "{{ import_file }}"
     # shared_scripts_dir_path: "{{ shared_scripts_dir }}"
     logfile_path: "/tmp/leihs-script.{{ansible_date_time.iso8601_basic_short}}.log.txt"
   tasks:
-    - copy:
+    - name: copy import file
+      copy:
         src: "{{import_file_path}}"
         dest: /tmp/leihs-import
       when: import_file_path is defined
-      name: copy import file
 
-    - file:
+    - name: created /tmp/leihs-scripts directory
+      file:
         path: /tmp/leihs-scripts
         state: directory
-      name: created /tmp/leihs-scripts directory
 
-    - copy:
+    - name: copy shared script files
+      copy:
         src: ../zhdk-inventory/scripts/shared/
         dest: /tmp/leihs-scripts/shared/
       when: shared_scripts_dir_path is defined
-      name: copy shared script files
 
-    - copy:
+    - name: copy script file
+      copy:
         src: "{{script_file_path}}"
         dest: /tmp/leihs-scripts/script.rb
-      name: copy script file
 
-    - file:
+    - name: create log file
+      file:
         path: "{{logfile_path}}"
         state: touch
         owner: "{{leihs_legacy_user}}"
-      name: create log file
 
-    - shell: |
-        set -eux
-        cd /leihs/database
-        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
-        export RAILS_ENV=production
-        export IMPORT_FILE=/tmp/leihs-import
-        export LEIHS_SECRET={{leihs_master_secret}}
-        cd /leihs/legacy
-        ruby -S bundle exec rails runner /tmp/leihs-scripts/script.rb | tee '{{logfile_path}}'
+    # NOTE: the env (vars) should match /etc/systemd/system/leihs-legacy.service,
+    #       except the log level which can be higher!
+    - name: run rails script
+      ignore_errors: True
       become: yes
       become_user: "{{leihs_legacy_user}}"
-      name: run rails script
+      register: run_script_results
+      shell: |
+        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
+        export LEIHS_SECRET={{leihs_master_secret}}
+        set -eux
+        export RAILS_ENV=production
+        export LEIHS_SEND_MAILS=True
+        export RAILS_LOG_LEVEL=INFO
+        cd /leihs/legacy
+        ruby -S bundle exec rails runner /tmp/leihs-scripts/script.rb {{script_args_string}}
+    
+    - name: make log text
+      set_fact:
+        run_script_log: |
+         ## STDOUT
 
-    - fetch:
+         ```
+         {{run_script_results.stdout}}
+         ```
+         
+         ## STDERR
+
+         ```
+         {{run_script_results.stderr}}
+         ```
+
+         ## RESULT
+         
+         SCRIPT RESULT WAS {% if run_script_results.failed %}FAIL{% else %}OK{% endif %}!
+
+
+    - name: save log to file
+      copy:
+        dest: "{{logfile_path}}"
+        content: "{{run_script_log}}"
+
+    - name: fetch logfile
+      fetch:
         src: "{{logfile_path}}"
         dest: "log"
         fail_on_missing: yes
+
+
+    - name: print log
+      debug:
+        msg: "{{run_script_log}}"
+
+
