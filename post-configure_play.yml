@@ -13,3 +13,8 @@
     shell: |
       /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
         "UPDATE system_and_security_settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
+
+  - name: Load translations
+    include_role:
+      name: post-configure
+      tasks_from: translations.yml
