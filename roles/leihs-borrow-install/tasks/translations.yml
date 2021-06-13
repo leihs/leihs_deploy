@@ -14,4 +14,5 @@
 
 - name: load translations
   shell: |
+    export ON_ERROR_STOP=yes
     psql -d {{database.database}} < {{leihs_borrow_dir}}/translations.sql
