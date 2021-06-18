@@ -6,6 +6,25 @@
     path: /etc/apache2/leihs
     state: absent
 
+- name: 'check for presence of letsencrypt cert'
+  block:
+    - name: 'has_letsencrypt_cert: Set default for variable'
+      set_fact: { has_letsencrypt_cert: false }
+
+    - name: 'has_letsencrypt_cert: Get stat for cert file'
+      stat: { path: '/etc/letsencrypt/live/{{leihs_external_hostname}}/fullchain.pem' }
+      register: cert_file
+
+    - name: 'has_letsencrypt_cert: Get stat for key file'
+      stat: { path: '/etc/letsencrypt/live/{{leihs_external_hostname}}/privkey.pem' }
+      register: key_file
+
+    - name: 'has_letsencrypt_cert: Set fact to true if certificate and key are present'
+      set_fact: { has_letsencrypt_cert: true }
+      when: (cert_file.stat.exists is defined and cert_file.stat.exists) and (key_file.stat.exists is defined and key_file.stat.exists)
+
+    - debug: { var: has_letsencrypt_cert }
+
 - name: maintenance page directory
   file:
     path: /var/www/leihs-maintenance
