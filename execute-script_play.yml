@@ -6,7 +6,13 @@
     script_args_string: "{{ script_args | default('') }}"
     # import_file_path: "{{ import_file }}"
     # shared_scripts_dir_path: "{{ shared_scripts_dir }}"
-    logfile_path: "/tmp/leihs-script.{{ansible_date_time.iso8601_basic_short}}.log.txt"
+    local_log_dir_path: "{{ local_log_dir | default('log') }}"
+    # internal helper vars
+    logfile_name: "leihs-script.{{ansible_date_time.iso8601_basic_short}}.log.txt"
+    logfile_path: "/tmp/{{logfile_name}}"
+    local_logfile_path: "{{local_log_dir_path}}/{{ansible_hostname}}/{{logfile_name}}"
+    script_user: "{{leihs_legacy_user}}"
+
   tasks:
     - name: copy import file
       copy:
@@ -34,14 +40,15 @@
       file:
         path: "{{logfile_path}}"
         state: touch
-        owner: "{{leihs_legacy_user}}"
+        owner: "{{script_user}}"
+      register: server_logfile
 
     # NOTE: the env (vars) should match /etc/systemd/system/leihs-legacy.service,
     #       except the log level which can be higher!
     - name: run rails script
       ignore_errors: True
       become: yes
-      become_user: "{{leihs_legacy_user}}"
+      become_user: "{{script_user}}"
       register: run_script_results
       shell: |
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
@@ -73,20 +80,35 @@
          SCRIPT RESULT WAS {% if run_script_results.failed %}FAIL{% else %}OK{% endif %}!
 
 
-    - name: save log to file
+    - name: save logfile to server
       copy:
         dest: "{{logfile_path}}"
         content: "{{run_script_log}}"
 
-    - name: fetch logfile
+    # NOTE: using 'fetch' because 'copy' does not create missing directories in the dest path
+    - name: save logfile locally
       fetch:
         src: "{{logfile_path}}"
-        dest: "log"
-        fail_on_missing: yes
+        dest: "{{local_logfile_path}}"
+        flat: true # "dest" is already unique, keep ansible from prepending hostname and remote path
+        fail_on_missing: no
+      register: local_logfile
 
+    - debug: {var: server_logfile}
+    - debug: {var: local_logfile}
 
     - name: print log
       debug:
-        msg: "{{run_script_log}}"
+        msg: |
+          LOG TEXT:
+
+          {{run_script_log}}
+
+          ---
+
+          LOG FILE PATHS:
+          * on server: {% if server_logfile.dest is defined %}{{server_logfile.dest}}{% endif %}
+
+          * on local: {% if local_logfile.dest is defined %}{{local_logfile.dest}}{% endif %}
 
 
