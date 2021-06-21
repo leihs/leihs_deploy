@@ -1,15 +1,9 @@
 traits:
   ruby-install: yes
 
-environment_variables:
-  RUBY_ENGINE: ruby
-  RUBY_VERSION: 2.6.0
-  RUBY: '{{RUBY_ENGINE}}-{{RUBY_VERSION}}'
-
 scripts:
-
-  bundle:
-    exclusive_executor_resource: ruby-install_{{$RUBY}}
+  ruby-bundle:
+    exclusive_executor_resource: ruby-install_{{RUBY}}
     timeout: 20 Minutes
     body: |
       #!/usr/bin/env bash
@@ -29,3 +23,12 @@ scripts:
       fi
 
       bundle install
+
+  install-nodejs:
+    exclusive_executor_resource: nodejs-install_{{$NVM_NODEJS_VERSION}}
+    timeout: 20 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -eu
+      source ~/.nvm/nvm.sh
+      nvm install "$NVM_NODEJS_VERSION"

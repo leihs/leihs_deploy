@@ -1,13 +1,17 @@
 environment_variables:
   CONTAINER_NAME: leihs-deploy-test-{{CIDER_CI_TRIAL_ID}}
-  DEPLOY_NEW_BORROW: 'false'
+  DEPLOY_NEW_BORROW: "false"
+  RUBY_ENGINE: ruby
+  RUBY_VERSION: 2.6.0
+  RUBY: "{{RUBY_ENGINE}}-{{RUBY_VERSION}}"
+  NVM_NODEJS_VERSION: "14"
 
 git_options:
   submodules:
     include_match: ^.*$
 
 include:
-  - container-test/cider-ci/task-components/bundle.yml
+  - container-test/cider-ci/task-components/install-dependencies.yml
   - container-test/cider-ci/task-components/container.yml
   - container-test/cider-ci/task-components/deploy-to-container.yml
   - container-test/cider-ci/task-components/test-container.yml

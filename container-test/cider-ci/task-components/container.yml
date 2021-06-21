@@ -5,8 +5,9 @@ scripts:
 
   create-container:
     start_when:
-      bundled:
-        script_key: bundle
+      dependencies are installed:
+        script_key: ruby-bundle
+        script_key: install-nodejs
     body: |
       #!/usr/bin/env bash
       set -eux
