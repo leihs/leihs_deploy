@@ -1,18 +1,21 @@
-- name: build translations.sql file
-  delegate_to: localhost
-  args:
-    executable: /bin/bash
-  shell: |
-    cd {{playbook_dir}}/../borrow
-    ./bin/build-translations
+- name: "prepare translations"
+  when: "LEIHS_DEPLOY_NEW_BORROW_APP"
+  block:
+    - name: build translations.sql file
+      delegate_to: localhost
+      args:
+        executable: /bin/bash
+      shell: |
+        cd {{playbook_dir}}/../borrow
+        ./bin/build-translations
 
-- name: copy translations.sql file over to server
-  copy:
-    src: "{{playbook_dir}}/../borrow/bin/translations.sql"
-    dest: "{{leihs_borrow_dir}}/translations.sql"
-    owner: "{{leihs_borrow_user}}"
+    - name: copy translations.sql file over to server
+      copy:
+        src: "{{playbook_dir}}/../borrow/bin/translations.sql"
+        dest: "{{leihs_borrow_dir}}/translations.sql"
+        owner: "{{leihs_borrow_user}}"
 
-- name: load translations
-  shell: |
-    export ON_ERROR_STOP=yes
-    psql -d {{database.database}} < {{leihs_borrow_dir}}/translations.sql
+    - name: load translations
+      shell: |
+        export ON_ERROR_STOP=yes
+        psql -d {{database.database}} < {{leihs_borrow_dir}}/translations.sql
