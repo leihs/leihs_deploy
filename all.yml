@@ -69,9 +69,6 @@ database:
   password: root
   database: leihs
 
-manipulate_data_reset_all_login_fields: false
-manipulate_data_revoke_all_admins: false
-
 ### maintenance page configuration #############################################
 
 maintenance_page_title: "Leihs Maintenance" # (title shown in browser tab)
