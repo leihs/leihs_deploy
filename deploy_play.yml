@@ -1,7 +1,9 @@
 # first run all local build tasks to catch any errors early
 - import_playbook: build_only_play.yml
+
 # then prepare the server
 - import_playbook: system-prepare_play.yml
+
 # rest of the deploy (service interruption)
 - import_playbook: stop_play.yml
 - import_playbook: install_play.yml

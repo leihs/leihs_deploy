@@ -1,27 +1,35 @@
-- hosts: localhost
-
+# NOTE: instead of 'hosts: localhost' we need to use 'hosts: all' + 'delegate_to: localhost' so it works when using the `--limit $HOST` argument!
+- hosts: all
   tasks:
     - name: Build Admin
-      include_role:
+      delegate_to: localhost
+      import_role:
         name: leihs-admin-install
         tasks_from: build.yml
 
     - name: Build Borrow
-      include_role:
+      delegate_to: localhost
+      import_role:
         name: leihs-borrow-install
         tasks_from: build.yml
 
     - name: Build Mail
-      include_role:
+      delegate_to: localhost
+      import_role:
         name: leihs-mail-install
         tasks_from: build.yml
 
     - name: Build My
-      include_role:
+      delegate_to: localhost
+      import_role:
         name: leihs-my-install
         tasks_from: build.yml
 
     - name: Build Procure
-      include_role:
+      delegate_to: localhost
+      import_role:
         name: leihs-procure-install
         tasks_from: build.yml
+
+    - debug:
+        msg: "All local builds OK!"
