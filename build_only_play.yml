@@ -1,5 +1,6 @@
 # NOTE: instead of 'hosts: localhost' we need to use 'hosts: all' + 'delegate_to: localhost' so it works when using the `--limit $HOST` argument!
 - hosts: all
+  gather_facts: no
   tasks:
     - name: Build Admin
       delegate_to: localhost
