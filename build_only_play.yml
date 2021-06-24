@@ -1,4 +1,4 @@
-# NOTE: instead of 'hosts: localhost' we need to use 'hosts: all' + 'delegate_to: localhost' so it works when using the `--limit $HOST` argument!
+# NOTE: instead of 'hosts: localhost' we need to use 'hosts: all' + 'delegate_to: localhost' so it works when using the `--limit $HOST` argument! `gather_facts: no` is also needed because of this, because in this step we dont want to connect to the remote server(s) yet.
 - hosts: all
   gather_facts: no
   tasks:
