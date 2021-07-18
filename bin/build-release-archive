@@ -33,7 +33,7 @@ export S3_CI_ENDPOINT="https://s3.dev.leihs.app"
 export S3_CI_CACHE_BUCKET="leihs-build-cache-dev"
 source bin/set-env-build-cache
 
-bin/ansible-playbook -i 'localhost' -v build_only_play.yml
+bin/ansible-playbook -i 'localhost,' --connection=local -v build_only_play.yml
 
 # second run, because everything is cached this just fills a local directory with the used artefacts
 export ARTEFACTS_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && mkdir -p "../tmp/release-builds/${LEIHS_VERSION}/" && cd "../tmp/release-builds/${LEIHS_VERSION}" && pwd -P)"
@@ -42,7 +42,7 @@ export LOCAL_CACHE_DIR="${ARTEFACTS_DIR}/build-artefacts/"
 rm -rf "$ARTEFACTS_DIR" && mkdir -p "$LOCAL_CACHE_DIR"
 source bin/set-env-build-cache
 
-bin/ansible-playbook -i 'localhost' -v build_only_play.yml
+bin/ansible-playbook -i 'localhost,' --connection=local -v build_only_play.yml
 
 # check if leihs-ui artefact is present
 # (because it is only indirectly used, it can happen thats its missing. we want to enforce the presence to that recompile of services is still fast if other parts have changed!)
