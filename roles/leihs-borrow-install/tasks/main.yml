@@ -16,11 +16,9 @@
 - copy:
     src: "{{playbook_dir}}/../borrow/target/leihs-borrow.jar"
     dest: "{{leihs_borrow_dir}}/leihs-borrow.jar"
-    owner: "{{leihs_borrow_user}}"
   name: copy jar over to server
 
-- include_tasks: log-dir.yml
-- include_tasks: tmp-dir.yml
+- include_tasks: dirs.yml
 
 - file:
     path: "{{leihs_borrow_dir}}"
