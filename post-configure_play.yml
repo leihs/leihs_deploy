@@ -19,6 +19,5 @@
           when: "LEIHS_DEPLOY_NEW_BORROW_APP"
           block:
             - name: load translations into DB
-              shell: |
-                "{{leihs_borrow_dir}}/bin/get-translations" "{{leihs_borrow_dir}}/leihs-borrow.jar" \
-                  | psql -d {{database.database}} --single-transaction -c '\set ON_ERROR_STOP on' -f -
+              command: |
+                psql -d {{database.database}} --single-transaction -c '\set ON_ERROR_STOP on' -f "{{leihs_borrow_dir}}/translations.sql"

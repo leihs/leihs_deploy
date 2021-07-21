@@ -18,6 +18,11 @@
     dest: "{{leihs_borrow_dir}}/leihs-borrow.jar"
   name: copy jar over to server
 
+- name: copy translations.sql to server
+  copy:
+    content: "{{ lookup('pipe', '{{playbook_dir}}/../borrow/bin/get-translations') }}"
+    dest: "{{leihs_borrow_dir}}/translations.sql"
+
 - include_tasks: dirs.yml
 
 - file:
