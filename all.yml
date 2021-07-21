@@ -26,7 +26,7 @@ leihs_virtual_hosts:
 
 ### database backup ############################################################
 
-db_backup_dir: /leihs/var/db-backups
+db_backup_dir: "{{LEIHS_ROOT_DIR}}/var/db-backups"
 db_backup_nigthly_enabled: No
 db_backup_keep_days: 10
 db_backup_on_deploy: No
@@ -36,7 +36,7 @@ db_backup_on_deploy: No
 postgres_version: 10 # major version, NOTE: this variable is not used yet everywhere
 leihs_database_ruby_version: 2.6.6
 leihs_database_user: leihs-database
-leihs_database_path: /leihs/database
+leihs_database_path: "{{LEIHS_ROOT_DIR}}/database"
 leihs_database_clean_slate: false
 
 ### legacy service configuration ###############################################
@@ -55,6 +55,9 @@ LEIHS_PROCURE_HTTP_PORT: "3230"
 LEIHS_PROCURE_CLIENT_HTTP_PORT: "3231"
 LEIHS_MY_HTTP_PORT: "3240"
 LEIHS_BORROW_HTTP_PORT: "3250"
+
+leihs_borrow_user: "leihs-borrow"
+leihs_borrow_dir: "{{LEIHS_ROOT_DIR}}/borrow"
 
 ################################################################################
 

@@ -23,7 +23,7 @@ ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}
     bundle exec puma \
     -e production \
     -t 1:{{leihs_legacy_max_threads_per_worker}} \
-    -w {{leihs_leagcy_workers}} \
+    -w {{leihs_legacy_workers}} \
     -b tcp://localhost:{{LEIHS_LEGACY_HTTP_PORT}}
 
 [Install]

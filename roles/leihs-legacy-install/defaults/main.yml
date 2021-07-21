@@ -3,4 +3,4 @@ leihs_legacy_ruby_version: 2.6.0
 leihs_legacy_clean_slate: false
 leihs_legacy_user: leihs-legacy
 leihs_legacy_max_threads_per_worker: 2
-leihs_leagcy_workers: '{{ansible_processor_vcpus}}'
+leihs_legacy_workers: "{{ansible_processor_vcpus}}"
