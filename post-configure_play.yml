@@ -1,20 +1,24 @@
 - hosts: leihs_server
 
   tasks:
+    - name: DB settings -- check for valid variables/settings
+      fail:
+        msg: "Invalid settings! Check the following variables: `leihs_external_hostname` and `leihs_external_base_url`"
+      when: >
+        (leihs_external_hostname is not defined) or (leihs_external_hostname is none)
+        or (leihs_external_base_url == "https://")
 
-  - name: DB settings -- check for valid variables/settings
-    fail:
-      msg: "Invalid settings! Check the following variables: `leihs_external_hostname` and `leihs_external_base_url`"
-    when: >
-      (leihs_external_hostname is not defined) or (leihs_external_hostname is none)
-      or (leihs_external_base_url == "https://")
+    - name: DB settings -- set external_base_url
+      shell: |
+        /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
+          "UPDATE system_and_security_settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
 
-  - name: DB settings -- set external_base_url
-    shell: |
-      /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
-        "UPDATE system_and_security_settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
-
-  - name: Load translations
-    include_role:
-      name: post-configure
-      tasks_from: translations.yml
+    - name: Load translations
+      block:
+        - name: for borrow
+          when: "LEIHS_DEPLOY_NEW_BORROW_APP"
+          block:
+            - name: load translations into DB
+              shell: |
+                "{{leihs_borrow_dir}}/bin/get-translations" "{{leihs_borrow_dir}}/leihs-borrow.jar" \
+                  | psql -d {{database.database}} --single-transaction -c '\set ON_ERROR_STOP on' -f -
