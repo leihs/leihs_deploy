@@ -5,11 +5,11 @@
 - name: Uninstall other postgresql versions
   apt:
     pkg:
-    - postgresql-11
-    - postgresql-client-11
-    - postgresql-12
-    - postgresql-client-12
-    - postgresql-13
+      - postgresql-11
+      - postgresql-client-11
+      - postgresql-12
+      - postgresql-client-12
+      - postgresql-13
     state: absent
     update_cache: yes
     cache_valid_time: 3600
@@ -22,8 +22,10 @@
     update_cache: yes
     cache_valid_time: 3600
   when: >
-    not (ansible_distribution == "Ubuntu"
-    and ansible_distribution_release == "focal")
+    not ((ansible_distribution == "Ubuntu"
+      and ansible_distribution_release == "focal")
+      or (ansible_distribution == "Debian"
+      and ansible_distribution_release == "bullseye"))
 
 - name: Install psycopg2
   apt:
@@ -33,16 +35,18 @@
     cache_valid_time: 3600
   when: >
     (ansible_distribution == "Ubuntu"
-    and ansible_distribution_release == "focal")
+      and ansible_distribution_release == "focal")
+      or (ansible_distribution == "Debian"
+      and ansible_distribution_release == "bullseye")
 
 - name: Install postgresql
   apt:
     pkg:
-    - postgresql-10
-    - postgresql-contrib-10
-    - postgresql-client
-    - libpq-dev
-    - sudo
+      - postgresql-10
+      - postgresql-contrib-10
+      - postgresql-client
+      - libpq-dev
+      - sudo
     state: present
     update_cache: yes
     cache_valid_time: 3600
