@@ -8,10 +8,10 @@
 - name: Install general stuff
   apt:
     pkg:
-    - ruby
-    - python-passlib
-    - imagemagick
-    - shared-mime-info
+      - ruby
+      - "{% if ansible_python_interpreter is defined and ansible_python_interpreter == '/usr/bin/python3' %}python3-passlib{% else %}python-passlib{% endif %}"
+      - imagemagick
+      - shared-mime-info
     state: latest
     update_cache: yes
     cache_valid_time: 3600

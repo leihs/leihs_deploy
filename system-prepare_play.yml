@@ -6,11 +6,16 @@
     - name: install system python
       raw: |
         apt -y update
-        if [ $(lsb_release -c -s) = 'focal' ]; then
+        if [ "$(lsb_release -c -s)" = 'focal' ]; then
+          echo "installing python 3 on Ubuntu"
+          apt install -y python3 python-is-python3
+        else if grep -q "VERSION_CODENAME=bullseye" /etc/os-release; then
+          echo "installing python 3 on Debian"
           apt install -y python3 python-is-python3
         else
+          echo "installing python 2"
           apt install -y python
-        fi
+        fi; fi
 
 - hosts: leihs_gateway
 
