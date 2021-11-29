@@ -1,3 +1,8 @@
+- name: Install GPG
+  apt:
+    pkg: gnupg
+    state: present
+
 - name: Add pgdg apt key
   apt_key:
     id: ACCC4CF8
