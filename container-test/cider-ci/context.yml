@@ -4,7 +4,7 @@ environment_variables:
   RUBY_ENGINE: ruby
   RUBY_VERSION: 2.6.0
   RUBY: "{{RUBY_ENGINE}}-{{RUBY_VERSION}}"
-  NVM_NODEJS_VERSION: "14"
+  NVM_NODEJS_VERSION: "16"
 
 git_options:
   submodules:
