@@ -2,8 +2,8 @@
 Description=Leihs Legacy Cron Service Timer
 
 [Timer]
-OnCalendar=*-*-* 03:00:00
-RandomizedDelaySec=3600
+OnCalendar={{leihs_run_nightly_tasks_on}}
+RandomizedDelaySec={{leihs_run_nightly_tasks_randomized_delay_max_seconds}}
 Persistent=true
 
 [Install]
