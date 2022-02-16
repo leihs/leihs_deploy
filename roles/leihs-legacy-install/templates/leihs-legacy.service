@@ -6,19 +6,27 @@ BindsTo=leihs-migration.service
 After=leihs-migration.service
 PartOf=leihs-migration.service
 
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
 [Service]
 SyslogIdentifier=leihs-legacy
 WorkingDirectory=/leihs/legacy
 User={{leihs_legacy_user}}
 Group={{leihs_legacy_user}}
+
 Restart=on-failure
+Restart=always
 RestartSec=5
+
 Environment=LEIHS_SECRET={{leihs_master_secret}}
 Environment=PATH=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=LEIHS_SEND_MAILS={{leihs_send_mails}}
 Environment=RAILS_SERVE_STATIC_FILES=Yes
+
 ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin/ruby -S \
     bundle exec puma \
     -e production \
@@ -26,5 +34,8 @@ ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}
     -w {{leihs_legacy_workers}} \
     -b tcp://localhost:{{LEIHS_LEGACY_HTTP_PORT}}
 
+
 [Install]
 WantedBy=multi-user.target
+
+# vi: ft=sh

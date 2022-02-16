@@ -6,6 +6,10 @@ BindsTo=postgresql@10-main.service
 After=postgresql@10-main.service
 PartOf=postgresql@10-main.service
 
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
 [Service]
 SyslogIdentifier=leihs-migration
 Type=oneshot
@@ -13,10 +17,15 @@ RemainAfterExit=yes
 WorkingDirectory=/leihs/database
 User={{leihs_database_user}}
 Group={{leihs_database_user}}
+
 Environment=PATH=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
+
 ExecStart=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin/ruby -S bundle exec rake db:migrate
+
 
 [Install]
 WantedBy=multi-user.target
+
+# vi: ft=sh

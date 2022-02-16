@@ -7,17 +7,33 @@ BindsTo=leihs-migration.service
 After=leihs-migration.service
 PartOf=leihs-migration.service
 
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
 [Service]
 SyslogIdentifier=leihs-borrow
 WorkingDirectory={{leihs_borrow_dir}}
 User={{leihs_borrow_user}}
 Group={{leihs_borrow_user}}
+
 LimitNOFILE=64000
-Restart=on-failure
+Restart=always
 RestartSec=5
-Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:{{database.port}}/{{database.database}}?max-pool-size=20
-Environment=LEIHS_LEGACY_HTTP_BASE_URL=http://localhost:{{LEIHS_LEGACY_HTTP_PORT}}/
-Environment=LEIHS_BORROW_HTTP_BASE_URL=http://localhost:{{LEIHS_BORROW_HTTP_PORT}}/borrow
-ExecStart=/usr/bin/env java "-Xmx500m" -jar {{leihs_borrow_dir}}/leihs-borrow.jar run
+
+Environment=DB_NAME={{database.database}}
+Environment=DB_USER={{database.username}}
+Environment=DB_PASSWORD={{database.password}}
+Environment=DB_MAX_POOL_SIZE=20
+Environment=HTTP_PORT={{LEIHS_BORROW_HTTP_PORT}}
+Environment=LEGACY_HTTP_PORT={{LEIHS_LEGACY_HTTP_PORT}}
+Environment=LEGACY_HTTP_PROTOCOL=http
+Environment=LEGACY_HTTP_HOST=localhost
+
+ExecStart=/usr/bin/env java "-Xmx1G" -jar leihs-borrow.jar run
+
+
 [Install]
 WantedBy=multi-user.target
+
+# vi: ft=sh

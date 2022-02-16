@@ -1,14 +1,23 @@
-- import_tasks: shared/task_install_ruby.yml
-  vars:
-    become_user: "{{leihs_database_user}}"
-
-- shell: |
+- name: install ruby
+  shell: |
     set -eux
-    export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
-    gem install bundler
-    cd /leihs/database
-     bundle install --retry=12
+    ruby-install --no-install-deps --no-reinstall ruby {{leihs_database_ruby_version}}
   become: yes
   become_user: "{{leihs_database_user}}"
   become_method: sudo
-  name: install bundler and bundle
+  # this task might take longer than ssh timeout! run in background for up to 1h and poll every 10 seconds:
+  async: 3600
+  poll: 10
+
+- name: install bundler and bundle
+  shell: |
+    set -eux
+    unset GEM_ROOT GEM_PATH GEM_HOME
+    unset RUBY_VERSION RUBY_ENGINE RUBY_ROOT
+    export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
+    gem install bundler:{{leihs_database_ruby_bundler_version}}
+    cd /leihs/database
+    bundle install --retry=3
+  become: yes
+  become_user: "{{leihs_database_user}}"
+  become_method: sudo

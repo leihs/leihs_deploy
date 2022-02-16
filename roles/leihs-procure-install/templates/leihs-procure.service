@@ -7,19 +7,29 @@ BindsTo=leihs-migration.service
 After=leihs-migration.service
 PartOf=leihs-migration.service
 
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
 [Service]
 SyslogIdentifier=leihs-procure
 WorkingDirectory={{leihs_procure_dir}}
 User={{leihs_procure_user}}
 Group={{leihs_procure_user}}
-Restart=on-failure
+
+Restart=always
 RestartSec=5
-Environment=LEIHS_PROCURE_HTTP_BASE_URL=http://localhost:{{LEIHS_PROCURE_HTTP_PORT}}
-Environment=LEIHS_DATABASE_URL=jdbc:postgresql://{{database.username}}:{{database.password}}@localhost:{{database.port}}/{{database.database}}?max-pool-size=20
-Environment=CLASSPATH={{leihs_procure_dir}}/leihs-procure.jar
-Environment=LEIHS_SECRET={{leihs_master_secret}}
-ExecStart=/usr/bin/env java "-Xmx512m" leihs.procurement.backend.main run
+
+Environment=DB_NAME={{database.database}}
+Environment=DB_USER={{database.username}}
+Environment=DB_PASSWORD={{database.password}}
+Environment=DB_MAX_POOL_SIZE=10
+Environment=HTTP_PORT={{LEIHS_PROCURE_HTTP_PORT}}
+
+ExecStart=/usr/bin/env java "-Xmx512m" -jar leihs-procure.jar run
 
 
 [Install]
 WantedBy=multi-user.target
+
+# vi: ft=sh
