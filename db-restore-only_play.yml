@@ -7,6 +7,14 @@
 - import_playbook: stop_play.yml
 
 - hosts: leihs_server
+  vars:
+    # if restore from an existing dump on the remote is desired:
+    # override remote_pgbin_restore_path with a different value
+    # than remote_pgbin_restore_path_default and pointing it to an
+    # existing file on the remote will skip copy and later removal of the dump
+    remote_pgbin_restore_path_default: '/tmp/restore-dump.pgbin'
+    remote_pgbin_restore_path: "{{remote_pgbin_restore_path_default}}"
+
   tasks:
     - name: make sure current PostgreSQL is installed
       include_role:
@@ -19,7 +27,8 @@
     - name: copy dump file to remote
       copy:
         src: "{{database_dump_restore_file_path}}"
-        dest: /tmp/restore-dump.pgbin
+        dest: '{{remote_pgbin_restore_path_default}}'
+      when: remote_pgbin_restore_path == remote_pgbin_restore_path_default
 
     - name: reset DB
       shell: |
@@ -36,7 +45,7 @@
         set -eux
         cd /leihs/database
         export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
-        export FILE=/tmp/restore-dump.pgbin
+        export FILE={{remote_pgbin_restore_path}}
         export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
         ruby -S bundle exec rake db:pg:terminate_connections db:pg:structure_and_data:restore
       become: yes
@@ -53,3 +62,5 @@
         path: /tmp/restore-dump.pgbin
         state: absent
       name: delete dump file on remote
+      when: remote_pgbin_restore_path == remote_pgbin_restore_path_default
+
