@@ -9,7 +9,7 @@
   apt:
     pkg:
       - ruby
-      - "{% if ansible_python_interpreter is defined and ansible_python_interpreter == '/usr/bin/python3' %}python3-passlib{% else %}python-passlib{% endif %}"
+      - python3-passlib
       - imagemagick
       - shared-mime-info
     state: latest
