@@ -1,5 +1,5 @@
 traits:
-  python3.8: true
+  python3: true
 
 scripts:
   prepare-container:
