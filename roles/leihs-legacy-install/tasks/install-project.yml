@@ -34,9 +34,12 @@
     owner: "{{leihs_legacy_user}}"
   name: extract archive
 
-- name: set LEIHS_MOBILE_APP_ENABLED feature toggle
-  when: "LEIHS_DEPLOY_NEW_BORROW_APP"
+- name: set mobile app (new borrow) feature toggles
   copy:
-    content: "LEIHS_MOBILE_APP_ENABLED = true"
     dest: "/leihs/legacy/config/initializers/mobile_app_feature_toggle.rb"
     owner: "{{leihs_legacy_user}}"
+    content: |
+      LEIHS_MOBILE_APP_ENABLED = {%if LEIHS_DEPLOY_NEW_BORROW_APP%}true{%else%}false{%endif%};
+      LEIHS_NEW_BORROW_APP_DEFAULT_TO_MOBILE = {%if LEIHS_NEW_BORROW_APP_DEFAULT_TO_MOBILE%}true{%else%}false{%endif%};
+      LEIHS_MOBILE_APP_SHOW_NOTICE = {%if LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY%}true{%else%}false{%endif%};
+      LEIHS_MOBILE_APP_SHOW_NOTICE_TEXTS = JSON.parse('{{LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY_TEXTS | to_json}}');
