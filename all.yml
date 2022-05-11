@@ -27,6 +27,10 @@ LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY_TEXTS:
   "es": |
     Utilice la nueva <b style="text-decoration: underline">aplicación móvil</b> con nuevas funciones
 # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨
+#
+
+ruby_use_jemalloc: no
+
 ### reverse proxy configuration ###############################################
 
 leihs_external_hostname: "leihs.example.org"
@@ -54,6 +58,7 @@ db_backup_on_deploy: No
 
 postgres_version: 10 # major version, NOTE: this variable is not used yet everywhere
 leihs_database_ruby_version: 2.7.5
+leihs_database_ruby_use_jemalloc: "{{ruby_use_jemalloc}}"
 leihs_database_ruby_bundler_version: 2.3.3
 leihs_database_user: leihs-database
 leihs_database_path: "{{LEIHS_ROOT_DIR}}/database"
@@ -62,6 +67,7 @@ leihs_database_clean_slate: false
 ### legacy service configuration ###############################################
 
 leihs_legacy_ruby_version: 2.6.6
+leihs_legacy_ruby_use_jemalloc: "{{ruby_use_jemalloc}}"
 leihs_legacy_clean_slate: false
 leihs_legacy_user: leihs-legacy
 leihs_legacy_max_threads_per_worker: 2

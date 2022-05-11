@@ -1,5 +1,7 @@
 - import_tasks: shared/task_install_ruby.yml
   vars:
+    ruby_version: "{{leihs_legacy_ruby_version}}"
+    with_jemalloc: "{{leihs_legacy_ruby_use_jemalloc}}"
     become_user: "{{leihs_legacy_user}}"
 
 - shell: |

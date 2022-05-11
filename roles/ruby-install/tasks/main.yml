@@ -1,17 +1,19 @@
 - apt:
     pkg:
-    - autoconf
-    - bison
-    - build-essential
-    - libcurl4-openssl-dev
-    - libffi-dev
-    - libgdbm-dev
-    - libncurses5-dev
-    - libreadline-dev
-    - libreadline6-dev
-    - libssl-dev
-    - libyaml-dev
-    - zlib1g-dev
+      - autoconf
+      - bison
+      - build-essential
+      - libcurl4-openssl-dev
+      - libffi-dev
+      - libgdbm-dev
+      - libncurses5-dev
+      - libreadline-dev
+      - libreadline6-dev
+      - libssl-dev
+      - libyaml-dev
+      - zlib1g-dev
+      # only needed for compiling `--with-jemalloc`
+      - libjemalloc-dev
     state: present
     update_cache: yes
     cache_valid_time: 3600

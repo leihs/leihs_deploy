@@ -1,13 +1,8 @@
-- name: install ruby
-  shell: |
-    set -eux
-    ruby-install --no-install-deps --no-reinstall ruby {{leihs_database_ruby_version}}
-  become: yes
-  become_user: "{{leihs_database_user}}"
-  become_method: sudo
-  # this task might take longer than ssh timeout! run in background for up to 1h and poll every 10 seconds:
-  async: 3600
-  poll: 10
+- import_tasks: shared/task_install_ruby.yml
+  vars:
+    ruby_version: "{{leihs_database_ruby_version}}"
+    with_jemalloc: "{{leihs_database_ruby_use_jemalloc}}"
+    become_user: "{{leihs_database_user}}"
 
 - name: install bundler and bundle
   shell: |

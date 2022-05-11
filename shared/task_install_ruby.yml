@@ -1,10 +1,43 @@
+# NOTE: this is structured to
+# a) migrate (reinstall) between jemalloc on/off
+# b) make it easy to remove the `with_jemalloc` option later (then 1 of the 2 tasks can be removed)
+# If the `with_jemalloc` option is removed AND all ruby versions are bumped in a leihs release,
+# then just the simple command is left (ruby-install --no-install-deps --no-reinstall ruby {{ruby_version}} -- --with-jemalloc)
+
+- debug:
+    var: ruby_version
+
+- debug:
+    var: with_jemalloc
+
 - name: install ruby
   shell: |
     set -eux
-    ruby-install --no-install-deps --no-reinstall ruby {{leihs_legacy_ruby_version}}
+    RUBY_DIR="${HOME}/.rubies/ruby-{{ruby_version | mandatory}}"
+    # check if ruby was installed WITH jemalloc, if YES then force reinstall
+    "${RUBY_DIR}/bin/ruby" -r rbconfig -e "puts RbConfig::CONFIG['MAINLIBS']" | grep -q -- '-ljemalloc' \
+      && ruby-install --no-install-deps ruby {{ruby_version}} \
+      || ruby-install --no-install-deps --no-reinstall ruby {{ruby_version}}
   become: yes
   become_user: "{{ become_user | mandatory }}" # fail if not given where task is imported!
   become_method: sudo
   # this task might take longer than ssh timeout! run in background for up to 1h and poll every 10 seconds:
   async: 3600
   poll: 10
+  when: "not with_jemalloc | mandatory"
+
+- name: install ruby with jemalloc
+  shell: |
+    set -eux
+    RUBY_DIR="${HOME}/.rubies/ruby-{{ruby_version | mandatory}}"
+    # check if ruby was installed WITH jemalloc, if NOT then force reinstall
+    "${RUBY_DIR}/bin/ruby" -r rbconfig -e "puts RbConfig::CONFIG['MAINLIBS']" | grep -q -- '-ljemalloc' \
+      && ruby-install --no-install-deps --no-reinstall ruby {{ruby_version}} -- --with-jemalloc \
+      || ruby-install --no-install-deps ruby {{ruby_version}} -- --with-jemalloc
+  become: yes
+  become_user: "{{ become_user | mandatory }}" # fail if not given where task is imported!
+  become_method: sudo
+  # this task might take longer than ssh timeout! run in background for up to 1h and poll every 10 seconds:
+  async: 3600
+  poll: 10
+  when: "with_jemalloc | mandatory"
