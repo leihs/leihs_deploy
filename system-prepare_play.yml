@@ -7,7 +7,10 @@
       raw: |
         apt -y update
         if [ "$(lsb_release -c -s)" = 'focal' ]; then
-          echo "installing python 3 on Ubuntu"
+          echo "installing python 3 on Ubuntu 20.04"
+          apt install -y python3 python-is-python3
+        else if [ "$(lsb_release -c -s)" = 'yammy' ]; then
+          echo "installing python 3 on Ubuntu 22.04"
           apt install -y python3 python-is-python3
         else if grep -q "VERSION_CODENAME=bullseye" /etc/os-release; then
           echo "installing python 3 on Debian"
