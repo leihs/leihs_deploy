@@ -4,4 +4,4 @@
 bin/virtualenv-install
 export LOCAL_CACHE_DIR="$(mktemp -d)"
 
-time bin/build
+time bin/build-parallel

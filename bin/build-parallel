@@ -1,0 +1,14 @@
+#!/bin/bash -exu
+
+# first build shared (UI), then all services in parallel
+
+bin/ansible-playbook -i 'localhost,' -c local build_only_play.yml -t "build_shared_ui"
+
+for SERVICE in admin borrow mail my procure; do
+  (
+    bin/ansible-playbook -i 'localhost,' -c local build_only_play.yml -t "build_$SERVICE"
+  ) &
+done
+
+wait
+echo "All OK"
