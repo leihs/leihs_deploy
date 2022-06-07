@@ -18,8 +18,8 @@ LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY: yes
 LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY_TEXTS:
   "de-CH": |
     Nutze die neue <b style="text-decoration: underline">Mobile-App</b> mit neuen Funktionen
-  # "gsw-CH": |
-  #   Nutze die neue <b style="text-decoration: underline">Mobile-App</b> mit neuen Funktionen
+  "gsw-CH": |
+    Nutz die noi <b style="text-decoration: underline">Mobile-Äpp</b> mit noie Funktione
   "en-GB": |
     Use the new <b style="text-decoration: underline">mobile app</b> with new features
   "fr-CH": |
