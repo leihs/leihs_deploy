@@ -1,17 +1,31 @@
-#!/bin/bash -eu
+#!/bin/bash
+set -eu
 
 # * only relevant for releasing Leihs *
+export USE_DOCKER="${USE_DOCKER:-YES}"
+
+# ❯ docker buildx create --use
+# ❯ docker buildx build   --target "$STAGE"   -t "leihs-ui" --cache-to "type=local,dest=~/tmp/docker_cache_leihs_ui" -f Dockerfile .
+
+echo "USE_DOCKER=$USE_DOCKER"
+if [ $USE_DOCKER == "YES" ]; then
+  ansible_args='-e 'build_with_docker=yes''
+else if [ $USE_DOCKER == "NO" ]; then
+  ansible_args='-e 'build_with_docker=no''
+else
+  echo 'USE_DOCKER must be initially unset, or "YES", or "NO"'
+  exit 1
+fi; fi
 
 cd "$(dirname "${BASH_SOURCE}")/.."
 
-set +x
-if test ! "${S3_ACCESS_KEY_ID:-}" -o ! "${S3_SECRET_ACCESS_KEY:-}"; then
-  echo "S3_ACCESS_KEY_ID and S3_SECRET_ACCESS_KEY must be present in ENV!"
-  exit 1
-fi
+if [ $USE_DOCKER == "NO" ]; then if test ! "${S3_ACCESS_KEY_ID:-}" -o ! "${S3_SECRET_ACCESS_KEY:-}"; then
+  echo "WARN: neither Docker nor S3 build cache enabled, this will take a long time. Either USE_DOCKER=YES *or* S3_ACCESS_KEY_ID and S3_SECRET_ACCESS_KEY must be present in ENV!"
+fi; fi
 
 # export LEIHS_VERSION="6.0.0-RC.1" # tmp hardcoded
 export LEIHS_VERSION="$(bin/get-latest-leihs-version)"
+echo "LEIHS_VERSION=$LEIHS_VERSION"
 
 echo; echo "Making release archive for 'Leihs ${LEIHS_VERSION}'."; echo
 read -p "Continue (y/n)?" choice
@@ -20,20 +34,22 @@ case "$choice" in
   * ) exit 1;;
 esac
 
+export AWS_ACCESS_KEY_ID="${S3_ACCESS_KEY_ID:-}"
+export AWS_SECRET_ACCESS_KEY="${S3_SECRET_ACCESS_KEY:-}"
+
 set -x
 
-export USE_S3_BUILD_CACHE=1
-export LOCAL_CACHE_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && mkdir -p ../tmp/build_cache && cd ../tmp/build_cache && pwd -P)"
-
-export AWS_ACCESS_KEY_ID="$S3_ACCESS_KEY_ID"
-export AWS_SECRET_ACCESS_KEY="$S3_SECRET_ACCESS_KEY"
+# export LOCAL_CACHE_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && mkdir -p ../tmp/build_cache && cd ../tmp/build_cache && pwd -P)"
 
 # first run, use dev cache to save as much work as possible
-export S3_CI_ENDPOINT="https://s3.dev.leihs.app"
-export S3_CI_CACHE_BUCKET="leihs-build-cache-dev"
-source bin/set-env-build-cache
+if test ! "${S3_ACCESS_KEY_ID:-}" -o ! "${S3_SECRET_ACCESS_KEY:-}"; then
+  export USE_S3_BUILD_CACHE=1
+  export S3_CI_ENDPOINT="https://s3.dev.leihs.app"
+  export S3_CI_CACHE_BUCKET="leihs-build-cache-dev"
+  source bin/set-env-build-cache
 
-bin/ansible-playbook -i 'localhost,' --connection=local -v build_only_play.yml
+  bin/ansible-playbook -i 'localhost,' --connection=local -v build_only_play.yml $ansible_args
+fi
 
 # second run, because everything is cached this just fills a local directory with the used artefacts
 export ARTEFACTS_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && mkdir -p "../tmp/release-builds/${LEIHS_VERSION}/" && cd "../tmp/release-builds/${LEIHS_VERSION}" && pwd -P)"
@@ -42,7 +58,7 @@ export LOCAL_CACHE_DIR="${ARTEFACTS_DIR}/build-artefacts/"
 rm -rf "$ARTEFACTS_DIR" && mkdir -p "$LOCAL_CACHE_DIR"
 source bin/set-env-build-cache
 
-bin/ansible-playbook -i 'localhost,' --connection=local -v build_only_play.yml
+bin/ansible-playbook -i 'localhost,' --connection=local -v build_only_play.yml $ansible_args
 
 # check if leihs-ui artefact is present
 # (because it is only indirectly used, it can happen thats its missing. we want to enforce the presence to that recompile of services is still fast if other parts have changed!)

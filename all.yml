@@ -31,6 +31,8 @@ LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY_TEXTS:
 
 ruby_use_jemalloc: no
 
+build_with_docker: yes
+
 ### reverse proxy configuration ###############################################
 
 leihs_external_hostname: "leihs.example.org"
