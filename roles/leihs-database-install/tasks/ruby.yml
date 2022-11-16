@@ -1,18 +1,30 @@
-- import_tasks: shared/task_install_ruby.yml
+- name: setup asdf
+  include_role:
+    name: asdf
   vars:
-    ruby_version: "{{leihs_database_ruby_version}}"
-    with_jemalloc: "{{leihs_database_ruby_use_jemalloc}}"
+    asdf_user: '{{leihs_database_user}}'
+
+- name: setup asdf ruby
+  include_role:
+    name: asdf-ruby
+  vars:
+    asdf_user: '{{leihs_database_user}}'
+
+- name: install ruby
+  import_tasks: shared/task_install_ruby.yml
+  vars:
+    working_dir: "{{leihs_database_dir}}"
     become_user: "{{leihs_database_user}}"
 
-- name: install bundler and bundle
+- name: bundle ruby
   shell: |
+    #!/bin/bash
     set -eux
-    unset GEM_ROOT GEM_PATH GEM_HOME
-    unset RUBY_VERSION RUBY_ENGINE RUBY_ROOT
-    export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:$PATH
-    gem install bundler:{{leihs_database_ruby_bundler_version}}
-    cd /leihs/database
-    bundle install --retry=3
+    source ~/.asdf/current/asdf.sh
+    cd {{leihs_database_dir}}
+    bundle install
+  args:
+    executable: /bin/bash
   become: yes
   become_user: "{{leihs_database_user}}"
   become_method: sudo

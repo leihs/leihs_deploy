@@ -14,19 +14,19 @@
   delegate_to: localhost
 
 - file:
-    path: "{{leihs_database_path}}"
+    path: "{{leihs_database_dir}}"
     state: absent
-  name: remove existing {{leihs_database_path}}
+  name: remove existing {{leihs_database_dir}}
 
 - file:
-    path: "{{leihs_database_path}}"
+    path: "{{leihs_database_dir}}"
     state: directory
     owner: "{{leihs_database_user}}"
     recurse: yes
-  name: create empty {{leihs_database_path}}
+  name: create empty {{leihs_database_dir}}
 
 - unarchive:
     src: "{{playbook_dir}}/tmp/database.tar.gz"
-    dest: "{{leihs_database_path}}"
+    dest: "{{leihs_database_dir}}"
     owner: "{{leihs_database_user}}"
   name: extract archive

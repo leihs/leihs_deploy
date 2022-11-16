@@ -34,8 +34,6 @@ LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY_TEXTS:
 # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨
 #
 
-ruby_use_jemalloc: no
-
 build_with_docker: yes
 
 ### reverse proxy configuration ###############################################
@@ -64,21 +62,15 @@ db_backup_on_deploy: No
 ### database service configuration #############################################
 
 postgres_version: 10 # major version, NOTE: this variable is not used yet everywhere
-leihs_database_ruby_version: 2.7.5
-leihs_database_ruby_use_jemalloc: "{{ruby_use_jemalloc}}"
-leihs_database_ruby_bundler_version: 2.3.3
 leihs_database_user: leihs-database
-leihs_database_path: "{{LEIHS_ROOT_DIR}}/database"
+leihs_database_dir: "{{LEIHS_ROOT_DIR}}/database"
 leihs_database_clean_slate: false
 
 ### legacy service configuration ###############################################
 
-leihs_legacy_ruby_version: 2.6.6
-leihs_legacy_ruby_use_jemalloc: "{{ruby_use_jemalloc}}"
+# see defaults in role
 leihs_legacy_clean_slate: false
-leihs_legacy_user: leihs-legacy
-leihs_legacy_max_threads_per_worker: 2
-leihs_leagcy_workers: "{{ansible_processor_vcpus}}"
+
 
 ### micro services configuration ###############################################
 

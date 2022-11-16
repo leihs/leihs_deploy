@@ -21,19 +21,15 @@ Restart=always
 RestartSec=5
 
 Environment=LEIHS_SECRET={{leihs_master_secret}}
-Environment=PATH=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PATH={{leihs_legacy_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=LEIHS_SEND_MAILS={{leihs_send_mails}}
 Environment=RAILS_SERVE_STATIC_FILES=Yes
 
-ExecStart=/home/{{leihs_legacy_user}}/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin/ruby -S \
+ExecStart={{leihs_legacy_ruby_dir}}/bin/ruby -S \
     bundle exec puma \
-    -e production \
-    -t 1:{{leihs_legacy_max_threads_per_worker}} \
-    -w {{leihs_legacy_workers}} \
-    -b tcp://localhost:{{LEIHS_LEGACY_HTTP_PORT}}
-
+    -C config/puma.rb
 
 [Install]
 WantedBy=multi-user.target

@@ -14,15 +14,14 @@ StartLimitBurst=6
 SyslogIdentifier=leihs-migration
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/leihs/database
+WorkingDirectory={{leihs_database_dir}}
 User={{leihs_database_user}}
 Group={{leihs_database_user}}
 
-Environment=PATH=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PATH={{leihs_database_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
-
-ExecStart=/home/{{leihs_database_user}}/.rubies/ruby-{{leihs_database_ruby_version}}/bin/ruby -S bundle exec rake db:migrate
+ExecStart={{leihs_database_ruby_dir}}/bin/ruby -S bundle exec rake db:migrate
 
 
 [Install]

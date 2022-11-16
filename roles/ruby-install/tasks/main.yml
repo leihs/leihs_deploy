@@ -12,8 +12,6 @@
       - libssl-dev
       - libyaml-dev
       - zlib1g-dev
-      # only needed for compiling `--with-jemalloc`
-      - libjemalloc-dev
     state: present
     update_cache: yes
     cache_valid_time: 3600

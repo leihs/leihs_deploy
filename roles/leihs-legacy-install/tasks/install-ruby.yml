@@ -1,17 +1,32 @@
-- import_tasks: shared/task_install_ruby.yml
+- name: setup asdf
+  include_role:
+    name: asdf
   vars:
-    ruby_version: "{{leihs_legacy_ruby_version}}"
-    with_jemalloc: "{{leihs_legacy_ruby_use_jemalloc}}"
+    asdf_user: '{{leihs_legacy_user}}'
+
+- name: setup asdf ruby
+  include_role:
+    name: asdf-ruby
+  vars:
+    asdf_user: '{{leihs_legacy_user}}'
+
+- name: install ruby
+  import_tasks: shared/task_install_ruby.yml
+  vars:
+    working_dir: "{{leihs_legacy_dir}}"
     become_user: "{{leihs_legacy_user}}"
 
-- shell: |
+- name: bundle ruby
+  shell: |
+    #!/bin/bash
     set -eux
-    export PATH=$HOME/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:$PATH
-    which gem
-    gem install bundler
-    cd /leihs/legacy
-    bundle install --retry=12 --without development --without test
+    source ~/.asdf/current/asdf.sh
+    cd {{leihs_legacy_dir}}
+    bundle install
+  args:
+    executable: /bin/bash
   become: yes
   become_user: "{{leihs_legacy_user}}"
   become_method: sudo
-  name: install bundler and bundle
+
+

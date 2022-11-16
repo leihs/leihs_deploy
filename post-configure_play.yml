@@ -13,11 +13,3 @@
         /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
           "UPDATE system_and_security_settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
 
-    - name: Load translations
-      block:
-        - name: for borrow
-          when: "LEIHS_DEPLOY_NEW_BORROW_APP"
-          block:
-            - name: load translations into DB
-              command: |
-                psql -d {{database.database}} --single-transaction -c '\set ON_ERROR_STOP on' -f "{{leihs_borrow_dir}}/translations.sql"

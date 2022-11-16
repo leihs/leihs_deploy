@@ -1,0 +1,3 @@
+asdf_version: 0.10.2
+asdf_root_dir: /home/{{asdf_user}}/.asdf
+asdf_dir: "{{asdf_root_dir}}/asdf-{{asdf_version}}"

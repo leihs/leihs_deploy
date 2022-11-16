@@ -9,5 +9,5 @@
         username: {{database.username}}
         password: {{database.password}}
         database: {{database.database}}
-    dest: /leihs/legacy/config/database.yml
+    dest: "{{leihs_legacy_dir}}/config/database.yml"
   name: configure legacy database

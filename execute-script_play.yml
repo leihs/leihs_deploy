@@ -37,13 +37,14 @@
 
     - shell: |
         set -eux
-        cd /leihs/database
-        export PATH=$HOME/.rubies/ruby-{{leihs_legacy_ruby_version}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
+        source ~/.asdf/current/asdf.sh
+        cd "{{leihs_legacy_dir}}"
         export RAILS_ENV=production
         export IMPORT_FILE=/tmp/leihs-import
         export LEIHS_SECRET={{leihs_master_secret}}
-        cd /leihs/legacy
         ruby -S bundle exec rails runner /tmp/leihs-scripts/script.rb | tee '{{logfile_path}}'
+      args:
+        executable: /bin/bash
       become: yes
       become_user: "{{leihs_legacy_user}}"
       name: run rails script

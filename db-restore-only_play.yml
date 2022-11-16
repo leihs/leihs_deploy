@@ -34,7 +34,7 @@
       shell: |
         set -eux
         cd /leihs/database
-        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
+        export PATH={{leihs_database_ruby_dir}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
         export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
         ruby -S bundle exec rake db:pg:terminate_connections db:drop db:create
       become: yes
@@ -44,7 +44,7 @@
       shell: |
         set -eux
         cd /leihs/database
-        export PATH=$HOME/.rubies/ruby-{{leihs_database_ruby_version}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
+        export PATH={{leihs_database_ruby_dir}}/bin:/usr/lib/postgresql/{{postgres_version}}/bin:$PATH
         export FILE={{remote_pgbin_restore_path}}
         export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
         ruby -S bundle exec rake db:pg:terminate_connections db:pg:structure_and_data:restore

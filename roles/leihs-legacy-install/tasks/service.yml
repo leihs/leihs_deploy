@@ -1,3 +1,25 @@
+- name: register ruby version
+  shell: |
+    set -eu
+    source ~/.asdf/current/asdf.sh
+    cd {{leihs_legacy_dir}}
+    asdf current ruby | awk '{print $2}'
+  args:
+    chdir: "{{leihs_legacy_dir}}"
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{leihs_legacy_user}}"
+  become_method: sudo
+  register: leihs_legacy_ruby_version
+
+- name: template puma config
+  template:
+    owner: "{{leihs_legacy_user}}"
+    src: puma.rb
+    dest: '{{leihs_legacy_dir}}/config/puma.rb'
+    mode: 0644
+
 - template:
     src: leihs-legacy.service
     dest: /etc/systemd/system/leihs-legacy.service

@@ -33,7 +33,6 @@ scripts:
         script_key: prepare-container
     body: |
       #!/usr/bin/env bash
-      source ~/.nvm/nvm.sh && nvm use "$NVM_NODEJS_VERSION"
       set -eux
 
       CONTAINER_IP=$(lxc list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
