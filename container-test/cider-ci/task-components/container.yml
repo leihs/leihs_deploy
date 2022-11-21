@@ -5,8 +5,9 @@ scripts:
 
   create-container:
     start_when:
-      dependencies are installed:
+      ruby is installed and bundled:
         script_key: ruby-bundle
+      nodejs is installed:
         script_key: install-nodejs
     body: |
       #!/usr/bin/env bash

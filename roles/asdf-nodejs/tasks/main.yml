@@ -1,6 +1,6 @@
 - name: install asdf nodejs plugin
   become: yes
-  become_user: "{{ ci_executor_exec_user }}"
+  become_user: "{{ asdf_user }}"
   shell: |
     #!/bin/bash
     set -eux
@@ -13,7 +13,7 @@
   args:
     executable: /bin/bash
 
-- name: install asdf nodejs latest lts
+- name: install asdf nodejs version
   become: yes
   become_user: "{{ ci_executor_exec_user }}"
   shell: |

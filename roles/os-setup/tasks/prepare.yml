@@ -9,6 +9,8 @@
   apt:
     pkg:
       - ruby
+      - nodejs
+      - build-essential
       - python3-passlib
       - imagemagick
       - shared-mime-info
