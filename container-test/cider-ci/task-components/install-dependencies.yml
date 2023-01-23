@@ -1,6 +1,5 @@
 traits:
-  asdf-ruby: true
-  asdf-nodejs: true
+  asdf: true
 
 scripts:
 
@@ -9,16 +8,19 @@ scripts:
     timeout: 20 Minutes
     body: |
       #!/usr/bin/env bash
-      set -eux
-      cd deploy/container-test
-      asdf install ruby
+      set -euo pipefail
+      cd $LEIHS_DEPLOY_DIR/container-test
+      ../bin/env/ruby-setup
       bundle install
+
 
   install-nodejs:
     exclusive_executor_resource: asdf-nodjes
     timeout: 20 Minutes
     body: |
       #!/usr/bin/env bash
-      set -eu
-      cd deploy/container-test
-      asdf install nodejs
+      set -euo pipefail
+      cd $LEIHS_DEPLOY_DIR/container-test
+      ../bin/env/nodejs-setup
+
+

@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-set -eux
+set -euo pipefail
 
 ansible-playbook -i container-test/inventory/hosts deploy_play.yml
