@@ -3,6 +3,6 @@
 DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
 
 source ${DEPLOY_DIR}/bin/set-env-build-cache
-source ${DEPLOY_DIR}/bin/virtualenv-activate || exit 1
+source ${DEPLOY_DIR}/bin/virtualenv || exit 1
 
 ansible-playbook "$@"

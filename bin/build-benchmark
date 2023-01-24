@@ -1,7 +1,8 @@
-#!/bin/bash -exu
+#!/usr/bin/env bash 
+set -euo pipefail
 
 # preparation steps, dont count them with `time`
-bin/virtualenv-install
+bin/virtualenv
 export LOCAL_CACHE_DIR="$(mktemp -d)"
 
 time bin/build

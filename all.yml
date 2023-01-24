@@ -34,7 +34,6 @@ LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY_TEXTS:
 # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨
 #
 
-build_with_docker: yes
 
 ### reverse proxy configuration ###############################################
 

@@ -3,8 +3,6 @@
   delegate_to: localhost
   args:
     executable: /bin/bash
-  environment:
-    USE_DOCKER: "{% if build_with_docker %}YES{% else %}NO{% endif %}"
   shell: |
     DEPLOY_DIR='{{playbook_dir}}'
     PROJECT_DIR="${DEPLOY_DIR}/../my"

@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash 
+set -euo pipefail
 
 source bin/set-env-build-cache
-source bin/virtualenv-activate || exit 1
+source bin/virtualenv || exit 1
+
+echo $LOCAL_CACHE_DIR
 
 ansible $@
