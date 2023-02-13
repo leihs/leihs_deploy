@@ -13,7 +13,6 @@ Environment=LEIHS_SECRET={{leihs_master_secret}}
 Environment=PATH={{leihs_legacy_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
-Environment=LEIHS_SEND_MAILS={{leihs_send_mails}}
 Environment=RAILS_SERVE_STATIC_FILES=Yes
 ExecStart={{leihs_legacy_ruby_dir}}/bin/ruby -S \
     bundle exec rake leihs:cron

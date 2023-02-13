@@ -13,3 +13,15 @@
         /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
           "UPDATE system_and_security_settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
 
+    - name: DB smtp_settings -- set enabled to TRUE
+      shell: |
+        /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
+        "UPDATE smtp_settings SET enabled = TRUE;"
+      when: leihs_send_mails
+
+    - name: DB smtp_settings -- set enabled to FALSE
+      shell: |
+        /usr/lib/postgresql/{{postgres_version}}/bin/psql {{database.database}} -c \
+        "UPDATE smtp_settings SET enabled = FALSE;"
+      when: not leihs_send_mails
+ 

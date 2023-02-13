@@ -3,7 +3,6 @@
 # when to perform automated tasks like reminder emails and auto-suspension of users. in "systemd timer calendar event" format, see https://man.archlinux.org/man/systemd.time.7.en#CALENDAR_EVENTS
 leihs_run_nightly_tasks_on: "*-*-* 03:00:00"
 leihs_run_nightly_tasks_randomized_delay_max_seconds: 3600
-# if reminder emails should be send (when the nightly tasks are run)
 leihs_send_mails: No
 
 LEIHS_ROOT_DIR: "/leihs"
