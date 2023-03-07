@@ -5,7 +5,7 @@ DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pw
 cd $DEPLOY_DIR
 
 # export LEIHS_VERSION="6.0.0-RC.1" # tmp hardcoded
-export LEIHS_VERSION="$(bin/get-latest-leihs-version)"
+export LEIHS_VERSION="$(bin/get-latest-leihs-version | tail -n 1)"
 echo "LEIHS_VERSION=$LEIHS_VERSION"
 
 echo; echo "Making release archive for 'Leihs ${LEIHS_VERSION}'."; echo
