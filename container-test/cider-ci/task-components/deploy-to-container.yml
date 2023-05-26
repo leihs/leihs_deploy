@@ -42,7 +42,6 @@ scripts:
         -v \
         -i container-test/inventory/hosts \
         -e "ansible_ssh_host=${CONTAINER_IP}" \
-        -e "LEIHS_DEPLOY_NEW_BORROW_APP=${DEPLOY_NEW_BORROW}" \
         -e "force_rebuild=${FORCE_REBUILD:-}" \
         -e="${EXTRA_ANSIBLE_VARS_JSON:-}" \
             deploy_play.yml

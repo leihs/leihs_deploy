@@ -14,7 +14,6 @@
       tags: [leihs-admin-install]
 
     - role: leihs-borrow-install
-      when: "LEIHS_DEPLOY_NEW_BORROW_APP"
       tags: [leihs-borrow-install]
 
     - role: leihs-legacy-install

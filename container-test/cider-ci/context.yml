@@ -1,7 +1,6 @@
 environment_variables:
   CONTAINER_NAME: leihs-deploy-test-{{CIDER_CI_TRIAL_ID}}
   LOCAL_CACHE_DIR: "/tmp/leihs-build-cache" # same as for the tests. we are testing the deploy and not the build here, so we can save performance.
-  DEPLOY_NEW_BORROW: "false"
 
 git_options:
   submodules:

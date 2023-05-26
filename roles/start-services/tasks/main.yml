@@ -17,7 +17,6 @@
     enabled: yes
 
 - name: start leihs-borrow.service
-  when: "LEIHS_DEPLOY_NEW_BORROW_APP"
   service:
     name: leihs-borrow.service
     state: started
@@ -54,7 +53,6 @@
     timeout: 180
 
 - name: wait for leihs-borrow.service
-  when: "LEIHS_DEPLOY_NEW_BORROW_APP"
   wait_for:
     host: localhost
     port: "{{LEIHS_BORROW_HTTP_PORT}}"

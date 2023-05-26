@@ -7,33 +7,6 @@ leihs_send_mails: No
 
 LEIHS_ROOT_DIR: "/leihs"
 
-# ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨
-# new borrow app is still in beta. config options are only applied if the first is true!   ✨ # ✨
-LEIHS_DEPLOY_NEW_BORROW_APP: no
-# not yet implemented:
-LEIHS_NEW_BORROW_APP_DEFAULT_TO_MOBILE: no
-LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY: yes
-# HTML is allowed, but only inline (content is wrapped into <a> link):
-LEIHS_NEW_BORROW_APP_SHOW_NOTICE_IN_LEGACY_TEXTS:
-  "de-CH": |
-    <span class="mobile-app-notice-desktop">Wechsle zur <b style="text-decoration: underline;">neuen Oberfläche</b> mit neuen Funktionen</span>
-    <span class="mobile-app-notice-mobile">Wechsle zu <b style="text-decoration: underline;">Leihs Mobile</b></span>
-  # "gsw-CH": |
-  #   <span class="mobile-app-notice-desktop">Wechsle zur <b style="text-decoration: underline;">neuen Oberfläche</b> mit neuen Funktionen</span>
-  #   <span class="mobile-app-notice-mobile">Wechsle zu <b style="text-decoration: underline;">Leihs Mobile</b></span>
-  "en-GB": |
-    <span class="mobile-app-notice-desktop">Switch to the <b style="text-decoration: underline;">new user interface</b> with new features</span>
-    <span class="mobile-app-notice-mobile">Switch to <b style="text-decoration: underline;">Leihs Mobile</b></span>
-  "fr-CH": |
-    <span class="mobile-app-notice-desktop">Passe à la <b style="text-decoration: underline;">nouvelle interface</b> avec de nouvelles fonctions</span>
-    <span class="mobile-app-notice-mobile">Passe à <b style="text-decoration: underline;">Leihs Mobile</b></span>
-  "es": |
-    <span class="mobile-app-notice-desktop">Cambiar a la <b style="text-decoration: underline;">nueva interfaz</b> con nuevas funciones</span>
-    <span class="mobile-app-notice-mobile">Cambiar a <b style="text-decoration: underline;">Leihs Mobile</b></span>
-# ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨ # ✨
-#
-
-
 ### reverse proxy configuration ###############################################
 
 leihs_external_hostname: "leihs.example.org"
