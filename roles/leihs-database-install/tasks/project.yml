@@ -6,12 +6,13 @@
 
 - name: create archive
   shell: |
-    set -eux
-    DEPLOY_DIR='{{playbook_dir}}'
-    cd $DEPLOY_DIR/../database
-    {{local_tar_cmd}} -cz --exclude-vcs --exclude-vcs-ignores --exclude "./spec" \
-      -f "{{playbook_dir}}/tmp/database.tar.gz"  .
+    #!/usr/bin/env bash
+    set -euo pipefail
+    git -C "{{playbook_dir}}/../database" archive HEAD \
+      --format tar.gz -o "{{playbook_dir}}/tmp/database.tar.gz"
   delegate_to: localhost
+  args:
+    executable: /bin/bash
 
 - file:
     path: "{{leihs_database_dir}}"

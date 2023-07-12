@@ -22,9 +22,6 @@
     - role: os-check
       tags: [os-check]
 
-    - role: set_local_tar_cmd
-      tags: [always]
-
     - role: os-setup
       tags: [os-setup]
 

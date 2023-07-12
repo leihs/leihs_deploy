@@ -1,6 +1,16 @@
 - include_tasks: user.yml
+
 - include_tasks: project.yml
+
 - include_tasks: ruby.yml
+
 - include_tasks: database.yml
-- include_tasks: create-and-seed.yml
+
+- include_tasks: 
+    file: create-and-seed.yml
+    apply: 
+      tags: [database-create-and-seed]
+  tags: [database-create-and-seed]
+
 - include_tasks: migration-service.yml
+

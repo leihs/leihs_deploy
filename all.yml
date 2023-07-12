@@ -32,7 +32,7 @@ db_backup_on_deploy: No
 
 ### database service configuration #############################################
 
-postgres_version: 10 # major version, NOTE: this variable is not used yet everywhere
+postgres_version: 15 
 leihs_database_user: leihs-database
 leihs_database_dir: "{{LEIHS_ROOT_DIR}}/database"
 leihs_database_clean_slate: false
@@ -63,7 +63,7 @@ leihs_master_secret: "{{ lookup('password', inventory_dir + '/' + 'master_secret
 
 database:
   host: localhost
-  port: 5432
+  port: 5415
   username: root
   password: root
   database: leihs

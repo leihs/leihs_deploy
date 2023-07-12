@@ -2,9 +2,9 @@
 Description=Leihs Migration Service
 After=syslog.target
 
-BindsTo=postgresql@10-main.service
-After=postgresql@10-main.service
-PartOf=postgresql@10-main.service
+BindsTo=postgresql@{{postgres_version}}-main.service
+After=postgresql@{{postgres_version}}-main.service
+PartOf=postgresql@{{postgres_version}}-main.service
 
 StartLimitIntervalSec=180
 StartLimitBurst=6

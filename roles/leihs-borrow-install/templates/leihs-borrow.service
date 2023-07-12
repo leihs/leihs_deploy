@@ -21,6 +21,7 @@ LimitNOFILE=64000
 Restart=always
 RestartSec=5
 
+Environment=DB_PORT={{database.port}}
 Environment=DB_NAME={{database.database}}
 Environment=DB_USER={{database.username}}
 Environment=DB_PASSWORD={{database.password}}

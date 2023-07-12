@@ -4,12 +4,16 @@
   delegate_to: localhost
   name: remove possibly exisiting archive
 
-- shell: |
-    cd "{{playbook_dir}}/../legacy"
-    {{local_tar_cmd}} -cz --exclude-vcs --exclude-vcs-ignores --exclude "./node_modules" --exclude "./tmp" --exclude "./spec" --exclude "./features" \
-      -f "{{playbook_dir}}/tmp/legacy.tar.gz" .
+- name: create archive
+  shell: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+    {{playbook_dir}}/bin/git-archive-all \
+      -C "{{playbook_dir}}/../legacy" --prefix='' --force-submodules \
+      "{{playbook_dir}}/tmp/legacy.tar.gz"
   delegate_to: localhost
-  name: create archive
+  args:
+    executable: /bin/bash
 
 - file:
     path: /leihs/legacy

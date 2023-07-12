@@ -1,4 +1,8 @@
 ---
+leihs_external_hostname: 10.211.55.15
+leihs_external_base_url: "http://{{leihs_external_hostname}}"
+ansible_host: "{{leihs_external_hostname}}"
+ansible_user: root
 leihs_send_mails: No
 db_backup_on_deploy: No
 db_backup_nigthly_enabled: No

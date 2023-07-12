@@ -1,0 +1,85 @@
+
+- name: Read schema_migrations
+  shell:
+    cmd: >
+      /usr/lib/postgresql/10/bin/psql -d leihs -c 
+      "SELECT 'Migration 636 is present' FROM schema_migrations WHERE version = '636'"
+  register: pg_upgrade_check_final_migration
+
+- debug:
+    var: pg_upgrade_check_final_migration
+
+- fail: 
+    msg: 'Migration 636 is NOT present; upgrade Leihs to 6.9.0 or later before upgrading to 7.x'
+  when: '"Migration 636 is present" not in pg_upgrade_check_final_migration.stdout'
+
+
+- name: stop services
+  include_role:
+    name: stop-services
+
+- name: dump data
+  shell:
+    cmd: > 
+      /usr/lib/postgresql/10/bin/pg_dump 
+      --no-owner --format c 
+      --data-only -T schema_migrations -T ar_internal_metadata 
+      --dbname leihs
+      --file /tmp/leihs_pg10_data.pgbin
+  async: 3600
+  poll: 1
+
+- include_tasks: install.yml
+
+- include_tasks: root_user.yml
+
+- name: copy 001 db schema
+  copy: 
+    src: "{{playbook_dir}}/../database/db/migrate/001_init.sql"
+    dest: "/tmp/001_leihs_init.sql"
+
+- name: create database
+  shell: >
+    /usr/lib/postgresql/15/bin/createdb 
+    --port 5415 leihs
+
+- name: restore schema
+  shell: >
+      /usr/lib/postgresql/15/bin/psql 
+      --port 5415 -d leihs
+      -f /tmp/001_leihs_init.sql
+
+- name: set migration number
+  shell: >
+      /usr/lib/postgresql/15/bin/psql 
+      --port 5415 -d leihs
+      -c " 
+      CREATE TABLE public.schema_migrations (version character varying NOT NULL); 
+      INSERT INTO schema_migrations (version) VALUES ('1'); "
+
+- name: restore data
+  shell:
+    cmd: > 
+      /usr/lib/postgresql/15/bin/pg_restore 
+      --port 5415 --dbname leihs
+      --no-owner --format c --data-only
+      --disable-triggers
+      /tmp/leihs_pg10_data.pgbin
+  async: 3600
+  poll: 1
+
+- name: purge pg10 
+  apt:
+    pkg:
+      - postgresql-10
+      - postgresql-client-10
+      - postgresql-11
+      - postgresql-client-11
+      - postgresql-12
+      - postgresql-client-12
+      - postgresql-13
+      - postgresql-client-13
+      - postgresql-14
+      - postgresql-client-14
+    purge: true
+    state: absent
