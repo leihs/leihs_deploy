@@ -9,6 +9,6 @@ DUMP_FILE="${DUMP_DIR}/${DUMP_FILE_NAME}"
 LINK_NAME="latest.pgbin"
 LINK="${DUMP_DIR}/${LINK_NAME}"
 mkdir -p ${DUMP_DIR}
-/usr/lib/postgresql/{{postgres_version}}/bin/pg_dump -F c -x -O -f ${DUMP_FILE} {{database.database}}
+/usr/lib/postgresql/{{postgres_version}}/bin/pg_dump --port 5415 -F c -x -O -f ${DUMP_FILE} {{database.database}}
 find ${DUMP_DIR} -name 'leihs-dump*pgbin' -type f -mtime +{{db_backup_keep_days}} -exec rm {} \;
 cd ${DUMP_DIR} && ln -s -f ${DUMP_FILE_NAME} ${LINK_NAME}

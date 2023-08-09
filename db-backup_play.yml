@@ -9,3 +9,6 @@
       when: '{{db_backup_on_deploy}}'
       name: perform backup now when db_backup_on_deploy is true
       tags: [db-backup]
+      async: 3600
+      poll: 10
+
