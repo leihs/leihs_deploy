@@ -1,6 +1,6 @@
 - fetch:
     src: /leihs/var/db-backups/latest.pgbin
-    dest: "{{database_dump_restore_file_path}}"
+    dest: "{{playbook_dir}}/../tmp/{{inventory_hostname}}_{{ansible_date_time.date}}_dump.pgbin"
     flat: yes
     fail_on_missing: yes
     name: fetch latest.pgbin
@@ -8,5 +8,5 @@
 - name: ensure the dump is there 
   delegate_to: localhost
   shell: |
-    ls -lah "{{database_dump_restore_file_path}}"
+    ls -lah "{{playbook_dir}}/../tmp/{{inventory_hostname}}_{{ansible_date_time.date}}_dump.pgbin"
 
