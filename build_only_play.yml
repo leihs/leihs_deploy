@@ -2,13 +2,6 @@
 - hosts: all
   gather_facts: no
   tasks:
-    - name: Build Shared Leihs-UI
-      delegate_to: localhost
-      tags: build_shared_ui
-      import_role:
-        name: leihs-admin-install
-        tasks_from: build_ui.yml
-
     - name: Build Admin
       delegate_to: localhost
       tags: build_admin

@@ -1,6 +1,3 @@
-# NOTE: do this first to make sure `leihs-ui` ends up in the build cache. because of the caching it wont take much extra time.
-- import_tasks: ./build_ui.yml
-
 - name: create jar
   tags: [builds_artefact, builds_artefact_with_java]
   delegate_to: localhost
