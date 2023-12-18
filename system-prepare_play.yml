@@ -1,12 +1,10 @@
 - hosts: all
   gather_facts: False
   pre_tasks:
-    - name: cleanup ansible remote tmp dir
-      raw: "rm -rf ~/.ansible/tmp"
     - name: install system python
       raw: |
         #!/usr/bin/env bash
-        set -eux
+        set -euo pipefail
         apt -y update
         apt install -y python3 python-is-python3
 
