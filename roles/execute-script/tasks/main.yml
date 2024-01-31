@@ -11,7 +11,7 @@
 
 - copy:
     src: "{{role_path}}/shared"
-    dest: /tmp/leihs-scripts/shared/
+    dest: /tmp/leihs-scripts
   name: copy shared script files
 
 - copy:
