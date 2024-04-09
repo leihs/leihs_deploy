@@ -1,0 +1,40 @@
+- template:
+    src: custom.conf
+    dest: /etc/apache2/leihs/conf.d/leihs_900_custom.conf
+    mode: 0644
+
+- template:
+    src: main.conf
+    dest: /etc/apache2/leihs/conf.d/leihs_100_main.conf
+    mode: 0644
+
+- include_tasks: virtual-host.yml
+  with_indexed_items: "{{leihs_virtual_hosts}}"
+
+- name: set htaccess passwords for basic auth
+  htpasswd:
+    path: /etc/leihs/leihs.htpasswd
+    name: "{{item.key}}"
+    password: "{{item.value}}"
+  with_dict: "{{ restrict_access_via_basic_auth_passwords }}"
+
+- name: protect via basic auth
+  template:
+    src: basic_auth.conf
+    dest: /etc/apache2/leihs/conf.d/leihs_950_basic_auth.conf
+    mode: 0644
+  when: restrict_access_via_basic_auth
+
+- name: remove configuration if webstats are not enabled
+  file:
+    path: /etc/apache2/leihs/conf.d/leihs_950_basic_auth.conf
+    state: absent
+  when: not restrict_access_via_basic_auth
+
+- name: disable all leihs maintenance sites
+  shell: rm -rf /etc/apache2/sites-enabled/leihs-maintenance*
+
+- name: reload reverse-proxy
+  service:
+    name: apache2
+    state: reloaded

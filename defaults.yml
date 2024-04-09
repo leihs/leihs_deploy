@@ -1,4 +1,7 @@
-# ansible_python_interpreter: /usr/bin/python3
+
+### Defaults for Configuring a Leihs Deployment, see README.md !!! ############
+
+
 
 # when to perform automated tasks like reminder emails and auto-suspension of users. in "systemd timer calendar event" format, see https://man.archlinux.org/man/systemd.time.7.en#CALENDAR_EVENTS
 leihs_run_nightly_tasks_on: "*-*-* 03:00:00"
@@ -9,8 +12,21 @@ LEIHS_ROOT_DIR: "/leihs"
 
 ### reverse proxy configuration ###############################################
 
+reverse_proxy_clean_slate: true
+
+# this is used to anonymize ip addresses for the webstats;
+# if unset a per machine unique value will be selcted as the default
+reverse_proxy_ip_hash_seed: null
+
+restrict_access_via_basic_auth: false
+restrict_access_via_basic_auth_passwords: {}
+
 leihs_external_hostname: "leihs.example.org"
 leihs_external_base_url: "https://{{leihs_external_hostname}}"
+
+# set this to true if leihs is behind an reverse proxy
+# which sets x_forwarded_for
+reverse_proxy_use_x_forwarded_for: false
 
 leihs_virtual_hosts:
   - hostname: "localhost"
@@ -32,10 +48,12 @@ db_backup_on_deploy: No
 
 ### database service configuration #############################################
 
-postgres_version: 15 
+postgres_version: 15
 leihs_database_user: leihs-database
 leihs_database_dir: "{{LEIHS_ROOT_DIR}}/database"
 leihs_database_clean_slate: false
+leihs_database_ruby_dir: "/home/{{leihs_database_user}}/.asdf/installs/ruby/{{leihs_database_ruby_version.stdout}}"
+
 
 ### legacy service configuration ###############################################
 
@@ -76,4 +94,13 @@ maintenance_page_body_paragraphs_html: # NOTE: multiple paragraphs can be added,
   - "Sorry for the inconvenience, but we're performing some scheduled maintenance at the moment."
   # - "Désolé pour le dérangement, mais nous effectuons actuellement une maintenance programmée."
   # - 'Contact <a href="mailto:service@example.org">service@example.org</a> for support.'
-maintenance_page_status_page_url: null # e.g.: https://ci.example.org/jobs/cf3782e7-43c9-4239-9dcf-d24469a44296
+maintenance_page_status_page_url: "foo" # e.g.: https://ci.example.org/jobs/cf3782e7-43c9-4239-9dcf-d24469a44296
+
+
+
+### webstats ###################################################################
+
+webstats_enabled: true
+webstats_passwords_remove: [] # list of usernames to be removed
+webstats_passwords_set : {} # add unsername => password; note that unset passwords will not be removed automatically
+

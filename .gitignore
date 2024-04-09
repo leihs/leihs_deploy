@@ -1,8 +1,8 @@
 *play.retry
-tmp/
+.env
+.env.sh
+/.venv
 /log/
 inventories/prototype/script_vars.yml
 master_secret.txt
-/.virtualenv
-.env
-.env.sh
+tmp/

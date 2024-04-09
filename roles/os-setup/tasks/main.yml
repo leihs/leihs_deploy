@@ -15,8 +15,6 @@
 - include_tasks: vim.yml
   when: ci_vim_mode
 
-- include_tasks: apache2.yml
-
 - include_tasks: monit.yml
 
 - include_tasks: vmware.yml

@@ -6,7 +6,6 @@
     asdf current ruby | awk '{print $2}'
   args:
     chdir: "{{leihs_legacy_dir}}"
-  args:
     executable: /bin/bash
   become: yes
   become_user: "{{leihs_legacy_user}}"

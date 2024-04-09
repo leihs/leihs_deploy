@@ -14,10 +14,9 @@
   args:
     removes: /etc/apache2/sites-enabled/000-default.conf
 
-- name: Enable modules
-  shell:  a2enmod {{item}}
-  register: result
+- name: enable modules
+  apache2_module:
+    name: "{{item}}"
   with_items: '{{apache2_modules}}'
-  changed_when: result.stdout is search("Enabling module")
 
 

@@ -2,8 +2,8 @@
 
   roles:
 
-  - role: stop-reverse-proxy
-    tags: [stop-reverse-proxy]
+  - role: reverse-proxy-maintenance-page
+    tags: [reverse-proxy-maintenance-page]
 
   - role: stop-services
     tags: [stop-services]

@@ -8,11 +8,6 @@
         apt -y update
         apt install -y python3 python-is-python3
 
-- hosts: leihs_gateway
-
-  roles:
-    - role: os-setup
-      tags: [os-setup]
 
 - hosts: [leihs_server]
 
@@ -31,4 +26,11 @@
 
     - role: install
       tags: [install]
+
+    - role: reverse-proxy-pre-setup
+      tags: [reverse-proxy, reverse-proxy-pre-setup]
+
+    - role: reverse-proxy-maintenance-page
+      tags: [reverse-proxy, reverse-proxy-maintenance-page]
+
 

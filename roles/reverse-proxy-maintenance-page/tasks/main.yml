@@ -1,10 +1,11 @@
 - name: disable all leihs sites
   shell: rm -rf /etc/apache2/sites-enabled/leihs*
 
-- name: remove leihs configurations
+- name: maintenance page directory
   file:
-    path: /etc/apache2/leihs
-    state: absent
+    path: /etc/apache2/leihs-maintenance
+    state: directory
+    mode: 0755
 
 - name: maintenance page directory
   file:
@@ -18,11 +19,9 @@
     dest: /var/www/leihs-maintenance/503.html
     mode: 0644
 
-- name: maintenance page vhost config
-  template:
-    src: maintenance-page-vhost.conf
-    dest: /etc/apache2/sites-enabled/leihs-maintenance.conf
-    mode: 0644
+- include_tasks: virtual-host.yml
+  with_indexed_items: "{{leihs_virtual_hosts}}"
+
 
 - name: restart reverse-proxy
   service:

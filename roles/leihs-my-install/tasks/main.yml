@@ -1,10 +1,11 @@
+- include_tasks: user.yml
+- include_tasks: build.yml
+
+
 - file:
     path: "{{leihs_my_dir}}"
     state: absent
   name: remove existing leihs-my dir
-
-- include_tasks: user.yml
-- include_tasks: build.yml
 
 - file:
     path: "{{leihs_my_dir}}"

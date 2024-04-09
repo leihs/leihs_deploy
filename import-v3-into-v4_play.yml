@@ -6,10 +6,16 @@
 
 - hosts: leihs_server
   roles:
-  - role: stop-reverse-proxy
-    tags: [stop-reverse-proxy]
+
+  - role: reverse-proxy-maintenance-page
+    tags: [reverse-proxy-maintenance-page]
+
   - role: stop-services
     tags: [stop-services]
+
   - role: import-v3-into-v4
+
   - role: start-services
-  - role: start-reverse-proxy
+
+  - role: reverse-proxy-leihs
+    tags: [reverse-proxy, reverse-proxy-leihs]

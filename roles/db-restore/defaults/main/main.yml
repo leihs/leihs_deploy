@@ -1,0 +1,8 @@
+# if restore from an existing dump on the remote is desired:
+# override remote_pgbin_restore_path with a different value
+# than remote_pgbin_restore_path_default and pointing it to an
+# existing file on the remote will skip copy and later removal of the dump
+remote_pgbin_restore_path_default: '/tmp/restore-dump.pgbin'
+remote_pgbin_restore_path: "{{remote_pgbin_restore_path_default}}"
+
+

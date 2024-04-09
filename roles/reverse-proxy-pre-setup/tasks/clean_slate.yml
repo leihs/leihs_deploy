@@ -1,0 +1,17 @@
+- name: remove maintenance page vhost config
+  file:
+    path: /etc/apache2/sites-enabled/leihs-maintenance.conf
+    state: absent
+
+- name: remove maintenance page directory
+  file:
+    path: /var/www/leihs-maintenance
+    state: absent
+
+- name: disable all leihs sites
+  shell: rm -rf /etc/apache2/sites-enabled/leihs*
+
+- name: purge leihs configurations
+  file:
+    path: /etc/apache2/leihs
+    state: absent

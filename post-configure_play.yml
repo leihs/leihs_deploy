@@ -1,27 +1,8 @@
 - hosts: leihs_server
 
-  tasks:
-    - name: DB settings -- check for valid variables/settings
-      fail:
-        msg: "Invalid settings! Check the following variables: `leihs_external_hostname` and `leihs_external_base_url`"
-      when: >
-        (leihs_external_hostname is not defined) or (leihs_external_hostname is none)
-        or (leihs_external_base_url == "https://")
+  roles:
 
-    - name: DB settings -- set external_base_url
-      shell: |
-        /usr/lib/postgresql/{{postgres_version}}/bin/psql --port 5415 {{database.database}} -c \
-          "UPDATE system_and_security_settings SET external_base_url='{{ leihs_external_base_url }}' WHERE id=0;"
+  - role: post-configure
+    tags: [post-configure]
 
-    - name: DB smtp_settings -- set enabled to TRUE
-      shell: |
-        /usr/lib/postgresql/{{postgres_version}}/bin/psql --port 5415 {{database.database}} -c \
-        "UPDATE smtp_settings SET enabled = TRUE;"
-      when: leihs_send_mails
 
-    - name: DB smtp_settings -- set enabled to FALSE
-      shell: |
-        /usr/lib/postgresql/{{postgres_version}}/bin/psql --port 5415 {{database.database}} -c \
-        "UPDATE smtp_settings SET enabled = FALSE;"
-      when: not leihs_send_mails
- 
