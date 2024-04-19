@@ -94,7 +94,7 @@ maintenance_page_body_paragraphs_html: # NOTE: multiple paragraphs can be added,
   - "Sorry for the inconvenience, but we're performing some scheduled maintenance at the moment."
   # - "Désolé pour le dérangement, mais nous effectuons actuellement une maintenance programmée."
   # - 'Contact <a href="mailto:service@example.org">service@example.org</a> for support.'
-maintenance_page_status_page_url: "foo" # e.g.: https://ci.example.org/jobs/cf3782e7-43c9-4239-9dcf-d24469a44296
+maintenance_page_status_page_url: Null # e.g.: https://ci.example.org/jobs/cf3782e7-43c9-4239-9dcf-d24469a44296
 
 
 
