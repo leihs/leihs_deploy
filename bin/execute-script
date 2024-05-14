@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BASH_SCRIPT_DIR_PATH="$(dirname "$(readlink -f "$0")")"
+
+TARGET=${TARGET:-""}
+SCRIPT_FILE_PATH=${SCRIPT_FILE_PATH:-""}
+CSV_DIR_PATH=${CSV_DIR_PATH:-""}
+INVENTORY_FILE_PATH=${INVENTORY_FILE_PATH:-""}
+
+if [[ -z "$INVENTORY_FILE_PATH" ]]; then
+  echo "INVENTORY_FILE_PATH must be set."
+  exit 1
+fi
+
+if [[ -z "$SCRIPT_FILE_PATH" ]]; then
+  echo "SCRIPT_FILE_PATH must be set. Use relative or absolute path to the file."
+  exit 1
+else
+  SCRIPT_FILE_PATH="$(realpath $SCRIPT_FILE_PATH)"
+fi
+
+ANSIBLE_ENV="script_file_path=$SCRIPT_FILE_PATH"
+
+if [[ -n "$CSV_DIR_PATH" ]]; then
+  ANSIBLE_ENV="$ANSIBLE_ENV csv_dir_path=$CSV_DIR_PATH"
+fi
+
+echo "INVENTORY_FILE_PATH: $INVENTORY_FILE_PATH"
+echo "TARGET: $TARGET"
+echo "SCRIPT_FILE_PATH: $SCRIPT_FILE_PATH"
+echo "CSV_DIR_PATH: $CSV_DIR_PATH"
+echo "ANSIBLE_ENV: $ANSIBLE_ENV"
+echo ""
+
+LIMIT_OPT=""
+if [[ -n "$TARGET" ]]; then
+  LIMIT_OPT="-l $TARGET"
+fi
+
+$BASH_SCRIPT_DIR_PATH/ansible-playbook $BASH_SCRIPT_DIR_PATH/../execute-script_play.yml \
+  -i $INVENTORY_FILE_PATH \
+  -e "$ANSIBLE_ENV" \
+  $LIMIT_OPT
+
+echo "DONE. See log output at leihs/deploy/tmp/$TARGET."
+
+# # vi: ft=sh

@@ -1,3 +1,4 @@
+ansible_ssh_user: root
 
 ### Defaults for Configuring a Leihs Deployment, see README.md !!! ############
 

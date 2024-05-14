@@ -1,22 +1,27 @@
-- copy:
-    src: "{{import_file_path}}"
-    dest: /tmp/leihs-import
-  when: import_file_path is defined
-  name: copy import file
+- name: Delete {{tmp_script_path}} directory if it exists
+  file:
+    path: "{{tmp_script_path}}"
+    state: absent
 
-- file:
-    path: /tmp/leihs-scripts
+- name: Create {{tmp_script_path}} directory
+  file:
+    path: "{{tmp_script_path}}"
     state: directory
-  name: created /tmp/leihs-scripts directory
 
 - copy:
     src: "{{role_path}}/shared"
-    dest: /tmp/leihs-scripts/shared/
+    dest: "{{tmp_script_path}}"
   name: copy shared script files
 
 - copy:
+    src: "{{csv_dir_path}}"
+    dest: "{{tmp_script_path}}"
+  when: csv_dir_path is defined
+  name: copy csv files
+
+- copy:
     src: "{{script_file_path}}"
-    dest: /tmp/leihs-scripts/script.rb
+    dest: "{{tmp_script_path}}/script.rb"
   name: copy script file
 
 - file:
@@ -33,11 +38,11 @@
     cd {{leihs_legacy_dir}}
 
     export RAILS_ENV=production
-    export IMPORT_FILE=/tmp/leihs-import
+    export CSV_DIR_PATH=/tmp/leihs-script/{{ csv_dir_path | default('csv') | basename }}
     export LEIHS_SECRET={{leihs_master_secret}}
 
     bundle install > /dev/null
-    bundle exec rails runner /tmp/leihs-scripts/script.rb 
+    bundle exec rails runner /tmp/leihs-script/script.rb 
 
   args:
     executable: /bin/bash

@@ -1,0 +1,6 @@
+leihs_legacy_dir: /leihs/legacy
+leihs_legacy_ruby_dir: "/home/{{leihs_legacy_user}}/.asdf/installs/ruby/{{leihs_legacy_ruby_version.stdout}}"
+leihs_legacy_user: leihs-legacy
+logfile_name: "leihs-script.{{ansible_date_time.iso8601_basic_short}}.log.txt"
+logfile_path: "/tmp/{{logfile_name}}"
+tmp_script_path: /tmp/leihs-script
