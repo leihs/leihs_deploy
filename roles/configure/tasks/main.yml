@@ -6,6 +6,20 @@
 
 - include_tasks: master_secret.yml
 
+- file:
+    path: /etc/leihs
+    state: directory
+    recurse: true
+    mode: 0755
+    owner: root
+
+- name: set env config
+  template:
+    src: config.env
+    dest: /etc/leihs/config.env
+    mode: 0600
+    owner: root
+
 - include_tasks: deploy_info.yml
   tags: [deploy_info]
 

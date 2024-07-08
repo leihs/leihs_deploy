@@ -19,6 +19,9 @@ reverse_proxy_clean_slate: true
 # if unset a per machine unique value will be selcted as the default
 reverse_proxy_ip_hash_seed: null
 
+
+api_basic_auth_enabled: true
+
 restrict_access_via_basic_auth: false
 restrict_access_via_basic_auth_passwords: {}
 
@@ -39,6 +42,9 @@ leihs_virtual_hosts:
     ssl_certificate_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
     ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
     force_redirect_to_https: no
+
+
+
 
 ### database backup ############################################################
 
