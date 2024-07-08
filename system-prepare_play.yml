@@ -12,6 +12,10 @@
 - hosts: [leihs_server]
 
   roles:
+
+    - role: defaults
+      tags: [always]
+
     - role: os-check
       tags: [os-check]
 

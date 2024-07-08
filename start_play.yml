@@ -2,6 +2,9 @@
 
   roles:
 
+  - role: defaults
+    tags: [always]
+
   - role: start-services
     tags: [start-services]
 

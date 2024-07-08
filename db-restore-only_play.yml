@@ -8,6 +8,10 @@
 
 - hosts: leihs_server
   roles:
+
+    - role: defaults
+      tags: [always]
+
     - role: db-restore
 
 

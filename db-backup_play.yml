@@ -1,7 +1,12 @@
 - hosts: leihs_server
   roles:
+
+  - role: defaults
+    tags: [always]
+
   - role: db-backup
     tags: [db-backup]
+
   tasks:
     - service:
         name: leihs-db-backup.service

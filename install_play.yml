@@ -1,6 +1,9 @@
 - hosts: leihs_server
 
   roles:
+    - role: defaults
+      tags: [always]
+
     - role: leihs-database-install
       tags: [leihs-database-install]
 
