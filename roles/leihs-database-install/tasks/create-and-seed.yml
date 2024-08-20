@@ -14,13 +14,22 @@
     - structure.sql
     - seeds.sql
 
+- name: create database
+  when: '"already exists" not in check_existing_database.stdout'
+  postgresql_db:
+    name: "{{database.database}}"
+    port: 5415
+    lc_collate: de_CH.UTF-8
+    lc_ctype: de_CH.UTF-8
+    state: present
+    template: template0
+    login_user: root
+
 - name: create and seed database if it does not exist
   when: '"already exists" not in check_existing_database.stdout'
   shell: |
     #!/usr/bin/env bash
     set -euo pipefail
-    /usr/lib/postgresql/{{postgres_version}}/bin/createdb --port 5415 \
-      {{database.database}}
     /usr/lib/postgresql/{{postgres_version}}/bin/psql \
       -d '{{database.database}}' --port 5415 \
       -f '/tmp/structure.sql'

@@ -30,7 +30,7 @@
 - set_fact:
     leihs_database_ruby_dir: "/home/{{leihs_database_user}}/.asdf/installs/ruby/{{leihs_database_ruby_version.stdout}}"
 
-- name: reset DB
+- name: Drop DB
   shell: |
     #!/usr/bin/env bash
     set -euo pipefail
@@ -42,6 +42,23 @@
     executable: /bin/bash
   become: yes
   become_user: "{{leihs_database_user}}"
+
+- name: Drop DB
+  postgresql_db:
+    name: "{{database.database}}"
+    port: 5415
+    state: absent
+    login_user: root
+
+- name: Drop create DB
+  postgresql_db:
+    name: "{{database.database}}"
+    port: 5415
+    lc_collate: de_CH.UTF-8
+    lc_ctype: de_CH.UTF-8
+    state: present
+    template: template0
+    login_user: root
 
 - name: restore DB
   shell: |
