@@ -1,8 +1,0 @@
-#!/usr/bin/env bash 
-set -euo pipefail
-
-# preparation steps, dont count them with `time`
-source bin/virtualenv
-export LOCAL_CACHE_DIR="$(mktemp -d)"
-
-time bin/build-parallel

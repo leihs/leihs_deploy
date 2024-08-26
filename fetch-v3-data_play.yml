@@ -1,7 +1,0 @@
-- hosts: leihs_v3_server
-  roles:
-
-    - role: defaults
-      tags: [always]
-
-    - role: fetch-v3-data

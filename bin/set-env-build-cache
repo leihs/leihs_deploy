@@ -1,8 +1,0 @@
-#!/usr/bin/env bash 
-set -euo pipefail
-
-LOCAL_CACHE_DIR_RELATIVE="${LOCAL_CACHE_DIR:-"../tmp/build_cache"}"
-LOCAL_CACHE_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" && mkdir -p "$LOCAL_CACHE_DIR_RELATIVE" && cd "$LOCAL_CACHE_DIR_RELATIVE" && pwd -P)"
-
-export LOCAL_CACHE_DIR
-
