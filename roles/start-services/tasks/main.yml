@@ -1,44 +1,42 @@
-- name: start leihs-mail.service
-  service:
-    name: leihs-mail.service
-    state: started
-    enabled: yes
 
-- name: start leihs-admin.service
-  service:
-    name: leihs-admin.service
-    state: started
-    enabled: yes
+### disable services ###########################################################
+# we need to disable and then enable the services to make sure links
+# for auto-starting the services are created correctly
 
-- name: start leihs-my.service
+- name: disable {{item}}.service
   service:
-    name: leihs-my.service
-    state: started
-    enabled: yes
+    name: '{{item}}'
+    state: stopped
+    enabled: false
+  with_items:
+    - leihs-admin.service
+    - leihs-borrow.service
+    - leihs-legacy.service
+    - leihs-mail.service
+    - leihs-my.service
+    - leihs-procure.service
+    - leihs-migration.service
+  failed_when: false
 
-- name: start leihs-borrow.service
-  service:
-    name: leihs-borrow.service
-    state: started
-    enabled: yes
 
-- name: start leihs-procure.service
+### start and enable services ##################################################
+#
+- name: enable and start {{item}}
   service:
-    name: leihs-procure.service
+    name: '{{item}}'
     state: started
-    enabled: yes
+    enabled: true
+  with_items:
+    - leihs-migration.service
+    - leihs-admin.service
+    - leihs-borrow.service
+    - leihs-legacy-cron.timer
+    - leihs-legacy.service
+    - leihs-mail.service
+    - leihs-my.service
+    - leihs-procure.service
 
-- name: start leihs-legacy.service
-  service:
-    name: leihs-legacy.service
-    state: started
-    enabled: yes
-
-- name: start leihs-legacy-cron.timer
-  service:
-    name: leihs-legacy-cron.timer
-    state: started
-    enabled: yes
+### wait for services to start #################################################
 
 - name: wait for leihs-admin.service
   wait_for:

@@ -33,5 +33,6 @@ ExecStart=/usr/bin/env java "-Xmx500m" -jar leihs-my.jar run
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=leihs-migration.service
 
 # vi: ft=sh

@@ -26,5 +26,6 @@ ExecStart={{leihs_database_ruby_dir}}/bin/ruby -S bundle exec rake db:migrate
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=postgresql@{{postgres_version}}-main.service
 
 # vi: ft=sh

@@ -32,5 +32,6 @@ ExecStart={{leihs_legacy_ruby_dir}}/bin/ruby -S \
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=leihs-migration.service
 
 # vi: ft=sh
