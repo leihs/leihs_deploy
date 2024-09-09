@@ -22,6 +22,12 @@
     state: stopped
   failed_when: false
 
+- name: stop leihs-inventory.service
+  service:
+    name: leihs-inventory.service
+    state: stopped
+  failed_when: false
+
 - name: stop leihs-borrow.service
   service:
     name: leihs-borrow.service
