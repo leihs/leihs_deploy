@@ -13,6 +13,9 @@
     - role: leihs-my-install
       tags: [leihs-my-install]
 
+    - role: leihs-inventory-install
+      tags: [leihs-inventory-install]
+
     - role: leihs-admin-install
       tags: [leihs-admin-install]
 
