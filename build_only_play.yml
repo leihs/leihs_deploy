@@ -30,6 +30,13 @@
         name: leihs-my-install
         tasks_from: build.yml
 
+    - name: Build Inventory
+      delegate_to: localhost
+      tags: build_inventory
+      import_role:
+        name: leihs-inventory-install
+        tasks_from: build.yml
+
     - name: Build Procure
       delegate_to: localhost
       tags: build_procure
