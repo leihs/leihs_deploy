@@ -14,6 +14,7 @@
     - leihs-legacy.service
     - leihs-mail.service
     - leihs-my.service
+    - leihs-inventory.service
     - leihs-procure.service
     - leihs-migration.service
   failed_when: false
@@ -34,6 +35,7 @@
     - leihs-legacy.service
     - leihs-mail.service
     - leihs-my.service
+    - leihs-inventory.service
     - leihs-procure.service
 
 ### wait for services to start #################################################
@@ -48,6 +50,12 @@
   wait_for:
     host: localhost
     port: "{{LEIHS_MY_HTTP_PORT}}"
+    timeout: 180
+
+- name: wait for leihs-inventory.service
+  wait_for:
+    host: localhost
+    port: "{{LEIHS_INVENTORY_HTTP_PORT}}"
     timeout: 180
 
 - name: wait for leihs-borrow.service

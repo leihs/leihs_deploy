@@ -6,3 +6,4 @@
 inventories/prototype/script_vars.yml
 master_secret.txt
 tmp/
+!tmp-dir.yml

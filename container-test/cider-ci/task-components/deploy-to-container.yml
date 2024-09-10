@@ -40,7 +40,7 @@ scripts:
       cd deploy
       bin/ansible-playbook \
         -v \
-        -i container-test/inventory/hosts \
+        -i container-test/leihs-inventory/hosts \
         -e "ansible_ssh_host=${CONTAINER_IP}" \
         -e "force_rebuild=${FORCE_REBUILD:-}" \
         -e="${EXTRA_ANSIBLE_VARS_JSON:-}" \
