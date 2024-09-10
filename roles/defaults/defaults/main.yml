@@ -76,6 +76,7 @@ LEIHS_PROCURE_HTTP_PORT: "3230"
 LEIHS_PROCURE_CLIENT_HTTP_PORT: "3231"
 LEIHS_MY_HTTP_PORT: "3240"
 LEIHS_BORROW_HTTP_PORT: "3250"
+LEIHS_INVENTORY_HTTP_PORT: "3260"
 
 leihs_borrow_user: "leihs-borrow"
 leihs_borrow_dir: "{{LEIHS_ROOT_DIR}}/borrow"
@@ -92,6 +93,10 @@ database:
   username: root
   password: root
   database: leihs
+
+### leihs inventory ############################################################
+
+publish_inventory: False
 
 ### maintenance page configuration #############################################
 
