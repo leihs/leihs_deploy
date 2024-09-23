@@ -1,3 +1,11 @@
+- name: rp_maintenance
+  include_tasks: rev_prox_maintenance.yml
+  when: api_v2 == true
+
+- name: rp_off
+  include_tasks: rev_prox_disabled.yml
+  when: api_v2 == false
+
 - file:
     path: "{{leihs_inventory_dir}}"
     state: absent
