@@ -1,16 +1,18 @@
-- file:
+- name: remove possibly exisiting archive
+  delegate_to: localhost
+  run_once: true
+  file:
     path: "{{playbook_dir}}/tmp/database.tar.gz"
     state: absent
-  delegate_to: localhost
-  name: remove possibly exisiting archive
 
 - name: create archive
+  delegate_to: localhost
+  run_once: true
   shell: |
     #!/usr/bin/env bash
     set -euo pipefail
     git -C "{{playbook_dir}}/../database" archive HEAD \
       --format tar.gz -o "{{playbook_dir}}/tmp/database.tar.gz"
-  delegate_to: localhost
   args:
     executable: /bin/bash
 

@@ -1,17 +1,19 @@
-- file:
+- name: remove possibly exisiting archive
+  delegate_to: localhost
+  run_once: true
+  file:
     path: "{{playbook_dir}}/tmp/legacy.tar.gz"
     state: absent
-  delegate_to: localhost
-  name: remove possibly exisiting archive
 
 - name: create archive
+  delegate_to: localhost
+  run_once: true
   shell: |
     #!/usr/bin/env bash
     set -euo pipefail
     {{playbook_dir}}/bin/git-archive-all \
       -C "{{playbook_dir}}/../legacy" --prefix='' --force-submodules \
       "{{playbook_dir}}/tmp/legacy.tar.gz"
-  delegate_to: localhost
   args:
     executable: /bin/bash
 
