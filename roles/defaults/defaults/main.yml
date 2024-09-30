@@ -94,6 +94,10 @@ database:
   password: root
   database: leihs
 
+### leihs inventory ############################################################
+
+publish_inventory: False
+
 ### maintenance page configuration #############################################
 
 maintenance_page_title: "Leihs Maintenance" # (title shown in browser tab)
