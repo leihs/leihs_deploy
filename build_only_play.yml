@@ -48,7 +48,7 @@
 #          ch/cider-ci/ui/workspace/trials/cb1c2fc8-445f-49e5-bc35-f43029aac17e/scripts/pre-build:
 #  https://ci.zhdk.ch/cider-ci/ui/workspace/trials/cb1c2fc8-445f-49e5-bc35-f43029aac17e/scripts/pre-build
       import_role:
-        name: leihs-inventory
+        name: leihs-inventory-install
         tasks_from: build.yml
 
     - name: Build Procure
