@@ -32,8 +32,11 @@
 
     - name: Build Inventory
       delegate_to: localhost
-      tags: build_inventory
-      include_tasks: build.yml
+      block:
+        - include_tasks: build.yml
+#      delegate_to: localhost
+#      tags: build_inventory
+#      include_tasks: build.yml
 #      import_role:
 #        name: leihs-inventory-install
 #        tasks_from: build.yml
