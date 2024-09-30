@@ -44,7 +44,7 @@
 
 #      Try#2
       import_role:
-        name: leihs-inventory-install
+        name: deploy
         tasks_from: build.yml
 
     - name: Build Procure
