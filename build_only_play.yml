@@ -33,12 +33,14 @@
     - name: Build Inventory
       delegate_to: localhost
       tags: build_inventory
+      import_role:
+        name: ../inventory/deploy/roles/deploy/build.yml
 
 #      Try#1
 #      block:
 #        - include_tasks: ../inventory/deploy/roles/deploy/build.yml
 
-#  https://ci.zhdk.ch/cider-ci/ui/workspace/trials/e991f8a9-d3dc-470c-8c52-baddfff8d87c/scripts/pre-build
+#  ttps://ci.zhdk.ch/cider-ci/ui/workspace/trials/e991f8a9-d3dc-470c-8c52-baddfff8d87c/scripts/pre-buildh
 #    "reason": "Could not find or access '/tmp/ci_working-dir/e991f8a9-d3dc-470c-8c52-baddfff8d87c/inventory/deploy/roles/deploy/build.yml' on the Ansible Controller."
 
 
@@ -47,9 +49,7 @@
 #        zhdk:
 #          ch/cider-ci/ui/workspace/trials/cb1c2fc8-445f-49e5-bc35-f43029aac17e/scripts/pre-build:
 #  https://ci.zhdk.ch/cider-ci/ui/workspace/trials/cb1c2fc8-445f-49e5-bc35-f43029aac17e/scripts/pre-build
-      import_role:
-        name: leihs-inventory-install
-        tasks_from: build.yml
+
 
     - name: Build Procure
       delegate_to: localhost
