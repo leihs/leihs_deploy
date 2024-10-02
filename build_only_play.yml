@@ -31,11 +31,15 @@
         tasks_from: build.yml
 
 
-    - name: Build Inventory (my)
-      delegate_to: localhost
+    - name: Build Inventory
+#    - name: Build Inventory using the deploy role
+      include_role:
+        name: deploy
       tags: build_inventory
-      import_role:
-        name: deploy  # Role is located in the subproject
+#      delegate_to: localhost
+#      tags: build_inventory
+#      import_role:
+#        name: deploy  # Role is located in the subproject
 
 #      include_role:
 #        name: deploy  # Role is located in the subproject
@@ -61,7 +65,6 @@
 #        zhdk:
 #          ch/cider-ci/ui/workspace/trials/cb1c2fc8-445f-49e5-bc35-f43029aac17e/scripts/pre-build:
 #  https://ci.zhdk.ch/cider-ci/ui/workspace/trials/cb1c2fc8-445f-49e5-bc35-f43029aac17e/scripts/pre-build
-
 
     - name: Build Procure
       delegate_to: localhost
