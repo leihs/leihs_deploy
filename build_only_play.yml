@@ -32,10 +32,11 @@
 
 
     - name: Build Inventory
-#    - name: Build Inventory using the deploy role
-      include_role:
-        name: deploy
       tags: build_inventory
+      include_role:
+        tasks_from: build.yml
+        name: deploy
+
 #      delegate_to: localhost
 #      tags: build_inventory
 #      import_role:
