@@ -33,7 +33,7 @@
     - name: Build Inventory
       delegate_to: localhost
       tags: build_inventory
-      import_role:
+      include_role:
         name: ../inventory/deploy/roles/deploy/build.yml
 
 #      Try#1
