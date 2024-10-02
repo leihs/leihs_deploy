@@ -32,12 +32,13 @@
 
 
     - name: Build Inventory (my)
+      delegate_to: localhost
+      tags: build_inventory
       include_role:
         name: deploy  # Role is located in the subproject
 
 #    - name: Build Inventory
 #      delegate_to: localhost
-#      tags: build_inventory
 ##      include_role:
 ##        name: ../inventory/deploy/roles/deploy/build.yml
 #      import_role:
