@@ -30,14 +30,19 @@
         name: leihs-my-install
         tasks_from: build.yml
 
-    - name: Build Inventory
-      delegate_to: localhost
-      tags: build_inventory
-#      include_role:
-#        name: ../inventory/deploy/roles/deploy/build.yml
-      import_role:
-        name: leihs-inventory-install
-        tasks_from: build.yml
+
+    - name: Build Inventory (my)
+      include_role:
+        name: deploy  # Role is located in the subproject
+
+#    - name: Build Inventory
+#      delegate_to: localhost
+#      tags: build_inventory
+##      include_role:
+##        name: ../inventory/deploy/roles/deploy/build.yml
+#      import_role:
+#        name: leihs-inventory-install
+#        tasks_from: build.yml
 
 #      Try#1
 #      block:
