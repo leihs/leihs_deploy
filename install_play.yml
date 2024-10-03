@@ -13,8 +13,6 @@
     - role: leihs-my-install
       tags: [leihs-my-install]
 
-#    - role: leihs-inventory-install
-#      tags: [leihs-inventory-install]
     - role: ../inventory/deploy/roles/deploy
       tags: [leihs-inventory-install]
 
