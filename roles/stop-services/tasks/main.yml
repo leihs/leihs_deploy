@@ -23,6 +23,7 @@
   failed_when: false
 
 - name: stop leihs-inventory.service
+  when: publish_inventory == true
   service:
     name: leihs-inventory.service
     state: stopped

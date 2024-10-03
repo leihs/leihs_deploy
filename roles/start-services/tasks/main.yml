@@ -53,6 +53,7 @@
     timeout: 180
 
 - name: wait for leihs-inventory.service
+  when: publish_inventory == true
   wait_for:
     host: localhost
     port: "{{LEIHS_INVENTORY_HTTP_PORT}}"
