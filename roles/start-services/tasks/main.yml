@@ -14,10 +14,18 @@
     - leihs-legacy.service
     - leihs-mail.service
     - leihs-my.service
-    - leihs-inventory.service
     - leihs-procure.service
     - leihs-migration.service
   failed_when: false
+
+- name: disable leihs-inventory.service
+  when: publish_inventory == false
+  service:
+    name: 'leihs-inventory.service'
+    state: stopped
+    enabled: false
+  failed_when: false
+
 
 
 ### start and enable services ##################################################
@@ -35,8 +43,15 @@
     - leihs-legacy.service
     - leihs-mail.service
     - leihs-my.service
-    - leihs-inventory.service
     - leihs-procure.service
+
+- name: enable and start leihs-inventory.service
+  when: publish_inventory == true
+  service:
+    name: 'leihs-inventory.service'
+    state: started
+    enabled: true
+
 
 ### wait for services to start #################################################
 
