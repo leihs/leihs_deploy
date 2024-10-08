@@ -21,6 +21,7 @@ Restart=always
 RestartSec=5
 
 Environment=LEIHS_SECRET={{leihs_master_secret}}
+Environment=SECRET_KEY_BASE={{leihs_master_secret}}
 Environment=PATH={{leihs_legacy_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production

@@ -21,6 +21,7 @@ Group={{leihs_database_user}}
 Environment=PATH={{leihs_database_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
+Environment=SECRET_KEY_BASE={{leihs_master_secret}}
 ExecStart={{leihs_database_ruby_dir}}/bin/ruby -S bundle exec rake db:migrate
 
 
