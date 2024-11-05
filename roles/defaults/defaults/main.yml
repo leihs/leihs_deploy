@@ -49,7 +49,7 @@ leihs_virtual_hosts:
 ### database backup ############################################################
 
 db_backup_dir: "{{LEIHS_ROOT_DIR}}/var/db-backups"
-db_backup_nigthly_enabled: No
+db_backup_nightly_enabled: No
 db_backup_keep_days: 10
 db_backup_on_deploy: No
 

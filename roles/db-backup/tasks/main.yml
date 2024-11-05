@@ -29,12 +29,12 @@
     name: leihs-db-backup.timer
     enabled: yes
     state: started
-  when: db_backup_nigthly_enabled
+  when: db_backup_nightly_enabled
   name: enable backup timer
 
 - service:
     name: leihs-db-backup.timer
     enabled: no
     state: stopped
-  when: not db_backup_nigthly_enabled
+  when: not db_backup_nightly_enabled
   name: disable backup timer

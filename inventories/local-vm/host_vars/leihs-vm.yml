@@ -5,4 +5,4 @@ ansible_host: "{{leihs_external_hostname}}"
 ansible_user: root
 leihs_send_mails: No
 db_backup_on_deploy: No
-db_backup_nigthly_enabled: No
+db_backup_nightly_enabled: No
