@@ -6,6 +6,9 @@
   when: >
     not
     ((ansible_distribution == "Ubuntu"
+    and ansible_distribution_release == "noble")
+    or
+    (ansible_distribution == "Ubuntu"
     and ansible_distribution_release == "jammy")
     or
     (ansible_distribution == "Ubuntu"

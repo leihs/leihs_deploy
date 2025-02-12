@@ -1,11 +1,11 @@
-- include: install.yml
+- include_tasks: install.yml
 
 - name: clean if enabled
-  include: clean_slate.yml
+  include_tasks: clean_slate.yml
   when: reverse_proxy_clean_slate
 
 - name: log permissions
-  include: log_permissions.yml
+  include_tasks: log_permissions.yml
 
 - file:
     path: /etc/apache2/leihs/conf.d

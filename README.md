@@ -4,6 +4,10 @@ This repository contains code to deploy a Leihs system. It is based on Ansible.
 
 ![Deploy Diagram](deploy.svg)
 
+## Example
+
+    ./bin/ansible-playbook -i inventories/local-vm/host deploy_play.yml
+
 ## Configuring the Deploy - Ansible Variables for Installing Leihs
 
 The important configuration is [defaults.yml](./defaults.yml). It should never
@@ -37,6 +41,7 @@ packages:
 * libsqlite3-dev
 * libssl-dev
 * python3-dev
+* ruby
 * ruby-dev
 * shared-mime-info
 * zlib1g-dev

@@ -1,5 +1,5 @@
 traits:
-  LXD: yes
+  incus: yes
 
 scripts:
 
@@ -11,10 +11,12 @@ scripts:
         script_key: install-nodejs
     body: |
       #!/usr/bin/env bash
-      set -eux
-      lxc image list
-      lxc launch --ephemeral ${LXC_BASE_IMAGE} ${CONTAINER_NAME}
-      lxc list
+      set -euo pipefail
+      set -x
+      incus image list
+      incus list
+      incus launch --ephemeral ${LXC_BASE_IMAGE} ${CONTAINER_NAME}
+      incus list
 
 
   destroy-container:
@@ -26,12 +28,12 @@ scripts:
     timeout: 1 Hour
     body: |
       #!/usr/bin/env bash
-      set -eux
-      lxc list
-      lxc info "$CONTAINER_NAME"
+      set -euo pipefail
+      incus list
+      incus info "$CONTAINER_NAME"
 
       # enable for debugging; keeps the container running for a while
       # sleep 1000
 
-      until lxc delete --force "$CONTAINER_NAME"; do sleep 10; done
-      lxc list
+      until incus delete --force "$CONTAINER_NAME"; do sleep 10; done
+      incus list

@@ -2,8 +2,5 @@
 - include_tasks: install-project.yml
 - include_tasks: install-ruby.yml
 - include_tasks: database.yml
-
-- include: service.yml
-
 - include_tasks: service.yml
   tags: [leihs-legacy-service]

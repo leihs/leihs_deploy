@@ -6,4 +6,4 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -eux
-      lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost
+      incus exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost

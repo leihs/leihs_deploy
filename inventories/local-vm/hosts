@@ -1,4 +1,0 @@
-[leihs_server]
-leihs-vm ansible_host=leihs5.local ansible_user=root
-
-[leihs_gateway]
