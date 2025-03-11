@@ -1,7 +1,0 @@
-#!/usr/bin/env bash 
-set -euo pipefail
-
-DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
-cd $DEPLOY_DIR
-./bin/env/ruby-setup
-./bin/get-latest-leihs-version.rb

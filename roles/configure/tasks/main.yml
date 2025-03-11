@@ -20,9 +20,6 @@
     mode: 0600
     owner: root
 
-- include_tasks: deploy_info.yml
-  tags: [deploy_info]
-
 - include_tasks: database.yml
 
 - command: systemctl daemon-reload
