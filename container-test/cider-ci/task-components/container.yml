@@ -15,7 +15,7 @@ scripts:
       set -x
       incus image list
       incus list
-      incus launch --ephemeral ${LXC_BASE_IMAGE} ${CONTAINER_NAME}
+      incus launch --ephemeral ${CONTAINER_BASE_IMAGE} ${CONTAINER_NAME}
       incus list
 
 
