@@ -39,7 +39,7 @@
 
     export RAILS_ENV=production
     export CSV_DIR_PATH=/tmp/leihs-script/{{ csv_dir_path | default('csv') | basename }}
-    export LEIHS_SECRET={{leihs_master_secret}}
+    export SECRET_KEY_BASE={{leihs_master_secret}}
 
     bundle install > /dev/null
     bundle exec rails runner /tmp/leihs-script/script.rb 
