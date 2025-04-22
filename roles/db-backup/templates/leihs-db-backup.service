@@ -1,6 +1,10 @@
 [Unit]
 Description=Leihs Daily Backup
 
+BindsTo=leihs-migration.service
+After=leihs-migration.service
+PartOf=leihs-migration.service
+
 [Service]
 SyslogIdentifier=leihs-db-backup
 Type=oneshot

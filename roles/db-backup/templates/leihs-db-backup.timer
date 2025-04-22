@@ -1,6 +1,8 @@
 [Unit]
 Description=Leihs Daily Backup Timer
 
+BindsTo=leihs-migration.service
+
 [Timer]
 OnCalendar=*-*-* 04:00:00
 RandomizedDelaySec=3600
@@ -8,3 +10,4 @@ Persistent=true
 
 [Install]
 WantedBy=timers.target
+WantedBy=leihs-migration.service
