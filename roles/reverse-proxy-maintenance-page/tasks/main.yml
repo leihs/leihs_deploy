@@ -1,3 +1,18 @@
+- name: Ensure SSL certificate directory exists
+  file:
+    path: /etc/ssl/localcerts
+    state: directory
+    mode: 0755
+
+- name: Generate self-signed SSL certificate
+  command: >
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048
+    -keyout /etc/ssl/localcerts/leihs-target.key
+    -out /etc/ssl/localcerts/leihs-target.crt
+    -subj "/C=US/ST=State/L=City/O=Organization/CN=localhost"
+  args:
+    creates: /etc/ssl/localcerts/leihs-target.crt
+
 - name: disable all leihs sites
   shell: rm -rf /etc/apache2/sites-enabled/leihs*
 
@@ -21,7 +36,6 @@
 
 - include_tasks: virtual-host.yml
   with_indexed_items: "{{leihs_virtual_hosts}}"
-
 
 - name: restart reverse-proxy
   service:
