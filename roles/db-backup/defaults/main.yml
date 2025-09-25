@@ -1,0 +1,3 @@
+# replace the fowllowing line with some custom settings which will be included at the end 
+# a likely usecase is to notify a monitoring system with an additional `ExecStart` command
+db_backup_service_custom_extend: False
