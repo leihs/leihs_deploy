@@ -5,7 +5,7 @@ ansible_ssh_user: root
 
 
 # when to perform automated tasks like reminder emails and auto-suspension of users. in "systemd timer calendar event" format, see https://man.archlinux.org/man/systemd.time.7.en#CALENDAR_EVENTS
-leihs_run_nightly_tasks_on: "*-*-* 03:00:00"
+leihs_run_nightly_tasks_on: "*-*-* 04:00:00"
 leihs_run_nightly_tasks_randomized_delay_max_seconds: 3600
 leihs_send_mails: No
 
