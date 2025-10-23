@@ -26,6 +26,12 @@
   name: reload systemctl
 
 - service:
+    name: leihs-db-backup.service
+    enabled: yes
+    state: stopped
+  name: enable backup service
+
+- service:
     name: leihs-db-backup.timer
     enabled: yes
     state: started
