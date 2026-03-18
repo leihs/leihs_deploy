@@ -59,7 +59,7 @@ postgres_version: 15
 leihs_database_user: leihs-database
 leihs_database_dir: "{{LEIHS_ROOT_DIR}}/database"
 leihs_database_clean_slate: false
-leihs_database_ruby_dir: "/home/{{leihs_database_user}}/.asdf/installs/ruby/{{leihs_database_ruby_version.stdout}}"
+leihs_database_ruby_dir: "/usr"
 
 
 ### legacy service configuration ###############################################
@@ -88,11 +88,11 @@ leihs_master_secret: "{{ lookup('password', inventory_dir + '/' + 'master_secret
 ################################################################################
 
 database:
-  host: localhost
-  port: 5415
-  username: root
-  password: root
-  database: leihs
+database_host: localhost
+database_port: 5415
+database_username: root
+database_password: root
+database_name: leihs
 
 ### leihs inventory ############################################################
 

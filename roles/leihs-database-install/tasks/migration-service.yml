@@ -1,17 +1,20 @@
-- name: register ruby version
+- name: get ruby dir from mise
   shell: |
-    set -eu
-    source ~/.asdf/current/asdf.sh
+    set -euo pipefail
     cd {{leihs_database_dir}}
-    asdf current ruby | awk '{print $2}'
-  args:
-    chdir: "{{leihs_database_dir}}"
+    mise where ruby
   args:
     executable: /bin/bash
   become: yes
   become_user: "{{leihs_database_user}}"
   become_method: sudo
-  register: leihs_database_ruby_version
+  changed_when: false
+  failed_when: false
+  register: leihs_database_mise_ruby_dir_result
+
+- name: set ruby dir fact
+  set_fact:
+    leihs_database_ruby_dir: "{{ leihs_database_mise_ruby_dir_result.stdout if leihs_database_mise_ruby_dir_result.rc == 0 else '/usr' }}"
 
 
 - template:

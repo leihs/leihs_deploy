@@ -32,8 +32,8 @@
 
 - shell: |
     #!/bin/bash
-    set -eux
-    source ~/.asdf/current/asdf.sh
+    set -euo pipefail
+    eval "$(mise activate bash)"
 
     cd {{leihs_legacy_dir}}
 

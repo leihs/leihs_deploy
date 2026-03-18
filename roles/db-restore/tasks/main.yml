@@ -12,23 +12,23 @@
     dest: '{{remote_pgbin_restore_path_default}}'
   when: remote_pgbin_restore_path == remote_pgbin_restore_path_default
 
-- name: register ruby version
+- name: get ruby dir from mise
   shell: |
-    set -eu
-    source ~/.asdf/current/asdf.sh
+    set -euo pipefail
     cd {{leihs_database_dir}}
-    asdf current ruby | awk '{print $2}'
-  args:
-    chdir: "{{leihs_database_dir}}"
+    mise where ruby
   args:
     executable: /bin/bash
   become: yes
   become_user: "{{leihs_database_user}}"
   become_method: sudo
-  register: leihs_database_ruby_version
+  changed_when: false
+  failed_when: false
+  register: leihs_database_mise_ruby_dir_result
 
-- set_fact:
-    leihs_database_ruby_dir: "/home/{{leihs_database_user}}/.asdf/installs/ruby/{{leihs_database_ruby_version.stdout}}"
+- name: set ruby dir fact
+  set_fact:
+    leihs_database_ruby_dir: "{{ leihs_database_mise_ruby_dir_result.stdout if leihs_database_mise_ruby_dir_result.rc == 0 else '/usr' }}"
 
 - name: Drop DB
   shell: |
@@ -46,14 +46,14 @@
 - name: Drop DB
   postgresql_db:
     name: "{{database.database}}"
-    port: 5415
+    login_port: 5415
     state: absent
     login_user: root
 
 - name: Drop create DB
   postgresql_db:
     name: "{{database.database}}"
-    port: 5415
+    login_port: 5415
     lc_collate: de_CH.UTF-8
     lc_ctype: de_CH.UTF-8
     state: present

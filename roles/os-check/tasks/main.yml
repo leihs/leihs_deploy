@@ -1,21 +1,24 @@
 - name: fail os check
   fail:
     msg: >
-      The supported operating systems are Ubuntu focal 20.04,
-      Ubuntu jammy 22.04, and Debian bullseye 11.
+      The supported operating systems are Ubuntu focal 20.04, Ubuntu jammy 22.04,
+      Ubuntu noble 24.04, Debian bullseye 11, Debian bookworm 12, and Debian trixie 13.
   when: >
     not
-    ((ansible_distribution == "Ubuntu"
-    and ansible_distribution_release == "noble")
+    ((ansible_facts["distribution"] == "Ubuntu"
+    and ansible_facts["distribution_release"] == "noble")
     or
-    (ansible_distribution == "Ubuntu"
-    and ansible_distribution_release == "jammy")
+    (ansible_facts["distribution"] == "Ubuntu"
+    and ansible_facts["distribution_release"] == "jammy")
     or
-    (ansible_distribution == "Ubuntu"
-    and ansible_distribution_release == "focal")
+    (ansible_facts["distribution"] == "Ubuntu"
+    and ansible_facts["distribution_release"] == "focal")
     or
-    (ansible_distribution == "Debian"
-    and ansible_distribution_release == "bullseye")
+    (ansible_facts["distribution"] == "Debian"
+    and ansible_facts["distribution_release"] == "bullseye")
     or
-    (ansible_distribution == "Debian"
-    and ansible_distribution_release == "bookworm"))
+    (ansible_facts["distribution"] == "Debian"
+    and ansible_facts["distribution_release"] == "bookworm")
+    or
+    (ansible_facts["distribution"] == "Debian"
+    and ansible_facts["distribution_release"] == "trixie"))

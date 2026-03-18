@@ -3,12 +3,12 @@
 # we need to disable and then enable the services to make sure links
 # for auto-starting the services are created correctly
 
-- name: disable {{item}}.service
+- name: disable leihs services
   service:
     name: '{{item}}'
     state: stopped
     enabled: false
-  with_items:
+  loop:
     - leihs-admin.service
     - leihs-borrow.service
     - leihs-legacy.service
@@ -28,12 +28,12 @@
 
 ### start and enable services ##################################################
 #
-- name: enable and start {{item}}
+- name: enable and start leihs services
   service:
     name: '{{item}}'
     state: started
     enabled: true
-  with_items:
+  loop:
     - leihs-migration.service
     - leihs-admin.service
     - leihs-borrow.service

@@ -1,1 +1,6 @@
-{{ database | to_nice_yaml() }}
+database:
+	host: {{database_host}}
+	port: {{database_port}}
+	username: {{database_username}}
+	password: {{database_password}}
+	database: {{database_name}}

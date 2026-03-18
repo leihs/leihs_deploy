@@ -1,30 +1,157 @@
-- name: setup asdf
-  include_role:
-    name: asdf
-  vars:
-    asdf_user: '{{leihs_database_user}}'
+###############################################################################
+# Determine if system ruby matches the required major.minor version
+###############################################################################
 
-- name: setup asdf ruby
-  include_role:
-    name: asdf-ruby
-  vars:
-    asdf_user: '{{leihs_database_user}}'
+- name: read required ruby version from .tool-versions
+  shell: grep '^ruby ' {{leihs_database_dir}}/.tool-versions | awk '{print $2}'
+  changed_when: false
+  register: leihs_database_required_ruby_version
 
-- name: install ruby
-  import_tasks: shared/task_install_ruby.yml
+- name: get system ruby version
+  shell: ruby -e 'puts RUBY_VERSION'
+  changed_when: false
+  failed_when: false
+  register: leihs_database_system_ruby_version
+
+- name: determine if system ruby matches required major.minor
+  set_fact:
+    leihs_database_use_system_ruby: >-
+      {{ leihs_database_system_ruby_version.rc == 0
+         and (leihs_database_system_ruby_version.stdout.split('.')[:2] | join('.'))
+             == (leihs_database_required_ruby_version.stdout.split('.')[:2] | join('.')) }}
+
+###############################################################################
+# System Ruby
+###############################################################################
+
+- name: install system ruby and dependencies
+  apt:
+    name:
+      - ruby
+      - ruby-dev
+      - ruby-bundler
+      - build-essential
+      - libssl-dev
+      - zlib1g-dev
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: leihs_database_use_system_ruby
+
+- name: configure bundler for local gem installation (system ruby)
+  shell: |
+    cd {{leihs_database_dir}}
+    bundle config set --local path 'vendor/bundle'
+  become: yes
+  become_user: "{{leihs_database_user}}"
+  when: leihs_database_use_system_ruby
+
+- name: bundle install (system ruby)
+  shell: |
+    cd {{leihs_database_dir}}
+    bundle install
+  become: yes
+  become_user: "{{leihs_database_user}}"
+  when: leihs_database_use_system_ruby
+
+- name: set ruby dir for system ruby
+  set_fact:
+    leihs_database_ruby_dir: "/usr"
+  when: leihs_database_use_system_ruby
+
+###############################################################################
+# Mise Ruby (fallback when system ruby does not match)
+###############################################################################
+
+- name: ensure gnupg and curl are installed
+  apt:
+    name:
+      - gnupg
+      - curl
+    state: present
+  when: not leihs_database_use_system_ruby
+
+- name: install mise apt signing key
+  shell: |
+    install -dm 755 /etc/apt/keyrings
+    curl -fsSL https://mise.jdx.dev/gpg-key.pub \
+      | gpg --dearmor -o /etc/apt/keyrings/mise-archive-keyring.gpg
+  args:
+    executable: /bin/bash
+    creates: /etc/apt/keyrings/mise-archive-keyring.gpg
+  when: not leihs_database_use_system_ruby
+  tags: [internet]
+
+- name: add mise apt repository
+  copy:
+    content: |
+      deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64,arm64] https://mise.jdx.dev/deb stable main
+    dest: /etc/apt/sources.list.d/mise.list
+    mode: 0644
+  register: leihs_database_mise_repo
+  when: not leihs_database_use_system_ruby
+
+- name: update apt cache for mise
+  apt:
+    update_cache: yes
+  when: not leihs_database_use_system_ruby and leihs_database_mise_repo.changed
+
+- name: install mise and ruby build dependencies
+  apt:
+    pkg:
+      - mise
+      - autoconf
+      - bison
+      - build-essential
+      - libdb-dev
+      - libffi-dev
+      - libgdbm-dev
+      - libgmp-dev
+      - libncurses5-dev
+      - libreadline-dev
+      - libssl-dev
+      - libyaml-dev
+      - patch
+      - rustc
+      - uuid-dev
+      - zlib1g-dev
+    update_cache: yes
+    cache_valid_time: 3600
+  when: not leihs_database_use_system_ruby
+
+- name: install ruby via mise
+  import_tasks: ../../../shared/task_install_ruby.yml
   vars:
     working_dir: "{{leihs_database_dir}}"
-    become_user: "{{leihs_database_user}}"
+    task_become_user: "{{leihs_database_user}}"
+  when: not leihs_database_use_system_ruby
 
-- name: bundle ruby
+- name: get ruby dir from mise
+  shell: |
+    set -euo pipefail
+    cd {{leihs_database_dir}}
+    mise where ruby
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{leihs_database_user}}"
+  register: leihs_database_mise_ruby_dir
+  when: not leihs_database_use_system_ruby
+
+- name: set ruby dir for mise ruby
+  set_fact:
+    leihs_database_ruby_dir: "{{ leihs_database_mise_ruby_dir.stdout }}"
+  when: not leihs_database_use_system_ruby
+
+- name: bundle install (mise ruby)
   shell: |
     #!/bin/bash
-    set -eux
-    source ~/.asdf/current/asdf.sh
+    set -euo pipefail
     cd {{leihs_database_dir}}
+    eval "$(mise activate bash)"
     bundle install
   args:
     executable: /bin/bash
   become: yes
   become_user: "{{leihs_database_user}}"
-  become_method: sudo
+  when: not leihs_database_use_system_ruby

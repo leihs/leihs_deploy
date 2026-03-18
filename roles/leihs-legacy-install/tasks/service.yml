@@ -1,16 +1,20 @@
-- name: register ruby version
+- name: get ruby dir from mise
   shell: |
-    set -eu
-    source ~/.asdf/current/asdf.sh
+    set -euo pipefail
     cd {{leihs_legacy_dir}}
-    asdf current ruby | awk '{print $2}'
+    mise where ruby
   args:
-    chdir: "{{leihs_legacy_dir}}"
     executable: /bin/bash
   become: yes
   become_user: "{{leihs_legacy_user}}"
   become_method: sudo
-  register: leihs_legacy_ruby_version
+  changed_when: false
+  failed_when: false
+  register: leihs_legacy_mise_ruby_dir_result
+
+- name: set ruby dir fact
+  set_fact:
+    leihs_legacy_ruby_dir: "{{ leihs_legacy_mise_ruby_dir_result.stdout if leihs_legacy_mise_ruby_dir_result.rc == 0 else '/usr' }}"
 
 - name: template puma config
   template:

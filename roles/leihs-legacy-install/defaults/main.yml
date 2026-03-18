@@ -2,7 +2,7 @@ leihs_legacy_dir: /leihs/legacy
 leihs_legacy_clean_slate: false
 leihs_legacy_user: leihs-legacy
 leihs_legacy_max_threads_per_worker: 5
-leihs_legacy_workers: "{{ansible_processor_vcpus}}"
-leihs_legacy_ruby_dir: "/home/{{leihs_legacy_user}}/.asdf/installs/ruby/{{leihs_legacy_ruby_version.stdout}}"
+leihs_legacy_workers: "{{ansible_facts['processor_vcpus']}}"
+leihs_legacy_ruby_dir: "/usr"
 leihs_legacy_puma_worker_killer_enabled: no
-leihs_legacy_puma_worker_killer_ram: '{{ (ansible_memtotal_mb / 4) | int }}'
+leihs_legacy_puma_worker_killer_ram: '{{ (ansible_facts["memtotal_mb"] / 4) | int }}'

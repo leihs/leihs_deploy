@@ -2,12 +2,12 @@
     content: |
       production:
         adapter: postgresql
-        host: {{database.host}}
-        port: {{database.port}}
+        host: {{database_host}}
+        port: {{database_port}}
         pool: 25
         encoding: unicode
-        username: {{database.username}}
-        password: {{database.password}}
-        database: {{database.database}}
+        username: {{database_username}}
+        password: {{database_password}}
+        database: {{database_name}}
     dest: "{{leihs_legacy_dir}}/config/database.yml"
   name: configure legacy database
