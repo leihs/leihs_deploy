@@ -9,7 +9,7 @@ scripts:
     timeout: 15 Minutes
     body: |
       #!/usr/bin/env bash
-      set -eux
+      set -euo pipefail
       git repack -a
       git submodule foreach --recursive 'git repack -a'
       # the next command will not work if we invoke it too quickly after
@@ -33,7 +33,7 @@ scripts:
         script_key: prepare-container
     body: |
       #!/usr/bin/env bash
-      set -eux
+      set -euo pipefail
 
       CONTAINER_IP=$(incus list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
 

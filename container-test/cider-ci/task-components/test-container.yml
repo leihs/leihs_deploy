@@ -5,5 +5,5 @@ scripts:
         script_key: deploy-to-container
     body: |
       #!/usr/bin/env bash
-      set -eux
+      set -euo pipefail
       incus exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost
