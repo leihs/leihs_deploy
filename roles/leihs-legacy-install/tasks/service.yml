@@ -1,21 +1,3 @@
-- name: get ruby dir from mise
-  shell: |
-    set -euo pipefail
-    cd {{leihs_legacy_dir}}
-    mise where ruby
-  args:
-    executable: /bin/bash
-  become: yes
-  become_user: "{{leihs_legacy_user}}"
-  become_method: sudo
-  changed_when: false
-  failed_when: false
-  register: leihs_legacy_mise_ruby_dir_result
-
-- name: set ruby dir fact
-  set_fact:
-    leihs_legacy_ruby_dir: "{{ leihs_legacy_mise_ruby_dir_result.stdout if leihs_legacy_mise_ruby_dir_result.rc == 0 else '/usr' }}"
-
 - name: template puma config
   template:
     owner: "{{leihs_legacy_user}}"

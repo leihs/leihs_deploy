@@ -1,0 +1,193 @@
+###############################################################################
+# Upgrade a Leihs host from Debian bookworm (12) to trixie (13)
+#
+# This play:
+#   1. Stops all leihs services and backs up the database
+#   2. Removes mise-installed rubies and vendor/bundle gems
+#   3. Fully updates bookworm before switching, then reboots if needed
+#   4. Rewrites APT sources bookworm → trixie and runs dist-upgrade
+#   5. Reboots into trixie
+#   6. Upgrades PostgreSQL cluster from 15 to 16
+#   7. Reinstalls leihs (install + configure + migrate + post-configure + start)
+#
+# Guard: only runs on bookworm hosts. Run against a single host at a time.
+###############################################################################
+
+- hosts: leihs_server
+  roles:
+    - role: defaults
+      tags: [always]
+
+- name: Pre-flight check — only run on bookworm
+  hosts: leihs_server
+  tasks:
+    - name: Abort if host is not running Debian bookworm
+      fail:
+        msg: "This play only runs on Debian bookworm (12). This host is: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_release'] }}"
+      when: ansible_facts['distribution'] != 'Debian' or ansible_facts['distribution_release'] != 'bookworm'
+
+- import_playbook: stop_play.yml
+
+- import_playbook: db-backup_play.yml
+
+- name: Remove mise-installed rubies and vendor gems
+  hosts: leihs_server
+  tasks:
+    - name: Remove mise-installed ruby for leihs-legacy user
+      file:
+        path: /home/leihs-legacy/.local/share/mise
+        state: absent
+
+    - name: Remove vendor/bundle for leihs-legacy
+      file:
+        path: /leihs/legacy/vendor/bundle
+        state: absent
+
+    - name: Remove mise-installed ruby for leihs-database user
+      file:
+        path: /home/leihs-database/.local/share/mise
+        state: absent
+
+    - name: Remove vendor/bundle for leihs-database
+      file:
+        path: /leihs/database/vendor/bundle
+        state: absent
+
+- name: Fully update bookworm before switching to trixie
+  hosts: leihs_server
+  tasks:
+    - name: apt clean
+      apt:
+        clean: yes
+
+    - name: apt dist-upgrade on bookworm
+      apt:
+        upgrade: dist
+        update_cache: yes
+        autoremove: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        NEEDRESTART_MODE: a
+
+    - name: Check if reboot required after bookworm update
+      stat:
+        path: /run/reboot-required
+        get_checksum: no
+      register: reboot_required_file
+
+    - name: Reboot if bookworm update brought in new kernel
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+      when: reboot_required_file.stat.exists
+
+- name: Upgrade APT sources from bookworm to trixie and run dist-upgrade
+  hosts: leihs_server
+  tasks:
+    - name: Replace bookworm with trixie in /etc/apt/sources.list
+      replace:
+        path: /etc/apt/sources.list
+        regexp: '\bbookworm\b'
+        replace: trixie
+
+    - name: Find all 3rd-party repo files
+      find:
+        paths: /etc/apt/sources.list.d
+        patterns: '*'
+        recurse: no
+      register: third_party_repos
+
+    - name: Replace bookworm with trixie in 3rd-party repo files
+      replace:
+        path: "{{ item.path }}"
+        regexp: '\bbookworm\b'
+        replace: trixie
+      loop: "{{ third_party_repos.files }}"
+      loop_control:
+        label: "{{ item.path }}"
+
+    - name: apt dist-upgrade to trixie
+      apt:
+        upgrade: dist
+        update_cache: yes
+        autoremove: yes
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        NEEDRESTART_MODE: a
+
+    - name: Verify we are now on Debian 13
+      setup:
+        filter: ansible_distribution*
+
+    - name: Fail if upgrade to trixie did not succeed
+      assert:
+        that:
+          - ansible_facts['distribution_major_version'] == '13'
+        fail_msg: "Upgrade to Debian 13 failed — still on {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_release'] }}"
+
+    - name: Reboot into trixie
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+
+- name: Upgrade PostgreSQL cluster from 15 to 16
+  hosts: leihs_server
+  tasks:
+    - name: Skip PG upgrade if not requested
+      meta: end_play
+      when: not (upgrade_postgres | default(false) | bool)
+
+    - name: Install postgresql-16 for pg_upgradecluster
+      apt:
+        pkg:
+          - postgresql-16
+          - postgresql-client-16
+        state: present
+        update_cache: yes
+
+    - name: Stop postgresql@16-main (created empty by install)
+      service:
+        name: postgresql@16-main
+        state: stopped
+
+    - name: Stop postgresql@15-main before cluster upgrade
+      service:
+        name: postgresql@15-main
+        state: stopped
+
+    - name: Upgrade cluster 15 → 16 with pg_upgradecluster
+      shell: pg_upgradecluster --method upgrade 15 main
+      args:
+        executable: /bin/bash
+
+    - name: Configure PG16 port to 5415
+      lineinfile:
+        dest: /etc/postgresql/16/main/postgresql.conf
+        regexp: ^port =
+        line: port = 5415
+
+    - name: Restart postgresql@16-main
+      service:
+        name: postgresql@16-main
+        state: restarted
+
+    - name: Drop old postgresql-15 cluster
+      shell: pg_dropcluster 15 main
+      args:
+        executable: /bin/bash
+
+    - name: Remove postgresql-15 packages
+      apt:
+        pkg:
+          - postgresql-15
+          - postgresql-client-15
+        state: absent
+        autoremove: yes
+
+- import_playbook: install_play.yml
+
+- import_playbook: configure_play.yml
+
+- import_playbook: migrate_play.yml
+
+- import_playbook: post-configure_play.yml
+
+- import_playbook: start_play.yml

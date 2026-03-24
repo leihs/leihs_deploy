@@ -1,0 +1,18 @@
+- name: Gather package facts for PostgreSQL version detection
+  package_facts:
+    manager: auto
+
+- name: Auto-detect installed PostgreSQL version
+  set_fact:
+    postgres_version: >-
+      {%- set versions = [] -%}
+      {%- for v in ['16', '15', '14', '13'] -%}
+        {%- if ('postgresql-' + v) in ansible_facts.packages -%}
+          {%- set _ = versions.append(v) -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {{ versions[0] if versions else postgres_version }}
+
+- name: Show detected PostgreSQL version
+  debug:
+    msg: "Using postgres_version={{ postgres_version }}"

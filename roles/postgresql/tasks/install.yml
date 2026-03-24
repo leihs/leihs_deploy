@@ -13,16 +13,16 @@
 
 - name: configure default port
   lineinfile:
-    dest: /etc/postgresql/15/main/postgresql.conf
+    dest: /etc/postgresql/{{postgres_version}}/main/postgresql.conf
     regex: ^port =
     line: port = 5415
-  register: pg15_port
+  register: pg_port
 
 - name: restart pg_server
   service:
-    name: postgresql@15-main
+    name: postgresql@{{postgres_version}}-main
     state: restarted
-  when: pg15_port.changed
+  when: pg_port.changed
 
 - name: configure default postgresql version
   template:

@@ -1,22 +1,3 @@
-- name: get ruby dir from mise
-  shell: |
-    set -euo pipefail
-    cd {{leihs_database_dir}}
-    mise where ruby
-  args:
-    executable: /bin/bash
-  become: yes
-  become_user: "{{leihs_database_user}}"
-  become_method: sudo
-  changed_when: false
-  failed_when: false
-  register: leihs_database_mise_ruby_dir_result
-
-- name: set ruby dir fact
-  set_fact:
-    leihs_database_ruby_dir: "{{ leihs_database_mise_ruby_dir_result.stdout if leihs_database_mise_ruby_dir_result.rc == 0 else '/usr' }}"
-
-
 - template:
     src: leihs-migration.service
     dest: /etc/systemd/system/leihs-migration.service

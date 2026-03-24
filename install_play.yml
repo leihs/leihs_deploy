@@ -1,5 +1,10 @@
 - hosts: leihs_server
 
+  pre_tasks:
+    - name: Detect installed PostgreSQL version
+      import_tasks: shared/task_detect_postgres_version.yml
+      tags: [always]
+
   roles:
     - role: defaults
       tags: [always]
