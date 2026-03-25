@@ -66,9 +66,9 @@
   htpasswd:
     path: /etc/leihs/webstats.htpasswd
     name: "{{ item }}"
-    password: test
-    crypt_scheme: plaintext
+    state: absent
   loop: "{{ webstats_passwords_remove }}"
+  no_log: true
 
 - name: set htaccess passwords for basic auth
   htpasswd:
@@ -76,6 +76,7 @@
     name: "{{item.key}}"
     password: "{{item.value}}"
   with_dict: "{{ webstats_passwords_set }}"
+  no_log: true
 
 - name: www-data needs to be able to read the logs
   file:

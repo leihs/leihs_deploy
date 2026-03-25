@@ -17,6 +17,7 @@
     name: "{{item.key}}"
     password: "{{item.value}}"
   with_dict: "{{ restrict_access_via_basic_auth_passwords }}"
+  no_log: true
 
 - name: protect via basic auth
   template:
