@@ -1,0 +1,8 @@
+[Unit]
+Description=Leihs Database Sweep
+
+
+[Service]
+SyslogIdentifier=leihs-db-sweep
+Type=oneshot
+ExecStart=/usr/local/bin/leihs-db-sweep

@@ -1,0 +1,40 @@
+#!/bin/bash
+# Ansible managed
+
+set -euxo pipefail
+
+psql --port 5415 -d {{database_name}} <<'SQL'
+
+-- 1. Delete user_sessions older than 30 days
+DELETE FROM user_sessions
+WHERE created_at < NOW() - INTERVAL '30 days';
+
+-- 2. Delete audited_changes older than 2 years for specific tables
+DELETE FROM audited_changes
+WHERE created_at < NOW() - INTERVAL '2 years'
+  AND table_name IN (
+    'users',
+    'user_sessions',
+    'user_password_resets',
+    'groups',
+    'groups_users',
+    'reservations',
+    'orders',
+    'suspensions'
+  );
+
+-- 3. Remove audited_responses with no matching audited_changes (by txid)
+DELETE FROM audited_responses
+WHERE NOT EXISTS (
+  SELECT 1 FROM audited_changes
+  WHERE audited_changes.txid = audited_responses.txid
+);
+
+-- 4. Remove audited_requests with no matching audited_changes (by txid)
+DELETE FROM audited_requests
+WHERE NOT EXISTS (
+  SELECT 1 FROM audited_changes
+  WHERE audited_changes.txid = audited_requests.txid
+);
+
+SQL

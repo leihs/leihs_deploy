@@ -1,0 +1,11 @@
+[Unit]
+Description=Leihs Database Sweep Timer
+
+
+[Timer]
+OnCalendar=*-*-* 01:00:00
+RandomizedDelaySec=3600
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,41 @@
+- name: install leihs-db-sweep script
+  template:
+    src: leihs-db-sweep
+    dest: /usr/local/bin/leihs-db-sweep
+    mode: 0755
+
+- name: install leihs-db-sweep.service
+  template:
+    src: leihs-db-sweep.service
+    dest: /etc/systemd/system/leihs-db-sweep.service
+    mode: 0644
+
+- name: install leihs-db-sweep.timer
+  template:
+    src: leihs-db-sweep.timer
+    dest: /etc/systemd/system/leihs-db-sweep.timer
+    mode: 0644
+
+- name: reload systemctl
+  command: systemctl daemon-reload
+  changed_when: false
+
+- name: enable sweep service
+  service:
+    name: leihs-db-sweep.service
+    enabled: yes
+    state: stopped
+
+- name: enable sweep timer
+  service:
+    name: leihs-db-sweep.timer
+    enabled: yes
+    state: started
+  when: db_sweep_service_enabled
+
+- name: disable sweep timer
+  service:
+    name: leihs-db-sweep.timer
+    enabled: no
+    state: stopped
+  when: not db_sweep_service_enabled
