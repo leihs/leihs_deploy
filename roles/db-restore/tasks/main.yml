@@ -45,14 +45,14 @@
 
 - name: Drop DB
   postgresql_db:
-    name: "{{database.database}}"
+    name: "{{database_name}}"
     login_port: 5415
     state: absent
     login_user: root
 
 - name: Drop create DB
   postgresql_db:
-    name: "{{database.database}}"
+    name: "{{database_name}}"
     login_port: 5415
     lc_collate: de_CH.UTF-8
     lc_ctype: de_CH.UTF-8
@@ -77,7 +77,7 @@
   poll: 10
 
 - name: vacuum DB
-  shell: /usr/lib/postgresql/{{postgres_version}}/bin/psql --port 5415 -d "{{database.database}}" -c "VACUUM ANALYZE;"
+  shell: /usr/lib/postgresql/{{postgres_version}}/bin/psql --port 5415 -d "{{database_name}}" -c "VACUUM ANALYZE;"
   become: yes
   become_user: root
   async: 3600
