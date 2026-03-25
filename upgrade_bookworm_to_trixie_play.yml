@@ -60,11 +60,24 @@
       apt:
         clean: yes
 
+    - name: Detect current GRUB boot disk
+      shell: |
+        grub-probe --target=disk /boot 2>/dev/null || grub-probe --target=disk / 2>/dev/null
+      register: grub_boot_disk
+      changed_when: false
+      failed_when: false
+
+    - name: Pre-seed grub-pc install device to avoid interactive prompt
+      shell: |
+        echo "grub-pc grub-pc/install_devices multiselect {{ grub_boot_disk.stdout }}" | debconf-set-selections
+      when: grub_boot_disk.stdout != ''
+
     - name: apt dist-upgrade on bookworm
       apt:
         upgrade: dist
         update_cache: yes
         autoremove: yes
+        dpkg_options: 'force-confdef,force-confold'
       environment:
         DEBIAN_FRONTEND: noninteractive
         NEEDRESTART_MODE: a
@@ -105,11 +118,24 @@
       loop_control:
         label: "{{ item.path }}"
 
+    - name: Detect current GRUB boot disk
+      shell: |
+        grub-probe --target=disk /boot 2>/dev/null || grub-probe --target=disk / 2>/dev/null
+      register: grub_boot_disk
+      changed_when: false
+      failed_when: false
+
+    - name: Pre-seed grub-pc install device to avoid interactive prompt
+      shell: |
+        echo "grub-pc grub-pc/install_devices multiselect {{ grub_boot_disk.stdout }}" | debconf-set-selections
+      when: grub_boot_disk.stdout != ''
+
     - name: apt dist-upgrade to trixie
       apt:
         upgrade: dist
         update_cache: yes
         autoremove: yes
+        dpkg_options: 'force-confdef,force-confold'
       environment:
         DEBIAN_FRONTEND: noninteractive
         NEEDRESTART_MODE: a
