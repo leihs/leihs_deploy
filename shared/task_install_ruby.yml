@@ -3,6 +3,7 @@
     #!/bin/bash
     set -euo pipefail
     cd "{{ working_dir | mandatory }}"
+    mise trust /leihs/mise.toml
     mise install ruby
   args:
     executable: /bin/bash
