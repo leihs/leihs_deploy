@@ -26,6 +26,7 @@ Environment=PATH={{leihs_legacy_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=RAILS_SERVE_STATIC_FILES=Yes
+Environment=LEIHS_SHOW_NEW_INVENTORY_BUTTON={{ legacy_show_new_inventory_button | bool | ternary('true', 'false') }}
 
 ExecStart={{leihs_legacy_ruby_dir}}/bin/ruby -S \
     bundle exec puma \

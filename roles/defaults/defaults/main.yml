@@ -66,6 +66,9 @@ leihs_database_ruby_dir: "/usr"
 
 # see defaults in role
 leihs_legacy_clean_slate: false
+# toggle visibility of the "new inventory" button in legacy manage topbar
+# override in inventory vars per environment (prod/stage/etc.)
+legacy_show_new_inventory_button: true
 
 
 ### micro services configuration ###############################################

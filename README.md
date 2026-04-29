@@ -20,6 +20,19 @@ See the [Ansible documentation regarding precedence](ansible-docs-precedence) fo
 All variables defined in you inventory (including those from an inventory file)
 can and will override variables defined in [defaults.yml](./defaults.yml)!
 
+Example feature toggle by environment:
+
+```yaml
+# defaults.yml (global default)
+legacy_show_new_inventory_button: true
+
+# inventories/<env>/host_vars/<host>.yml
+legacy_show_new_inventory_button: false
+```
+
+This variable controls the legacy manage topbar link to the new inventory app.
+After changing it, redeploy so the `leihs-legacy` systemd unit gets updated.
+
 
 ## Requirements
 
