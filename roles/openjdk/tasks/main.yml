@@ -35,8 +35,21 @@
     cache_valid_time: 3600
   tags: [internet]
 
+- name: Remove Adoptium Temurin packages (leftover from Bookworm)
+  apt:
+    pkg:
+      - temurin-21-jdk
+    state: absent
+  when: openjdk21_available.rc == 0
+
+- name: Remove Adoptium repository (leftover from Bookworm)
+  file:
+    path: /etc/apt/sources.list.d/adoptium.sources
+    state: absent
+  when: openjdk21_available.rc == 0
+
 - name: Determine JDK 21 install path
-  shell: dirname $(dirname $(update-alternatives --list java | grep -E '21'))
+  shell: dirname $(dirname $(update-alternatives --list java | grep -E '21' | head -1))
   register: jdk21_home
   changed_when: false
 

@@ -31,7 +31,7 @@
 # System Ruby
 ###############################################################################
 
-- name: install system ruby and dependencies
+- name: reinstall system ruby and dependencies (ensures shebangs match current ruby)
   apt:
     name:
       - ruby
@@ -40,10 +40,16 @@
       - build-essential
       - libssl-dev
       - zlib1g-dev
-    state: present
+    state: latest
     update_cache: yes
     cache_valid_time: 3600
   when: leihs_database_use_system_ruby
+
+- name: fix stale bundler shebang from previous ruby version
+  shell: |
+    gem install bundler
+  when: leihs_database_use_system_ruby
+  changed_when: true
 
 - name: configure bundler for local gem installation (system ruby)
   shell: |
