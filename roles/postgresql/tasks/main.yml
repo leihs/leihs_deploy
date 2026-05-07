@@ -6,5 +6,7 @@
 
 - include_tasks: install.yml
 
+- include_tasks: refresh_collation.yml
+
 - include_tasks: root_user.yml
 

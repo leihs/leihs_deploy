@@ -1,0 +1,26 @@
+- name: Refresh collation versions after glibc upgrade
+  become: yes
+  become_user: postgres
+  shell: |
+    set -e
+    cd /tmp
+    psql -p 5415 -c "ALTER DATABASE postgres REFRESH COLLATION VERSION;"
+    psql -p 5415 -d template1 -c "
+      DO \$\$
+      DECLARE r RECORD;
+      BEGIN
+        FOR r IN SELECT collname FROM pg_collation WHERE collversion IS NOT NULL
+        LOOP
+          BEGIN
+            EXECUTE format('ALTER COLLATION %I REFRESH VERSION', r.collname);
+          EXCEPTION WHEN OTHERS THEN
+            RAISE NOTICE 'skipping %: %', r.collname, SQLERRM;
+          END;
+        END LOOP;
+      END \$\$;
+    "
+    psql -p 5415 -c "ALTER DATABASE template1 REFRESH COLLATION VERSION;"
+    psql -p 5415 -c "ALTER DATABASE template0 IS_TEMPLATE = false;"
+    psql -p 5415 -c "DROP DATABASE IF EXISTS template0;"
+    psql -p 5415 -c "CREATE DATABASE template0 TEMPLATE template1 IS_TEMPLATE = true ALLOW_CONNECTIONS = false;"
+  changed_when: true
