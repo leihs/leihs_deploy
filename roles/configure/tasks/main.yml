@@ -13,6 +13,18 @@
     mode: 0755
     owner: root
 
+- name: resolve leihs version
+  shell: |
+    if [ -f "{{playbook_dir}}/../LEIHS-VERSION" ]; then
+      cat "{{playbook_dir}}/../LEIHS-VERSION"
+    else
+      git -C "{{playbook_dir}}/.." rev-parse --short HEAD
+    fi
+  register: leihs_version
+  delegate_to: localhost
+  run_once: true
+  changed_when: false
+
 - name: set env config
   template:
     src: config.env
