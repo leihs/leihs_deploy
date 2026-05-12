@@ -19,8 +19,9 @@
   postgresql_db:
     name: "{{database_name}}"
     login_port: 5415
-    lc_collate: de_CH.UTF-8
-    lc_ctype: de_CH.UTF-8
+    locale_provider: icu
+    icu_locale: de-CH
+    encoding: UTF8
     state: present
     template: template0
     login_user: root
