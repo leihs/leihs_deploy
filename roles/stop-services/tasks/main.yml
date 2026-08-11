@@ -29,6 +29,12 @@
     state: stopped
   failed_when: false
 
+- name: stop leihs-lending.service
+  service:
+    name: leihs-lending.service
+    state: stopped
+  failed_when: false
+
 - name: stop leihs-borrow.service
   service:
     name: leihs-borrow.service

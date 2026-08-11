@@ -36,6 +36,12 @@
         tasks_from: build.yml
         name: deploy
 
+    - name: Build Lending
+      tags: build_lending
+      include_role:
+        tasks_from: build.yml
+        name: ../lending/deploy/roles/deploy
+
     - name: Build Procure
       delegate_to: localhost
       tags: build_procure

@@ -21,6 +21,9 @@
     - role: ../inventory/deploy/roles/deploy
       tags: [leihs-inventory-install]
 
+    - role: ../lending/deploy/roles/deploy
+      tags: [leihs-lending-install]
+
     - role: leihs-admin-install
       tags: [leihs-admin-install]
 
