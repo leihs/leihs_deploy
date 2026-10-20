@@ -38,6 +38,7 @@
 
     - name: Build Lending
       tags: build_lending
+      when: publish_lending | default(false) | bool
       include_role:
         tasks_from: build.yml
         name: ../lending/deploy/roles/deploy
