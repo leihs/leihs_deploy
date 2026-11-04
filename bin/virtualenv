@@ -6,19 +6,35 @@ DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pw
 cd $DEPLOY_DIR
 ./bin/env/python-setup
 
+# use the python of the tool versions manager, not whatever python3 comes
+# first in PATH (e.g. the system one)
+source $DEPLOY_DIR/bin/env/select-tool-versions-manager
+case "$TOOL_VERSIONS_MANAGER" in
+  mise)
+    PYTHON="$(mise which python3)"
+    ;;
+  *)
+    # asdf-load (sourced above) puts the asdf shims in front of PATH
+    PYTHON="python3"
+    ;;
+esac
+
 function venv_dir {
   TMPDIR=${TMPDIR:-"/tmp/"}
-  VENV_DIGEST=$(echo "$USER $(cat $DEPLOY_DIR/.tool-versions) $(cat $DEPLOY_DIR/ansible-requirements.txt)" | shasum | cut -d ' ' -f 1)
+  # the install dir of the interpreter is part of the digest: a venv
+  # created by another python (e.g. the system one) must not be reused
+  PYTHON_BASE_PREFIX=$("$PYTHON" -c 'import sys; print(sys.base_prefix)')
+  VENV_DIGEST=$(echo "$USER $PYTHON_BASE_PREFIX $(cat $DEPLOY_DIR/.tool-versions) $(cat $DEPLOY_DIR/ansible-requirements.txt)" | shasum | cut -d ' ' -f 1)
   VENV_DIR="${TMPDIR}leihs-deploy-venv_${VENV_DIGEST}"
   echo $VENV_DIR
 }
 
 VENV_DIR=$(venv_dir)
 
-echo "# using (cached) venv in $VENV_DIR"
+echo "# using (cached) venv in $VENV_DIR created by $PYTHON"
 
 if [ ! -f ${VENV_DIR}/bin/activate ]; then
-  python3 -m venv ${VENV_DIR}
+  "$PYTHON" -m venv ${VENV_DIR}
 fi
 
 source ${VENV_DIR}/bin/activate

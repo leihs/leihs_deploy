@@ -1,6 +1,3 @@
-traits:
-  python3: true
-
 scripts:
   prepare-container:
     start_when:
