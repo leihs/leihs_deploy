@@ -1,6 +1,8 @@
 environment_variables:
   CONTAINER_NAME: leihs-deploy-test-{{CIDER_CI_TRIAL_ID}}
-  LOCAL_CACHE_DIR: "/tmp/leihs-build-cache" # same as for the tests. we are testing the deploy and not the build here, so we can save performance.
+  # jar build cache of shared-clj/bin/helpers/build.sh, the same as for the
+  # integration tests: we are testing the deploy and not the build here
+  BUILDCACHE_TMPDIR: /tmp/leihs-buildcache
 
 git_options:
   submodules:
