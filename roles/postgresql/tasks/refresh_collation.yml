@@ -5,6 +5,29 @@
   register: pg_locale_provider
   changed_when: false
 
+# A glibc or ICU upgrade (e.g. bookworm → trixie) changes the sort order of the
+# collation the databases were created with. Indexes on text columns then have
+# to be rebuilt before the new version is recorded.
+- name: list databases whose collation version differs from the OS
+  become: yes
+  become_user: postgres
+  shell: |
+    cd /tmp
+    psql -p 5415 -XAtc "SELECT datname FROM pg_database WHERE datallowconn AND NOT datistemplate AND datcollversion IS DISTINCT FROM pg_database_collation_actual_version(oid);"
+  register: pg_collation_mismatch
+  changed_when: false
+
+- name: reindex and refresh collation version of the listed databases
+  become: yes
+  become_user: postgres
+  loop: "{{ pg_collation_mismatch.stdout_lines }}"
+  shell: |
+    set -e
+    cd /tmp
+    psql -p 5415 -d '{{ item }}' -X -v ON_ERROR_STOP=1 \
+      -c 'REINDEX DATABASE "{{ item }}";' \
+      -c 'ALTER DATABASE "{{ item }}" REFRESH COLLATION VERSION;'
+
 - name: Refresh collation versions after glibc upgrade
   become: yes
   become_user: postgres

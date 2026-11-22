@@ -7,8 +7,10 @@
 #   3. Fully updates bookworm before switching, then reboots if needed
 #   4. Rewrites APT sources bookworm → trixie and runs dist-upgrade
 #   5. Reboots into trixie
-#   6. Upgrades PostgreSQL cluster from 15 to 16
-#   7. Reinstalls leihs (install + configure + migrate + post-configure + start)
+#   6. Upgrades PostgreSQL cluster from 15 to 16 (only with upgrade_postgres=true)
+#   7. Switches Java to Debian's openjdk-21, reindexes databases whose
+#      collation version changed with glibc/ICU, and refreshes the versions
+#   8. Reinstalls leihs (install + configure + migrate + post-configure + start)
 #
 # Guard: only runs on bookworm hosts. Run against a single host at a time.
 ###############################################################################
@@ -207,6 +209,16 @@
           - postgresql-client-15
         state: absent
         autoremove: yes
+
+- name: Java and PostgreSQL collation on trixie
+  hosts: leihs_server
+  roles:
+    - role: openjdk
+  tasks:
+    - name: Reindex and refresh collation versions
+      include_role:
+        name: postgresql
+        tasks_from: refresh_collation.yml
 
 - import_playbook: install_play.yml
 
