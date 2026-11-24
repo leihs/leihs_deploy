@@ -31,11 +31,39 @@ function venv_dir {
 
 VENV_DIR=$(venv_dir)
 
-echo "# using (cached) venv in $VENV_DIR created by $PYTHON"
+# A cached venv can be gutted: Debian's systemd-tmpfiles rule for /tmp
+# (`q /tmp 1777 root root 10d`) removes every file not read for ten days
+# one by one while the directory skeleton stays. Python imports the .pyc
+# from __pycache__ and only stats the .py source, so the sources age out
+# first; bin/activate and pyvenv.cfg are read on every run and survive.
+# The venv then looks cached but `pip` fails with
+# "ModuleNotFoundError: No module named 'pip._internal.cli.main'".
+# Hence never trust the presence of bin/activate alone: check that the
+# interpreter really runs inside the venv (without pyvenv.cfg it silently
+# runs as the base interpreter and finds that one's pip) and that pip and
+# ansible import; otherwise throw the venv away and create it from scratch.
+function venv_healthy {
+  [ -f "${VENV_DIR}/pyvenv.cfg" ] \
+    && [ -f "${VENV_DIR}/bin/activate" ] \
+    && [ -x "${VENV_DIR}/bin/ansible-playbook" ] \
+    && "${VENV_DIR}/bin/python" -c \
+      'import sys, pip._internal.cli.main, ansible; sys.exit(sys.prefix == sys.base_prefix)' \
+      > /dev/null 2>&1
+}
 
-if [ ! -f ${VENV_DIR}/bin/activate ]; then
-  "$PYTHON" -m venv ${VENV_DIR}
+if [ -d "$VENV_DIR" ]; then
+  if venv_healthy; then
+    echo "# using cached venv in $VENV_DIR created by $PYTHON"
+  else
+    echo "# cached venv in $VENV_DIR is broken (files removed, e.g. by systemd-tmpfiles), recreating it"
+    rm -rf "$VENV_DIR"
+  fi
 fi
 
-source ${VENV_DIR}/bin/activate
-pip install -q -r ${DEPLOY_DIR}/ansible-requirements.txt
+if [ ! -d "$VENV_DIR" ]; then
+  echo "# creating venv in $VENV_DIR with $PYTHON"
+  "$PYTHON" -m venv "$VENV_DIR"
+fi
+
+source "${VENV_DIR}/bin/activate"
+pip install -q -r "${DEPLOY_DIR}/ansible-requirements.txt"
